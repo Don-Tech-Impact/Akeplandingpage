@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Check } from 'lucide-react';
-import { GhostButton, PrimaryButton, SectionBadge } from './AkepUI';
+import { GhostButton, PrimaryButton, INK, MUTED, PURPLE, BORDER, PURPLE_SOFT, SectionEyebrow } from './AkepUI';
 
 const tiers = [
   {
@@ -54,36 +54,42 @@ export function AkepPricing({ onCta }: { onCta: () => void }) {
   const [yearly, setYearly] = useState(true);
 
   return (
-    <section id="pricing" className="relative py-24 px-6">
+    <section id="pricing" className="py-24 px-6" style={{ background: '#F8F7FB' }}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <SectionBadge>💎 Pricing</SectionBadge>
-          <h2 className="mt-6 text-white">Simple, transparent pricing</h2>
-          <p className="mt-4 text-white/70 max-w-xl mx-auto">
+          <SectionEyebrow>Pricing</SectionEyebrow>
+          <h2 className="mt-4" style={{ color: INK, letterSpacing: '-0.01em' }}>
+            Simple, transparent pricing
+          </h2>
+          <p className="mt-4 max-w-xl mx-auto" style={{ color: MUTED }}>
             Pay per institution, not per student. Scale without surprises.
           </p>
 
           <div
-            className="inline-flex items-center mt-8 p-1 rounded-full border"
-            style={{ borderColor: 'rgba(255,255,255,0.1)' }}
+            className="inline-flex items-center mt-8 p-1 rounded-full"
+            style={{ background: 'white', border: `1px solid ${BORDER}` }}
           >
             <button
               onClick={() => setYearly(false)}
-              className={`px-5 py-2 rounded-full text-sm transition ${
-                !yearly ? 'text-white' : 'text-white/60'
-              }`}
-              style={!yearly ? { backgroundColor: 'rgba(107, 33, 245, 0.25)' } : {}}
+              className="px-5 py-2 rounded-full text-sm transition"
+              style={
+                !yearly
+                  ? { background: PURPLE, color: 'white' }
+                  : { color: MUTED, background: 'transparent' }
+              }
             >
               Monthly
             </button>
             <button
               onClick={() => setYearly(true)}
-              className={`px-5 py-2 rounded-full text-sm transition ${
-                yearly ? 'text-white' : 'text-white/60'
-              }`}
-              style={yearly ? { backgroundColor: 'rgba(107, 33, 245, 0.25)' } : {}}
+              className="px-5 py-2 rounded-full text-sm transition"
+              style={
+                yearly
+                  ? { background: PURPLE, color: 'white' }
+                  : { color: MUTED, background: 'transparent' }
+              }
             >
-              Yearly <span style={{ color: '#A78BFA' }}>−20%</span>
+              Yearly <span className="opacity-80">−20%</span>
             </button>
           </div>
         </div>
@@ -94,44 +100,41 @@ export function AkepPricing({ onCta }: { onCta: () => void }) {
             return (
               <div
                 key={t.name}
-                className="rounded-2xl border p-8 flex flex-col"
+                className="rounded-2xl p-8 flex flex-col"
                 style={{
-                  borderColor: t.highlight ? 'rgba(107, 33, 245, 0.6)' : 'rgba(255,255,255,0.08)',
-                  background: t.highlight
-                    ? 'linear-gradient(160deg, rgba(107,33,245,0.18) 0%, rgba(20,16,43,0.8) 60%)'
-                    : 'rgba(20,16,43,0.5)',
-                  boxShadow: t.highlight ? '0 0 60px rgba(107, 33, 245, 0.25)' : 'none',
+                  border: t.highlight ? `2px solid ${PURPLE}` : `1px solid ${BORDER}`,
+                  background: 'white',
+                  boxShadow: t.highlight ? '0 20px 40px -20px rgba(107, 33, 245, 0.35)' : 'none',
                 }}
               >
                 {t.highlight && (
                   <div
                     className="self-start mb-4 px-3 py-1 rounded-full text-xs"
-                    style={{
-                      backgroundColor: 'rgba(107, 33, 245, 0.3)',
-                      color: '#C4B5FD',
-                    }}
+                    style={{ background: PURPLE_SOFT, color: PURPLE }}
                   >
                     Most popular
                   </div>
                 )}
-                <h3 className="text-white">{t.name}</h3>
-                <p className="mt-1 text-white/60 text-sm">{t.desc}</p>
-                <div className="mt-6 text-white">
+                <h3 style={{ color: INK }}>{t.name}</h3>
+                <p className="mt-1 text-sm" style={{ color: MUTED }}>
+                  {t.desc}
+                </p>
+                <div className="mt-6" style={{ color: INK }}>
                   {price === null ? (
-                    <span className="text-3xl">Custom</span>
+                    <span style={{ fontSize: '2rem', letterSpacing: '-0.02em' }}>Custom</span>
                   ) : (
                     <>
-                      <span className="text-4xl">${price}</span>
-                      <span className="text-white/50 text-sm ml-2">
-                        / {yearly ? 'month, billed yearly' : 'month'}
+                      <span style={{ fontSize: '2.5rem', letterSpacing: '-0.02em' }}>${price}</span>
+                      <span className="text-sm ml-2" style={{ color: MUTED }}>
+                        / {yearly ? 'mo, billed yearly' : 'month'}
                       </span>
                     </>
                   )}
                 </div>
                 <ul className="mt-6 space-y-3 flex-1">
                   {t.features.map((f) => (
-                    <li key={f} className="flex gap-3 text-white/75 text-sm">
-                      <Check size={16} style={{ color: '#A78BFA' }} className="mt-0.5 shrink-0" />
+                    <li key={f} className="flex gap-3 text-sm" style={{ color: INK }}>
+                      <Check size={16} style={{ color: PURPLE }} className="mt-0.5 shrink-0" />
                       {f}
                     </li>
                   ))}

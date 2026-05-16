@@ -1,74 +1,73 @@
 import { Brain, ShieldCheck, Workflow, FileSearch, Users, LineChart } from 'lucide-react';
-import { SectionBadge } from './AkepUI';
+import { INK, MUTED, PURPLE, BORDER, PURPLE_SOFT, SectionEyebrow } from './AkepUI';
 
 const features = [
   {
     icon: Brain,
-    title: 'AI Duplicate Detection',
+    title: 'AI duplicate detection',
     desc: 'Semantic similarity engine compares every new submission against your full archive — catching plagiarism and overlap in seconds.',
   },
   {
     icon: Users,
-    title: 'Smart Supervisor Matching',
-    desc: 'Match students to supervisors based on research interests, workload, and availability — no more manual spreadsheets.',
+    title: 'Supervisor matching',
+    desc: 'Match students to supervisors based on research interests, workload, and availability — without spreadsheets.',
   },
   {
     icon: Workflow,
-    title: 'Automated Workflows',
+    title: 'Automated workflows',
     desc: 'From submission to defense, every approval, signature, and deadline is tracked automatically.',
   },
   {
     icon: FileSearch,
-    title: 'Searchable Research Archive',
+    title: 'Searchable archive',
     desc: 'Full-text search across years of dissertations with filters by faculty, topic, supervisor, and year.',
   },
   {
     icon: ShieldCheck,
-    title: 'Compliance & Audit Trail',
-    desc: 'Every action logged. Export audit-ready reports for accreditation reviews in one click.',
+    title: 'Compliance & audit',
+    desc: 'Every action logged. Export accreditation-ready audit reports in one click.',
   },
   {
     icon: LineChart,
-    title: 'Dashboards & Reporting',
-    desc: 'Real-time KPIs for deans and program directors — submissions, completion rates, supervisor load.',
+    title: 'Real-time dashboards',
+    desc: 'KPIs for deans and program directors — submissions, completion rates, supervisor load.',
   },
 ];
 
 export function AkepFeatures() {
   return (
-    <section id="features" className="relative py-24 px-6" style={{ backgroundColor: '#0D0B1F' }}>
+    <section id="features" className="py-24 px-6" style={{ background: 'white' }}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <SectionBadge>⚡ Features</SectionBadge>
-          <h2 className="mt-6 text-white">Everything your research office needs</h2>
-          <p className="mt-4 text-white/70 max-w-2xl mx-auto">
-            Built with faculty workflows in mind. AKEP replaces a dozen disconnected tools with one
-            unified research pipeline.
+          <SectionEyebrow>Platform</SectionEyebrow>
+          <h2 className="mt-4" style={{ color: INK, letterSpacing: '-0.01em' }}>
+            One platform for the entire research lifecycle
+          </h2>
+          <p className="mt-4 max-w-2xl mx-auto" style={{ color: MUTED }}>
+            AKEP replaces a dozen disconnected tools — Word templates, email chains, shared drives —
+            with a single, AI-powered workspace.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((f, i) => (
+          {features.map((f) => (
             <div
-              key={i}
-              className="group rounded-xl border p-6 transition-all hover:-translate-y-1"
-              style={{
-                borderColor: 'rgba(255,255,255,0.08)',
-                background:
-                  'linear-gradient(135deg, rgba(20,16,43,0.6) 0%, rgba(13,11,31,0.4) 100%)',
-              }}
+              key={f.title}
+              className="rounded-2xl p-6 transition-all hover:-translate-y-0.5 hover:shadow-md"
+              style={{ border: `1px solid ${BORDER}`, background: 'white' }}
             >
               <div
                 className="w-11 h-11 rounded-lg flex items-center justify-center"
-                style={{
-                  background: 'rgba(107, 33, 245, 0.15)',
-                  border: '1px solid rgba(107, 33, 245, 0.3)',
-                }}
+                style={{ background: PURPLE_SOFT }}
               >
-                <f.icon size={20} style={{ color: '#A78BFA' }} />
+                <f.icon size={20} style={{ color: PURPLE }} />
               </div>
-              <h3 className="mt-5 text-white">{f.title}</h3>
-              <p className="mt-2 text-white/65 text-sm leading-relaxed">{f.desc}</p>
+              <h3 className="mt-5" style={{ color: INK }}>
+                {f.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: MUTED }}>
+                {f.desc}
+              </p>
             </div>
           ))}
         </div>

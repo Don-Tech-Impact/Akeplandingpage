@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import { AkepNav } from './components/akep/AkepNav';
 import { AkepHero } from './components/akep/AkepHero';
+import { AkepLogoCloud } from './components/akep/AkepLogoCloud';
+import { AkepProblems } from './components/akep/AkepProblems';
+import { AkepSpotlight } from './components/akep/AkepSpotlight';
+import { AkepStats } from './components/akep/AkepStats';
 import { AkepFeatures } from './components/akep/AkepFeatures';
 import { AkepHowItWorks } from './components/akep/AkepHowItWorks';
+import { AkepSecurity } from './components/akep/AkepSecurity';
+import { AkepIntegrations } from './components/akep/AkepIntegrations';
 import { AkepUseCases } from './components/akep/AkepUseCases';
 import { AkepPricing } from './components/akep/AkepPricing';
 import { AkepWaitlist } from './components/akep/AkepWaitlist';
 import { AkepFooter } from './components/akep/AkepFooter';
+import { AkepTeam } from './components/akep/AkepTeam';
 import { AkepModal } from './components/akep/AkepModal';
 import { DemoVideoSection } from './components/DemoVideoSection';
 import { Toaster } from './components/ui/sonner';
@@ -24,17 +31,24 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen text-white" style={{ backgroundColor: '#0D0B1F' }}>
+    <div className="min-h-screen" style={{ background: 'white', color: '#0B0B14' }}>
       <AkepNav onCta={scrollToWaitlist} />
       <AkepHero onPrimary={() => setDemoOpen(true)} onSecondary={scrollToWaitlist} />
+      <AkepLogoCloud />
+      <AkepProblems />
+      <AkepSpotlight />
+      <AkepFeatures />
       <AkepHowItWorks />
       <DemoVideoSection
         videoId={videoId}
         onDemoRequestClick={() => setDemoOpen(true)}
         onWaitlistClick={scrollToWaitlist}
       />
-      <AkepFeatures />
+      <AkepSecurity />
+      <AkepIntegrations />
+      <AkepStats />
       <AkepUseCases />
+      <AkepTeam />
       <AkepPricing onCta={() => setDemoOpen(true)} />
       <AkepWaitlist />
       <AkepFooter />

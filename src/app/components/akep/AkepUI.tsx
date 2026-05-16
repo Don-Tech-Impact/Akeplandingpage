@@ -1,18 +1,22 @@
 import { ReactNode } from 'react';
 
 export const PURPLE = '#6B21F5';
-export const PURPLE_LIGHT = '#A78BFA';
-export const BG = '#0D0B1F';
-export const BG_ALT = '#14102B';
+export const PURPLE_SOFT = '#F3EFFF';
+export const INK = '#0B0B14';
+export const MUTED = '#5B5B6B';
+export const BORDER = '#E6E4EF';
+export const SURFACE = '#FFFFFF';
+export const SURFACE_ALT = '#F8F7FB';
+export const DARK = '#0B0420';
 
-export function SectionBadge({ children }: { children: ReactNode }) {
+export function SectionEyebrow({ children }: { children: ReactNode }) {
   return (
     <span
-      className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-sm"
+      className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs tracking-wide uppercase"
       style={{
-        borderColor: 'rgba(107, 33, 245, 0.4)',
-        backgroundColor: 'rgba(107, 33, 245, 0.1)',
-        color: '#C4B5FD',
+        backgroundColor: PURPLE_SOFT,
+        color: PURPLE,
+        border: `1px solid ${BORDER}`,
       }}
     >
       {children}
@@ -24,18 +28,22 @@ export function PrimaryButton({
   children,
   onClick,
   className = '',
+  type = 'button',
 }: {
   children: ReactNode;
   onClick?: () => void;
   className?: string;
+  type?: 'button' | 'submit';
 }) {
   return (
     <button
+      type={type}
       onClick={onClick}
-      className={`px-6 py-3 rounded-lg transition-all hover:opacity-90 hover:scale-[1.02] text-white ${className}`}
+      className={`px-5 py-3 rounded-lg transition-all hover:opacity-95 hover:-translate-y-0.5 ${className}`}
       style={{
-        background: 'linear-gradient(135deg, #6B21F5 0%, #8B5CF6 100%)',
-        boxShadow: '0 8px 24px rgba(107, 33, 245, 0.35)',
+        background: PURPLE,
+        color: 'white',
+        boxShadow: '0 6px 16px rgba(107, 33, 245, 0.25)',
       }}
     >
       {children}
@@ -55,24 +63,28 @@ export function GhostButton({
   return (
     <button
       onClick={onClick}
-      className={`px-6 py-3 rounded-lg border transition-all hover:bg-white/5 text-white ${className}`}
-      style={{ borderColor: 'rgba(255, 255, 255, 0.2)' }}
+      className={`px-5 py-3 rounded-lg border transition-colors hover:bg-[#F3EFFF] ${className}`}
+      style={{
+        borderColor: BORDER,
+        color: INK,
+        background: 'white',
+      }}
     >
       {children}
     </button>
   );
 }
 
-export function AkepLogo({ size = 32 }: { size?: number }) {
+export function AkepLogo({ dark = false, size = 32 }: { dark?: boolean; size?: number }) {
   return (
     <div className="flex items-center gap-2">
       <div
-        className="rounded-lg flex items-center justify-center text-white"
+        className="rounded-lg flex items-center justify-center"
         style={{
           width: size,
           height: size,
-          background: 'linear-gradient(135deg, #6B21F5 0%, #A78BFA 100%)',
-          boxShadow: '0 4px 16px rgba(107, 33, 245, 0.4)',
+          background: `linear-gradient(135deg, ${PURPLE} 0%, #A78BFA 100%)`,
+          boxShadow: '0 4px 14px rgba(107, 33, 245, 0.25)',
         }}
       >
         <svg width={size * 0.55} height={size * 0.55} viewBox="0 0 24 24" fill="none">
@@ -86,7 +98,9 @@ export function AkepLogo({ size = 32 }: { size?: number }) {
           <circle cx="12" cy="14" r="2" fill="white" />
         </svg>
       </div>
-      <span className="text-white tracking-wide">AKEP</span>
+      <span style={{ color: dark ? 'white' : INK }} className="tracking-wide">
+        AKEP
+      </span>
     </div>
   );
 }

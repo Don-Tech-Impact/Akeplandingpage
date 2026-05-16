@@ -1,5 +1,7 @@
-import { ArrowRight, Sparkles, FileSearch, Users, BarChart3 } from 'lucide-react';
-import { GhostButton, PrimaryButton, SectionBadge } from './AkepUI';
+import { ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
+import { GhostButton, PrimaryButton, INK, MUTED, PURPLE, BORDER } from './AkepUI';
+import { AnimatedDemo } from './AnimatedDemo';
+import { useState } from 'react';
 
 export function AkepHero({
   onPrimary,
@@ -8,104 +10,86 @@ export function AkepHero({
   onPrimary: () => void;
   onSecondary: () => void;
 }) {
+  const [sceneIndex, setSceneIndex] = useState(0);
+
   return (
-    <section className="relative overflow-hidden pt-20 pb-28 px-6">
+    <section className="relative overflow-hidden pt-16 pb-24 px-6" style={{ background: 'white' }}>
       <div
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute -top-32 -left-40 w-[600px] h-[600px] rounded-full"
         style={{
           background:
-            'radial-gradient(ellipse at top, rgba(107, 33, 245, 0.35) 0%, rgba(13, 11, 31, 0) 60%)',
+            'radial-gradient(circle, rgba(167, 139, 250, 0.18) 0%, rgba(255,255,255,0) 70%)',
         }}
       />
       <div
-        className="pointer-events-none absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full"
+        className="pointer-events-none absolute -bottom-32 -right-40 w-[600px] h-[600px] rounded-full"
         style={{
           background:
-            'radial-gradient(circle, rgba(167, 139, 250, 0.18) 0%, rgba(13, 11, 31, 0) 70%)',
-          filter: 'blur(30px)',
+            'radial-gradient(circle, rgba(107, 33, 245, 0.12) 0%, rgba(255,255,255,0) 70%)',
         }}
       />
 
       <div className="relative max-w-6xl mx-auto text-center">
-        <SectionBadge>
-          <Sparkles size={14} /> AI-powered research pipeline
-        </SectionBadge>
-        <h1
-          className="mt-6 text-white max-w-4xl mx-auto"
-          style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', lineHeight: 1.1 }}
+        <div
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm"
+          style={{
+            background: '#F3EFFF',
+            color: PURPLE,
+            border: `1px solid ${BORDER}`,
+          }}
         >
-          The dissertation platform built for{' '}
-          <span
-            style={{
-              background: 'linear-gradient(135deg, #A78BFA 0%, #6B21F5 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            modern universities
-          </span>
+          <Sparkles size={14} /> Introducing AKEP for African universities
+        </div>
+        <h1
+          className="mt-6 max-w-4xl mx-auto"
+          style={{
+            fontSize: 'clamp(2.4rem, 5vw, 4rem)',
+            lineHeight: 1.05,
+            color: INK,
+            letterSpacing: '-0.02em',
+          }}
+        >
+          The research and dissertation platform{' '}
+          <span style={{ color: PURPLE }}>built for modern universities</span>
         </h1>
-        <p className="mt-6 text-white/70 max-w-2xl mx-auto text-lg">
-          AKEP automates dissertation submissions, duplicate detection, supervisor matching, and
-          reporting — so your faculty can focus on research, not paperwork.
+        <p className="mt-6 max-w-2xl mx-auto text-lg" style={{ color: MUTED }}>
+          AKEP automates dissertation submissions, AI duplicate detection, supervisor matching, and
+          academic reporting — so faculty spend less time on paperwork and more on research.
         </p>
-        <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
           <PrimaryButton onClick={onPrimary}>
             <span className="flex items-center gap-2">
-              Request a Demo <ArrowRight size={16} />
+              Request a demo <ArrowRight size={16} />
             </span>
           </PrimaryButton>
-          <GhostButton onClick={onSecondary}>Join the Waitlist</GhostButton>
+          <GhostButton onClick={onSecondary}>Join the waitlist</GhostButton>
+        </div>
+        <div
+          className="mt-6 flex items-center justify-center gap-2 text-sm"
+          style={{ color: MUTED }}
+        >
+          <ShieldCheck size={14} style={{ color: PURPLE }} /> FERPA & GDPR-ready · SSO included
         </div>
 
-        <div className="mt-20 relative max-w-5xl mx-auto">
+        <div className="mt-16 relative max-w-5xl mx-auto">
           <div
-            className="rounded-2xl border p-6 backdrop-blur-sm"
+            className="absolute inset-0 -m-6 rounded-3xl"
             style={{
-              borderColor: 'rgba(107, 33, 245, 0.4)',
               background:
-                'linear-gradient(135deg, rgba(20, 16, 43, 0.9) 0%, rgba(13, 11, 31, 0.9) 100%)',
-              boxShadow: '0 0 80px rgba(107, 33, 245, 0.25)',
+                'radial-gradient(ellipse at center, rgba(107,33,245,0.15) 0%, rgba(255,255,255,0) 70%)',
+              filter: 'blur(20px)',
+            }}
+          />
+          <div
+            className="relative rounded-2xl overflow-hidden"
+            style={{
+              border: `1px solid ${BORDER}`,
+              background: '#0D0B1F',
+              boxShadow: '0 30px 60px -20px rgba(11, 4, 32, 0.25)',
+              aspectRatio: '16 / 9',
             }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {[
-                {
-                  icon: FileSearch,
-                  title: '12,438',
-                  sub: 'Dissertations indexed',
-                  trend: '+24% this term',
-                },
-                {
-                  icon: Users,
-                  title: '342',
-                  sub: 'Supervisors matched',
-                  trend: '98% acceptance rate',
-                },
-                {
-                  icon: BarChart3,
-                  title: '0.4%',
-                  sub: 'Duplicate rate detected',
-                  trend: 'AI flagged 87 cases',
-                },
-              ].map((s, i) => (
-                <div
-                  key={i}
-                  className="rounded-xl p-5 border text-left"
-                  style={{
-                    borderColor: 'rgba(255,255,255,0.06)',
-                    backgroundColor: 'rgba(255,255,255,0.02)',
-                  }}
-                >
-                  <s.icon size={20} style={{ color: '#A78BFA' }} />
-                  <div className="mt-3 text-white text-2xl">{s.title}</div>
-                  <div className="text-white/60 text-sm">{s.sub}</div>
-                  <div className="mt-2 text-xs" style={{ color: '#A78BFA' }}>
-                    {s.trend}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <AnimatedDemo activeIndex={sceneIndex} onSelect={setSceneIndex} />
           </div>
         </div>
       </div>
