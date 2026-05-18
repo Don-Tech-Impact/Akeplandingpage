@@ -2,17 +2,31 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { ArrowRight } from 'lucide-react';
 import { DARK } from './AkepUI';
+import { submitWaitlist } from '../../lib/api';
 
 export function AkepWaitlist() {
   const [email, setEmail] = useState('');
   const [org, setOrg] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    toast.success(`You're on the list, ${org || 'friend'}! We'll be in touch.`);
-    setEmail('');
-    setOrg('');
+    setIsSubmitting(true);
+    try {
+      await submitWaitlist({
+        email,
+        institution: org,
+        source: 'Homepage waitlist section',
+      });
+      toast.success(`You're on the list, ${org || 'friend'}! We'll be in touch.`);
+      setEmail('');
+      setOrg('');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Failed to join waitlist');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -69,10 +83,11 @@ export function AkepWaitlist() {
           />
           <button
             type="submit"
+            disabled={isSubmitting}
             className="px-5 py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition"
             style={{ background: 'white', color: DARK }}
           >
-            Join <ArrowRight size={16} />
+            {isSubmitting ? 'Submitting...' : 'Join'} <ArrowRight size={16} />
           </button>
         </form>
         <p className="mt-4 text-xs text-white/45">No spam. Unsubscribe anytime.</p>

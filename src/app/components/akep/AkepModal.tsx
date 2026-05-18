@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 import { toast } from 'sonner';
 import { PrimaryButton, INK, MUTED, BORDER } from './AkepUI';
+import { submitContact, submitWaitlist } from '../../lib/api';
 
 interface AkepModalProps {
   isOpen: boolean;
@@ -15,17 +16,43 @@ export function AkepModal({ isOpen, onClose, title, subject }: AkepModalProps) {
   const [email, setEmail] = useState('');
   const [org, setOrg] = useState('');
   const [message, setMessage] = useState(subject || '');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success(`Thanks ${name || 'there'} — we'll reach out within 24h.`);
-    setName('');
-    setEmail('');
-    setOrg('');
-    setMessage(subject || '');
-    onClose();
+    setIsSubmitting(true);
+    try {
+      const isWaitlist = /waitlist/i.test(title) || /waitlist/i.test(subject || '');
+      if (isWaitlist) {
+        await submitWaitlist({
+          name,
+          email,
+          institution: org,
+          challenge: message,
+          source: 'Modal waitlist request',
+        });
+      } else {
+        await submitContact({
+          name,
+          email,
+          institution: org,
+          subject: subject || 'Live Demo Request',
+          message,
+        });
+      }
+      toast.success(`Thanks ${name || 'there'} — we'll reach out within 24h.`);
+      setName('');
+      setEmail('');
+      setOrg('');
+      setMessage(subject || '');
+      onClose();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Failed to send request');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const inputStyle = {
@@ -98,7 +125,7 @@ export function AkepModal({ isOpen, onClose, title, subject }: AkepModalProps) {
             style={inputStyle}
           />
           <PrimaryButton type="submit" className="w-full">
-            Send request
+            {isSubmitting ? 'Sending...' : 'Send request'}
           </PrimaryButton>
         </form>
       </div>

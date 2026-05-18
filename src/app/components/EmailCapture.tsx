@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Mail, CheckCircle, Loader2 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
+import { submitWaitlist } from '../lib/api';
 
 export function EmailCapture() {
   const [email, setEmail] = useState('');
@@ -10,35 +11,37 @@ export function EmailCapture() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email || !email.includes('@')) {
       toast.error('Please enter a valid email address');
       return;
     }
 
     setIsSubmitting(true);
-
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      await submitWaitlist({
+        email,
+        source: 'Email capture section',
+      });
       setIsSubmitting(false);
       setIsSubmitted(true);
       toast.success('Successfully joined the waitlist!');
-      
-      // Reset after 3 seconds
+
       setTimeout(() => {
         setIsSubmitted(false);
         setEmail('');
       }, 3000);
-    }, 1500);
+    } catch (error) {
+      setIsSubmitting(false);
+      toast.error(error instanceof Error ? error.message : 'Failed to submit email');
+    }
   };
 
   return (
     <section id="email-capture" className="relative py-20 px-6 lg:px-8 bg-gradient-to-b from-[#0A0F1F] to-[#111827]">
       <div className="max-w-5xl mx-auto">
-        {/* Countdown Timer */}
         <CountdownTimer />
 
-        {/* Email Capture Form */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -46,7 +49,6 @@ export function EmailCapture() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="relative bg-gradient-to-br from-[#111827] to-[#1a1f35] rounded-2xl p-12 border border-white/10 mt-12"
         >
-          {/* Glow Effect */}
           <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#2D6BFF]/20 to-[#00C2A8]/20 blur-3xl opacity-50" />
 
           <div className="relative">
@@ -123,7 +125,7 @@ function CountdownTimer() {
       days: Math.floor(difference / (1000 * 60 * 60 * 24)),
       hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
       minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-      seconds: Math.floor((difference % (1000 * 60)) / 1000)
+      seconds: Math.floor((difference % (1000 * 60)) / 1000),
     };
   }
 

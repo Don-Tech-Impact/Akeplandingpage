@@ -15,6 +15,7 @@ import { AkepWaitlist } from './components/akep/AkepWaitlist';
 import { AkepFooter } from './components/akep/AkepFooter';
 import { AkepTeam } from './components/akep/AkepTeam';
 import { AkepModal } from './components/akep/AkepModal';
+import { AkepDemoShowcase } from './components/akep/AkepDemoShowcase';
 import { DemoVideoSection } from './components/DemoVideoSection';
 import { Toaster } from './components/ui/sonner';
 
@@ -44,6 +45,7 @@ export default function App() {
         onDemoRequestClick={() => setDemoOpen(true)}
         onWaitlistClick={scrollToWaitlist}
       />
+      <AkepDemoShowcase />
       <AkepSecurity />
       <AkepIntegrations />
       <AkepStats />
