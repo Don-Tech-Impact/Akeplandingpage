@@ -52,9 +52,22 @@ export function AkepLogoCloud() {
   return (
     <section
       className="py-20 px-6"
-      style={{ background: 'white', borderTop: `1px solid ${BORDER}` }}
+      style={{ background: 'white', borderTop: 'none', position: 'relative' }}
     >
-      <div className="max-w-6xl mx-auto">
+      {/* Gradient bridge from dark hero above — fades dark navy → white */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 96,
+          background: 'linear-gradient(to bottom, #0B1A38 0%, rgba(255,255,255,0) 100%)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+      <div className="relative max-w-6xl mx-auto" style={{ zIndex: 1 }}>
         <div className="text-center mb-10 max-w-2xl mx-auto">
           <SectionEyebrow>Partners</SectionEyebrow>
           <h2 className="mt-4" style={{ color: INK, letterSpacing: '-0.01em' }}>

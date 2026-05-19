@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Play, X, Clock, Sparkles, Users, BarChart3, Building2 } from 'lucide-react';
 import { AnimatedDemo } from './akep/AnimatedDemo';
-import { PrimaryButton, GhostButton, INK, MUTED, PURPLE, BORDER, SectionEyebrow } from './akep/AkepUI';
+import { PrimaryButton, GhostButton, INK, MUTED, PURPLE, PURPLE_LIGHT, PURPLE_DIM, PURPLE_BORDER } from './akep/AkepUI';
 
 interface DemoVideoSectionProps {
   videoId?: string;
@@ -41,7 +41,7 @@ function ThumbnailMockUI() {
             <div
               key={s.label}
               className="rounded-xl p-3 border"
-              style={{ background: 'rgba(107,33,245,0.12)', borderColor: 'rgba(107,33,245,0.20)' }}
+              style={{ background: PURPLE_DIM, borderColor: PURPLE_BORDER }}
             >
               <div className="text-lg font-bold text-white">{s.value}</div>
               <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.45)' }}>{s.label}</div>
@@ -168,7 +168,7 @@ export function DemoVideoSection({
         <div className="max-w-5xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <SectionEyebrow>Product demo</SectionEyebrow>
+            <span className="inline-flex items-center text-xs uppercase tracking-widest font-semibold" style={{ color: PURPLE }}>Product demo</span>
             <h2 className="mt-4" style={{ color: INK, letterSpacing: '-0.01em' }}>
               See how AKEP works
             </h2>
@@ -185,7 +185,7 @@ export function DemoVideoSection({
               aspectRatio: '16 / 9',
               background: 'linear-gradient(135deg, #0B0420 0%, #16122B 50%, #0B0420 100%)',
               boxShadow: '0 30px 80px -20px rgba(107,33,245,0.35)',
-              border: '1px solid rgba(107,33,245,0.20)',
+              border: `1px solid ${PURPLE_BORDER}`,
             }}
             onClick={() => setLightboxOpen(true)}
             whileHover="hover"
@@ -234,7 +234,7 @@ export function DemoVideoSection({
                       border: '1px solid rgba(255,255,255,0.10)',
                     }}
                   >
-                    <Icon size={11} style={{ color: '#A78BFA' }} />
+                    <Icon size={11} style={{ color: PURPLE_LIGHT }} />
                     {c.label}
                   </div>
                 );

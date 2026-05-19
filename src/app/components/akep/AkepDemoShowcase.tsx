@@ -14,7 +14,7 @@ import {
   BookMarked,
   CheckCircle2,
 } from 'lucide-react';
-import { SectionEyebrow, PURPLE, INK, MUTED, BORDER } from './AkepUI';
+import { SectionEyebrow, PURPLE, PURPLE_LIGHT, BG, SURFACE_DARK, PURPLE_DIM, PURPLE_BORDER, TEXT_MUTED, TEXT_DIM } from './AkepUI';
 
 // ─── Role Data ────────────────────────────────────────────────────────────────
 
@@ -149,7 +149,7 @@ function RoleCard({ role, index }: { role: (typeof roles)[0]; index: number }) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="flex flex-col rounded-2xl p-6 transition-all hover:-translate-y-1"
       style={{
-        background: '#16122B',
+        background: SURFACE_DARK,
         border: '1px solid rgba(255,255,255,0.06)',
         boxShadow: '0 20px 50px -25px rgba(0,0,0,0.5)',
       }}
@@ -174,7 +174,7 @@ function RoleCard({ role, index }: { role: (typeof roles)[0]; index: number }) {
         {role.label}
       </span>
 
-      <p className="text-sm mb-4" style={{ color: 'rgba(255,255,255,0.55)' }}>
+      <p className="text-sm mb-4" style={{ color: TEXT_MUTED }}>
         {role.tagline}
       </p>
 
@@ -213,8 +213,8 @@ function LifecycleStep({
       onClick={onClick}
       className="w-full text-left flex items-start gap-4 rounded-xl px-4 py-4 transition-all"
       style={{
-        background: isActive ? 'rgba(107,33,245,0.12)' : 'transparent',
-        border: `1px solid ${isActive ? 'rgba(107,33,245,0.35)' : 'rgba(255,255,255,0.05)'}`,
+        background: isActive ? PURPLE_DIM : 'transparent',
+        border: `1px solid ${isActive ? PURPLE_BORDER : 'rgba(255,255,255,0.05)'}`,
         cursor: 'pointer',
       }}
       whileHover={{ scale: 1.01 }}
@@ -228,10 +228,10 @@ function LifecycleStep({
             background: isActive
               ? PURPLE
               : isDone
-              ? 'rgba(107,33,245,0.20)'
+              ? PURPLE_DIM
               : 'rgba(255,255,255,0.06)',
-            color: isActive ? 'white' : isDone ? '#A78BFA' : 'rgba(255,255,255,0.35)',
-            border: `1px solid ${isActive ? 'transparent' : isDone ? 'rgba(107,33,245,0.25)' : 'rgba(255,255,255,0.08)'}`,
+            color: isActive ? 'white' : isDone ? PURPLE_LIGHT : TEXT_DIM,
+            border: `1px solid ${isActive ? 'transparent' : isDone ? PURPLE_BORDER : 'rgba(255,255,255,0.08)'}`,
             transition: 'all 0.3s ease',
           }}
         >
@@ -256,7 +256,7 @@ function LifecycleStep({
           >
             {step.role}
           </span>
-          <span className="text-xs" style={{ color: 'rgba(255,255,255,0.30)' }}>
+          <span className="text-xs" style={{ color: TEXT_DIM }}>
             Step {step.n} of 7
           </span>
         </div>
@@ -378,8 +378,8 @@ export function AkepDemoShowcase() {
                   transition={{ duration: 0.35 }}
                   className="rounded-2xl p-8 flex flex-col gap-6"
                   style={{
-                    background: '#16122B',
-                    border: '1px solid rgba(107,33,245,0.25)',
+                    background: SURFACE_DARK,
+                    border: `1px solid ${PURPLE_BORDER}`,
                     boxShadow: '0 0 60px -20px rgba(107,33,245,0.4)',
                     minHeight: 340,
                   }}
@@ -391,11 +391,11 @@ export function AkepDemoShowcase() {
                       <div
                         className="w-16 h-16 rounded-2xl flex items-center justify-center"
                         style={{
-                          background: 'rgba(107,33,245,0.15)',
-                          border: '1px solid rgba(107,33,245,0.30)',
+                          background: PURPLE_DIM,
+                          border: `1px solid ${PURPLE_BORDER}`,
                         }}
                       >
-                        <StepIcon size={28} style={{ color: '#A78BFA' }} />
+                        <StepIcon size={28} style={{ color: PURPLE_LIGHT }} />
                       </div>
                     );
                   })()}
