@@ -583,15 +583,18 @@ async function sendDemoConfirmation({ to, name, institution }) {
 /** Send waitlist confirmation to the user who signed up */
 async function sendWaitlistConfirmation({ to, name, institution }) {
   const from = getFromEmail();
+  const hasName        = typeof name        === "string" && name.trim().length > 0;
   const hasInstitution = typeof institution === "string" && institution.trim().length > 0;
-  const subject = hasInstitution
-    ? `${institution.trim()} — your AKEP waitlist spot is confirmed`
-    : "You're on the AKEP waitlist — we'll notify you at launch";
+  const firstName = hasName ? name.trim().split(" ")[0] : "";
+
   await sgMail.send({
     to,
-    from: { name: "AKEP Team", email: from },
-    subject,
-    html: buildWaitlistEmail({ name, institution }),
+    from:       { name: "AKEP Team", email: from },
+    templateId: "d-18167d93c27a43388e9a6112691b9492",
+    dynamicTemplateData: {
+      first_name:  firstName,
+      institution: hasInstitution ? institution.trim() : "",
+    },
   });
 }
 
