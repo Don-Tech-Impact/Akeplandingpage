@@ -15,16 +15,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
       - name: Install dependencies
         run: npm install
 
       - name: Build (Vite)
         run: npm run build
         env:
-          # Dummy value so Vite doesn't fail on missing env var
           VITE_API_BASE_URL: https://placeholder.example.com
