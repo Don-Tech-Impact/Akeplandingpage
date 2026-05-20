@@ -1,4 +1,3 @@
-import { Twitter, Linkedin, Github } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { SectionEyebrow } from './AkepUI';
 
@@ -7,80 +6,34 @@ interface Member {
   role: string;
   bio: string;
   photo: string;
-  links: { twitter?: string; linkedin?: string; github?: string };
 }
 
 const team: Member[] = [
   {
-    name: 'Alex Rivera',
+    name: 'Abdulai Tamba Lebbie',
     role: 'CEO & Founder',
-    bio: 'Visionary leader with 10+ years in AI and data science.',
-    photo:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600',
-    links: { twitter: '#', linkedin: '#', github: '#' },
+    bio: 'Visionary leader at the intersection of AI and African higher education. Building AKEP to transform how research institutions manage knowledge, compliance, and academic workflows across the continent.',
+    photo: '/team/abdulai-tamba-lebbie.jpg',
   },
   {
-    name: 'Samantha Lee',
-    role: 'CTO',
-    bio: 'Ex-Google engineer, scaling distributed systems.',
-    photo:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600',
-    links: { twitter: '#', linkedin: '#', github: '#' },
+    name: 'Lanre Olusegun Akinola',
+    role: 'AI Engineer',
+    bio: 'Designs and deploys the machine learning models that power AKEP\'s semantic analysis — from entity extraction to intelligent document classification. Focused on AI that understands the nuance of academic language and institutional context.',
+    photo: '/team/akinola-lanre-olusegun.jpeg',
   },
   {
-    name: 'Dr. Naledi Okafor',
-    role: 'Head of AI / ML',
-    bio: 'PhD in NLP. Built the semantic similarity engine powering AKEP.',
-    photo:
-      'https://images.unsplash.com/photo-1506863530036-1efeddceb993?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600',
-    links: { twitter: '#', linkedin: '#', github: '#' },
+    name: 'Foday Mansaray',
+    role: 'Front-End Engineer',
+    bio: 'Crafts the interfaces that make complex research workflows feel intuitive. Bridges design and engineering to ensure every researcher, administrator, and compliance officer gets a clear, responsive experience.',
+    photo: '/team/foday-mansaray.jpeg',
   },
   {
-    name: 'Kwame Mensah',
-    role: 'Head of Partnerships',
-    bio: 'A decade leading rollouts of academic software across Africa.',
-    photo:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600',
-    links: { twitter: '#', linkedin: '#', github: '#' },
-  },
-  {
-    name: 'Chiamaka Eze',
-    role: 'Head of Customer Success',
-    bio: 'Helps research offices migrate without losing data — or sleep.',
-    photo:
-      'https://images.unsplash.com/photo-1607503873903-c5e95f80d7b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600',
-    links: { twitter: '#', linkedin: '#', github: '#' },
-  },
-  {
-    name: 'Yusuf Bensalem',
-    role: 'Lead Product Designer',
-    bio: 'Designs research tools that make complex workflows feel obvious.',
-    photo:
-      'https://images.unsplash.com/photo-1590086782957-93c06ef21604?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600',
-    links: { twitter: '#', linkedin: '#', github: '#' },
+    name: 'Richard Ekow Sackey',
+    role: 'Backend Engineer',
+    bio: 'Architects the APIs, data pipelines, and infrastructure that keep AKEP reliable at scale. Ensures that every record stored and every workflow triggered performs exactly as expected — under any load.',
+    photo: '/team/richard-ekow-sackey.jpeg',
   },
 ];
-
-function SocialIcon({
-  Icon,
-  href,
-  label,
-}: {
-  Icon: typeof Twitter;
-  href: string;
-  label: string;
-}) {
-  return (
-    <a
-      href={href}
-      aria-label={label}
-      className="transition-colors hover:text-white"
-      style={{ color: 'rgba(255,255,255,0.45)' }}
-    >
-      <Icon size={18} />
-    </a>
-  );
-}
 
 function TeamCard({ member }: { member: Member }) {
   return (
@@ -124,17 +77,6 @@ function TeamCard({ member }: { member: Member }) {
       >
         {member.bio}
       </p>
-      <div className="mt-5 flex items-center justify-center gap-5">
-        {member.links.twitter && (
-          <SocialIcon Icon={Twitter} href={member.links.twitter} label="Twitter" />
-        )}
-        {member.links.linkedin && (
-          <SocialIcon Icon={Linkedin} href={member.links.linkedin} label="LinkedIn" />
-        )}
-        {member.links.github && (
-          <SocialIcon Icon={Github} href={member.links.github} label="GitHub" />
-        )}
-      </div>
     </div>
   );
 }
@@ -165,18 +107,11 @@ export function AkepTeam() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {team.map((m) => (
             <TeamCard key={m.name} member={m} />
           ))}
         </div>
-
-        <p
-          className="mt-10 text-center text-xs"
-          style={{ color: 'rgba(255,255,255,0.45)' }}
-        >
-          Profiles shown are placeholders while we finalize team bios.
-        </p>
       </div>
     </section>
   );
