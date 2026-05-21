@@ -64,7 +64,7 @@ export function AkepHero({
             letterSpacing: '-0.01em',
           }}
         >
-          The Dissertation Management Platform{' '}
+          Dissertation &amp; Research Management —{' '}
           <em
             style={{
               fontStyle: 'italic',
@@ -72,7 +72,7 @@ export function AkepHero({
               fontWeight: 600,
             }}
           >
-            Built for Universities
+            Built for African Universities
           </em>
         </h1>
 
@@ -88,10 +88,30 @@ export function AkepHero({
           className="max-w-2xl mx-auto text-lg leading-relaxed"
           style={{ color: 'rgba(210,220,255,0.75)', fontWeight: 400 }}
         >
-          Automate dissertation topic submissions, AI-powered duplicate detection, supervisor
-          matching, and academic reporting — so faculty dedicate their time to research, not
-          paperwork.
+          AKEP automates the entire research lifecycle: submission, AI duplicate detection,
+          supervisor matching, compliance, and reporting — in one platform.
         </p>
+
+        {/* Inline stats row */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-10">
+          {[
+            { value: '40+', label: 'institutions engaged' },
+            { value: '24h', label: 'onboarding window' },
+            { value: '~40h', label: 'saved per faculty / term' },
+          ].map((stat) => (
+            <div key={stat.label} className="text-center">
+              <div
+                className="text-2xl font-bold"
+                style={{ color: GOLD_LIGHT, letterSpacing: '-0.02em' }}
+              >
+                {stat.value}
+              </div>
+              <div className="mt-0.5 text-xs" style={{ color: 'rgba(200,215,255,0.50)' }}>
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
 
         {/* CTA row */}
         <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
@@ -104,7 +124,7 @@ export function AkepHero({
               boxShadow: '0 8px 24px rgba(245,158,11,0.35)',
             }}
           >
-            Request a demo <ArrowRight size={16} />
+            Request a Live Demo <ArrowRight size={16} />
           </button>
           <button
             onClick={onSecondary}

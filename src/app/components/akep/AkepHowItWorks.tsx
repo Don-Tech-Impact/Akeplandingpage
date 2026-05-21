@@ -4,22 +4,22 @@ const steps = [
   {
     n: '01',
     title: 'Onboard your university',
-    desc: 'Connect your SSO, import faculties and the existing dissertation archive. Setup in under a day.',
+    desc: 'Connect SSO, import faculties and your existing dissertation archive. No IT team needed — live in under 24 hours.',
   },
   {
     n: '02',
-    title: 'Students submit, AI screens',
-    desc: 'Every submission is automatically checked for duplicates, formatting, and metadata completeness.',
+    title: 'AI screens every submission',
+    desc: 'Every new dissertation is automatically checked for duplicates, formatting compliance, and metadata completeness.',
   },
   {
     n: '03',
-    title: 'Workflow runs itself',
-    desc: 'Supervisors get notified, defenses are scheduled, signatures collected — without email chains.',
+    title: 'Workflows run themselves',
+    desc: 'Supervisors are notified, defenses are scheduled, signatures collected — no email chains, no chasing.',
   },
   {
     n: '04',
-    title: 'Insights on every dashboard',
-    desc: 'Deans see exactly where every dissertation stands. Faculty see workload. Students see deadlines.',
+    title: 'Everyone sees what they need',
+    desc: 'Deans track every dissertation in real time. Faculty see their workload. Students see their deadlines.',
   },
 ];
 
@@ -41,7 +41,7 @@ export function AkepHowItWorks() {
         <div className="text-center mb-16 max-w-2xl mx-auto">
           <SectionEyebrow>How it works</SectionEyebrow>
           <h2 className="mt-4 text-white" style={{ letterSpacing: '-0.01em' }}>
-            From chaos to clarity in four steps
+            Live in One Day. Fully Automated by Week One.
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

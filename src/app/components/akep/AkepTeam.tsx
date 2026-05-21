@@ -1,11 +1,15 @@
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { SectionEyebrow } from './AkepUI';
+import { Linkedin, Twitter, Github } from 'lucide-react';
 
 interface Member {
   name: string;
   role: string;
   bio: string;
   photo: string;
+  linkedin?: string;
+  twitter?: string;
+  github?: string;
 }
 
 const team: Member[] = [
@@ -14,24 +18,33 @@ const team: Member[] = [
     role: 'CEO & Founder',
     bio: 'Visionary leader at the intersection of AI and African higher education. Building AKEP to transform how research institutions manage knowledge, compliance, and academic workflows across the continent.',
     photo: '/team/abdulai-tamba-lebbie.jpg',
+    linkedin: 'https://www.linkedin.com/in/abdulai-tamba-lebbie',
+    twitter: 'https://x.com/abdulaitamba',
+    github: 'https://github.com/abdulaitamba',
   },
   {
     name: 'Lanre Olusegun Akinola',
     role: 'AI Engineer',
-    bio: 'Designs and deploys the machine learning models that power AKEP\'s semantic analysis — from entity extraction to intelligent document classification. Focused on AI that understands the nuance of academic language and institutional context.',
+    bio: "Designs and deploys the machine learning models that power AKEP's semantic analysis — from entity extraction to intelligent document classification. Focused on AI that understands the nuance of academic language and institutional context.",
     photo: '/team/akinola-lanre-olusegun.jpeg',
+    linkedin: 'https://www.linkedin.com/in/lanre-akinola',
+    github: 'https://github.com/lanre-akinola',
   },
   {
     name: 'Foday Mansaray',
     role: 'Front-End Engineer',
     bio: 'Crafts the interfaces that make complex research workflows feel intuitive. Bridges design and engineering to ensure every researcher, administrator, and compliance officer gets a clear, responsive experience.',
     photo: '/team/foday-mansaray.jpeg',
+    linkedin: 'https://www.linkedin.com/in/foday-mansaray',
+    github: 'https://github.com/foday-mansaray',
   },
   {
     name: 'Richard Ekow Sackey',
     role: 'Backend Engineer',
     bio: 'Architects the APIs, data pipelines, and infrastructure that keep AKEP reliable at scale. Ensures that every record stored and every workflow triggered performs exactly as expected — under any load.',
     photo: '/team/richard-ekow-sackey.jpeg',
+    linkedin: 'https://www.linkedin.com/in/richard-ekow-sackey',
+    github: 'https://github.com/richard-ekow-sackey',
   },
 ];
 
@@ -77,6 +90,54 @@ function TeamCard({ member }: { member: Member }) {
       >
         {member.bio}
       </p>
+
+      {/* Social links */}
+      {(member.linkedin || member.twitter || member.github) && (
+        <div className="mt-5 pt-4 w-full flex items-center justify-center gap-1" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+          {member.linkedin && (
+            <a
+              href={member.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${member.name} on LinkedIn`}
+              className="flex items-center justify-center w-9 h-9 rounded-xl transition-all hover:scale-110"
+              style={{ color: 'rgba(255,255,255,0.75)', background: 'rgba(255,255,255,0.06)' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#FFFFFF')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')}
+            >
+              <Linkedin size={15} />
+            </a>
+          )}
+          {member.github && (
+            <a
+              href={member.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${member.name} on GitHub`}
+              className="flex items-center justify-center w-9 h-9 rounded-xl transition-all hover:scale-110"
+              style={{ color: 'rgba(255,255,255,0.75)', background: 'rgba(255,255,255,0.06)' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#FFFFFF')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')}
+            >
+              <Github size={15} />
+            </a>
+          )}
+          {member.twitter && (
+            <a
+              href={member.twitter}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${member.name} on X (Twitter)`}
+              className="flex items-center justify-center w-9 h-9 rounded-xl transition-all hover:scale-110"
+              style={{ color: 'rgba(255,255,255,0.75)', background: 'rgba(255,255,255,0.06)' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#FFFFFF')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')}
+            >
+              <Twitter size={15} />
+            </a>
+          )}
+        </div>
+      )}
     </div>
   );
 }

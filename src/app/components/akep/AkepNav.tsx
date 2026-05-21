@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router';
 import { Menu, X } from 'lucide-react';
 import { AkepLogo } from './AkepUI';
 
@@ -9,11 +10,12 @@ const GOLD = '#F59E0B';
 export function AkepNav({ onCta }: { onCta: () => void }) {
   const [open, setOpen] = useState(false);
   const links = [
-    { label: 'Platform', href: '#features' },
-    { label: 'How it works', href: '#how' },
-    { label: 'Demo', href: '#demo' },
-    { label: 'Customers', href: '#use-cases' },
-    { label: 'Pricing', href: '#pricing' },
+    { label: 'Platform', to: '/features' },
+    { label: 'How it works', to: '/how-it-works' },
+    { label: 'Security', to: '/security' },
+    { label: 'Use cases', to: '/use-cases' },
+    { label: 'Pricing', to: '/pricing' },
+    { label: 'About', to: '/about' },
   ];
 
   return (
@@ -26,19 +28,19 @@ export function AkepNav({ onCta }: { onCta: () => void }) {
       }}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <AkepLogo dark />
-        </a>
+        </Link>
         <div className="hidden md:flex items-center gap-7">
           {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
+            <Link
+              key={l.to}
+              to={l.to}
               className="text-sm transition-colors hover:text-white"
               style={{ color: 'rgba(255,255,255,0.65)' }}
             >
               {l.label}
-            </a>
+            </Link>
           ))}
         </div>
         <div className="hidden md:flex items-center gap-4">
@@ -76,18 +78,18 @@ export function AkepNav({ onCta }: { onCta: () => void }) {
           style={{ borderTop: `1px solid ${NAV_BORDER}` }}
         >
           {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
+            <Link
+              key={l.to}
+              to={l.to}
               className="py-2 text-sm"
               style={{ color: 'rgba(255,255,255,0.70)' }}
               onClick={() => setOpen(false)}
             >
               {l.label}
-            </a>
+            </Link>
           ))}
           <button
-            onClick={onCta}
+            onClick={() => { onCta(); setOpen(false); }}
             className="mt-2 px-5 py-2.5 rounded-lg text-sm font-semibold"
             style={{ background: GOLD, color: '#0D1B3E' }}
           >
@@ -98,4 +100,5 @@ export function AkepNav({ onCta }: { onCta: () => void }) {
     </nav>
   );
 }
+
 

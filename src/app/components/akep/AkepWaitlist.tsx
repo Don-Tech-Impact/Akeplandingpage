@@ -48,11 +48,11 @@ export function AkepWaitlist() {
       />
       <div className="relative max-w-3xl mx-auto text-center">
         <h2 className="text-white" style={{ letterSpacing: '-0.01em' }}>
-          Bring AKEP to your campus
+          Your university could be live on AKEP in 24 hours
         </h2>
         <p className="mt-4 text-white/70">
-          Universities joining the waitlist get free onboarding and 6 months of University-tier
-          access on launch.
+          Join 40+ research offices already on the waitlist. Early access is free — includes
+          onboarding and 6 months of University-tier access on launch.
         </p>
         <form
           onSubmit={submit}
@@ -87,7 +87,7 @@ export function AkepWaitlist() {
             className="px-5 py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition"
             style={{ background: 'white', color: DARK }}
           >
-            {isSubmitting ? 'Submitting...' : 'Join'} <ArrowRight size={16} />
+            {isSubmitting ? 'Submitting…' : 'Reserve My Spot'} <ArrowRight size={16} />
           </button>
         </form>
         <p className="mt-4 text-xs text-white/45">No spam. Unsubscribe anytime.</p>
