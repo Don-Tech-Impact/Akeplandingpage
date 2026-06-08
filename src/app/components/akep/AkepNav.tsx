@@ -45,15 +45,15 @@ export function AkepNav({ onCta }: { onCta: () => void }) {
         </div>
         <div className="hidden md:flex items-center gap-4">
           <a
-            href="#"
+            href="https://dash.akepapp.com"
             className="text-sm transition-colors hover:text-white"
             style={{ color: 'rgba(255,255,255,0.55)' }}
           >
             Sign in
           </a>
-          <button
-            onClick={onCta}
-            className="px-5 py-2 rounded-lg text-sm font-semibold transition-all hover:opacity-90 hover:-translate-y-0.5"
+          <a
+            href="https://dash.akepapp.com"
+            className="px-5 py-2 rounded-lg text-sm font-semibold transition-all hover:opacity-90 hover:-translate-y-0.5 inline-block"
             style={{
               background: GOLD,
               color: '#0D1B3E',
@@ -61,7 +61,7 @@ export function AkepNav({ onCta }: { onCta: () => void }) {
             }}
           >
             Get started
-          </button>
+          </a>
         </div>
         <button
           className="md:hidden transition-colors hover:text-white"
@@ -88,13 +88,14 @@ export function AkepNav({ onCta }: { onCta: () => void }) {
               {l.label}
             </Link>
           ))}
-          <button
-            onClick={() => { onCta(); setOpen(false); }}
-            className="mt-2 px-5 py-2.5 rounded-lg text-sm font-semibold"
+          <a
+            href="https://dash.akepapp.com"
+            className="mt-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-center"
             style={{ background: GOLD, color: '#0D1B3E' }}
+            onClick={() => setOpen(false)}
           >
             Get started
-          </button>
+          </a>
         </div>
       )}
     </nav>
