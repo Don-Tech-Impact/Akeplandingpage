@@ -1,39 +1,32 @@
-import { useState } from 'react';
 import { Layout } from './Layout';
-import { AkepHero } from './components/akep/AkepHero';
-import { AkepLogoCloud } from './components/akep/AkepLogoCloud';
-import { AkepProblems } from './components/akep/AkepProblems';
-import { AkepWaitlist } from './components/akep/AkepWaitlist';
-import { AkepModal } from './components/akep/AkepModal';
+import { useSFModal } from './components/scholarflow/SFModalProvider';
+import { SFHero } from './components/scholarflow/SFHero';
+import { SFProblem } from './components/scholarflow/SFProblem';
+import { SFFeatures } from './components/scholarflow/SFFeatures';
+import { SFHowItWorks } from './components/scholarflow/SFHowItWorks';
+import { SFTrust } from './components/scholarflow/SFTrust';
+import { SFTrialCTA } from './components/scholarflow/SFTrialCTA';
+import { SFAbout } from './components/scholarflow/SFAbout';
+
+function Home() {
+  const { openTrial, openDemo } = useSFModal();
+  return (
+    <>
+      <SFHero onTrial={openTrial} onDemo={openDemo} />
+      <SFProblem />
+      <SFFeatures />
+      <SFHowItWorks />
+      <SFTrust />
+      <SFTrialCTA onTrial={openTrial} />
+      <SFAbout />
+    </>
+  );
+}
 
 export default function App() {
-  const [demoOpen, setDemoOpen] = useState(false);
-  const [waitlistOpen, setWaitlistOpen] = useState(false);
-
-  const scrollToWaitlist = () => {
-    const el = document.getElementById('waitlist');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-    else setWaitlistOpen(true);
-  };
-
   return (
-    <Layout onCta={() => setDemoOpen(true)}>
-      <AkepHero onPrimary={() => setDemoOpen(true)} onSecondary={scrollToWaitlist} />
-      <AkepLogoCloud />
-      <AkepProblems />
-      <AkepWaitlist />
-
-      <AkepModal
-        isOpen={demoOpen}
-        onClose={() => setDemoOpen(false)}
-        title="Request a Live Demo"
-        subject="Live Demo Request"
-      />
-      <AkepModal
-        isOpen={waitlistOpen}
-        onClose={() => setWaitlistOpen(false)}
-        title="Join the Waitlist"
-      />
+    <Layout>
+      <Home />
     </Layout>
   );
 }
