@@ -66,7 +66,7 @@ export function SFHero({ onTrial, onDemo }: { onTrial: () => void; onDemo: () =>
         </div>
 
         <p className="mt-5 text-sm" style={{ color: 'rgba(226,235,247,0.6)' }}>
-          Free for 60 days. No contract. Full data export guaranteed.
+          Free for 90 days. No contract. Full data export guaranteed.
         </p>
 
         <div className="mt-14">

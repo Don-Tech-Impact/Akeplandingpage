@@ -27,7 +27,7 @@ export function SFTrialCTA({ onTrial }: { onTrial: () => void }) {
             letterSpacing: '-0.02em',
           }}
         >
-          60 Days. Free. No Risk.
+          90 Days. Free. No Risk.
         </h2>
         <p className="mt-4 text-lg font-medium" style={{ color: ORANGE }}>
           See what ScholarFlow does for your research office — before you commit to anything.
