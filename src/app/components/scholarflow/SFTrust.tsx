@@ -1,4 +1,4 @@
-import { FileText, BadgeCheck, Network } from 'lucide-react';
+import { FileText, BadgeCheck, ShieldCheck } from 'lucide-react';
 import { Eyebrow, SectionHeading, cardBorder } from './SFUI';
 import { Reveal } from './Reveal';
 import { NAVY, ORANGE, MUTED } from './theme';
@@ -15,9 +15,9 @@ const creds = [
     body: 'Certified February 2026. ScholarFlow is built on information security controls aligned with international standards.',
   },
   {
-    icon: Network,
-    title: 'Designed with the ARUA & ACU Networks',
-    body: 'ScholarFlow was developed with direct input from research administrators across the African Research University Alliance and Association of Commonwealth Universities networks.',
+    icon: ShieldCheck,
+    title: 'Security-First Architecture',
+    body: 'Built on a modern, zero-trust stack — FastAPI, Next.js, PostgreSQL/pgvector, and AWS — with encryption, audit trails, and access controls designed for sensitive research data.',
   },
 ];
 
@@ -45,14 +45,6 @@ export function SFTrust() {
               </div>
             </Reveal>
           ))}
-        </div>
-
-        <div className="flex items-center justify-center gap-8 mt-14 text-sm font-semibold tracking-wide" style={{ color: MUTED }}>
-          <span>ARUA</span>
-          <span style={{ color: '#CBD5E1' }}>|</span>
-          <span>ACU</span>
-          <span style={{ color: '#CBD5E1' }}>|</span>
-          <span>WACREN</span>
         </div>
       </div>
     </section>
