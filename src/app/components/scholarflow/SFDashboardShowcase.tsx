@@ -1,9 +1,17 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { Building2, GraduationCap, School, UserRoundCog, Users2, X } from 'lucide-react';
 import { Eyebrow, SectionHeading, cardBorder } from './SFUI';
 import { Reveal } from './Reveal';
 import { NAVY, ORANGE, MUTED, INK, TINT } from './theme';
+
+type RedactionBox = {
+  top: string;
+  left: string;
+  width: string;
+  height: string;
+  radius?: string;
+};
 
 type DashboardView = {
   key: string;
@@ -11,6 +19,8 @@ type DashboardView = {
   portal: string;
   title: string;
   subtitle: string;
+  audience: string;
+  decisionImpact: string;
   image: string;
   imageAlt: string;
   icon: React.ComponentType<{ size?: number; style?: CSSProperties }>;
@@ -18,6 +28,7 @@ type DashboardView = {
   actions: string[];
   wins: string[];
   mockRows: Array<{ label: string; value: string; color: string }>;
+  redactions: RedactionBox[];
 };
 
 const views: DashboardView[] = [
@@ -25,8 +36,10 @@ const views: DashboardView[] = [
     key: 'university',
     role: 'University Dashboard',
     portal: 'University Portal',
-    title: 'Multi-faculty command center for dissertation operations',
-    subtitle: 'Manage structure, users, active calls, and institution-wide reporting in one place.',
+    title: 'Institution-level command center for dissertation operations',
+    subtitle: 'Manage structure, users, active calls, and institution reporting in one operational view.',
+    audience: 'For Vice Chancellors and Research Office Directors',
+    decisionImpact: 'Spot faculty bottlenecks early and intervene before supervision timelines slip.',
     image: '/dashboards/university-dashboard.png',
     imageAlt: 'University dashboard showing institution metrics and dissertation pipeline.',
     icon: Building2,
@@ -43,13 +56,19 @@ const views: DashboardView[] = [
       { label: 'Submissions this week', value: '142', color: '#CA8A04' },
       { label: 'Pending approvals', value: '12', color: '#0D9488' },
     ],
+    redactions: [
+      { top: '2.2%', left: '88.2%', width: '10.5%', height: '5.8%', radius: '10px' },
+      { top: '79.4%', left: '0.9%', width: '14.6%', height: '8.7%', radius: '10px' },
+    ],
   },
   {
     key: 'hod',
     role: 'HOD Dashboard',
     portal: 'HOD Portal',
     title: 'Department inbox for completion batches and approvals',
-    subtitle: 'Review supervisor-submitted batches, return for revisions, or archive final submissions.',
+    subtitle: 'Review supervisor submissions, return revisions, and archive final cohorts with traceability.',
+    audience: 'For Heads of Department and Faculty Review Leads',
+    decisionImpact: 'Approve or return batches in minutes with complete status context at a glance.',
     image: '/dashboards/hod-completion-batches.png',
     imageAlt: 'HOD completion batches table with status filters and archive actions.',
     icon: School,
@@ -66,13 +85,19 @@ const views: DashboardView[] = [
       { label: 'Supervisor submissions', value: '11 approved', color: '#0D9488' },
       { label: 'Archived final sets', value: '2', color: '#7C3AED' },
     ],
+    redactions: [
+      { top: '2%', left: '87.5%', width: '12%', height: '7.4%', radius: '10px' },
+      { top: '78.2%', left: '1.1%', width: '14.4%', height: '8.4%', radius: '10px' },
+    ],
   },
   {
     key: 'supervisor',
     role: 'Supervisor Dashboard',
     portal: 'Supervisor Portal',
     title: 'Daily supervision cockpit for chapters, reviews, and capacity',
-    subtitle: 'Track supervision load, pending reviews, and student milestones from a single view.',
+    subtitle: 'Track supervision load, pending reviews, and student milestones from one focused workspace.',
+    audience: 'For Supervisors and Program Coordinators',
+    decisionImpact: 'Balance supervision load and clear review backlogs before they delay student progress.',
     image: '/dashboards/supervisor-dashboard.png',
     imageAlt: 'Supervisor dashboard showing capacity, pending reviews, and active supervisions.',
     icon: UserRoundCog,
@@ -89,13 +114,19 @@ const views: DashboardView[] = [
       { label: 'Pending chapter reviews', value: '4', color: '#CA8A04' },
       { label: 'Recent supervision updates', value: '9 today', color: '#1D4ED8' },
     ],
+    redactions: [
+      { top: '2.2%', left: '87.6%', width: '11.7%', height: '6.5%', radius: '10px' },
+      { top: '77.7%', left: '1.1%', width: '15%', height: '8.8%', radius: '10px' },
+    ],
   },
   {
     key: 'supervisor-workspace',
     role: 'Supervisor Workspace',
     portal: 'Supervisor Portal',
-    title: 'Project-level workspace to guide each dissertation',
-    subtitle: 'Set guidelines, monitor status, and jump directly into the student workspace.',
+    title: 'Project workspace to manage each dissertation in context',
+    subtitle: 'Set guidelines, monitor status, and jump directly into each dissertation workspace.',
+    audience: 'For Supervisors Managing Multiple Active Projects',
+    decisionImpact: 'Standardize project-level expectations and reduce coordination overhead per dissertation.',
     image: '/dashboards/supervisor-workspace.png',
     imageAlt: 'Supervisor project list with setup guidelines and open workspace actions.',
     icon: Users2,
@@ -112,13 +143,19 @@ const views: DashboardView[] = [
       { label: 'Guidelines status', value: '100% configured', color: '#0D9488' },
       { label: 'Archived batch projects', value: '1', color: '#7C3AED' },
     ],
+    redactions: [
+      { top: '1.7%', left: '87.5%', width: '12%', height: '7.5%', radius: '10px' },
+      { top: '77.7%', left: '1.1%', width: '14.8%', height: '8.7%', radius: '10px' },
+    ],
   },
   {
     key: 'student',
     role: 'Student Dashboard',
     portal: 'Student Portal',
     title: 'Guided dissertation journey from proposal to defense',
-    subtitle: 'Students see deadlines, submission status, revisions, and quick actions in one workflow.',
+    subtitle: 'Students see deadlines, submission status, revisions, and next steps in one clear flow.',
+    audience: 'For Graduate Schools Focused on Student Throughput',
+    decisionImpact: 'Keep students moving by making deadlines and required actions impossible to miss.',
     image: '/dashboards/student-dashboard.png',
     imageAlt: 'Student dashboard showing deadlines, progress tracker, and quick actions.',
     icon: GraduationCap,
@@ -135,8 +172,46 @@ const views: DashboardView[] = [
       { label: 'Deadline countdown', value: '5 days', color: '#CA8A04' },
       { label: 'Quick actions completed', value: '3 today', color: '#0D9488' },
     ],
+    redactions: [
+      { top: '1.8%', left: '87.3%', width: '12.1%', height: '6.9%', radius: '10px' },
+      { top: '77.7%', left: '1.1%', width: '14.8%', height: '8.7%', radius: '10px' },
+    ],
   },
 ];
+
+function NameRedactionOverlays({ boxes }: { boxes: RedactionBox[] }) {
+  return (
+    <>
+      {boxes.map((box, idx) => (
+        <div
+          key={`redact-${idx}`}
+          className="absolute pointer-events-none"
+          style={{
+            top: box.top,
+            left: box.left,
+            width: box.width,
+            height: box.height,
+            borderRadius: box.radius ?? '8px',
+            background: 'rgba(255,255,255,0.28)',
+            border: '1px solid rgba(148,163,184,0.35)',
+            backdropFilter: 'blur(5px)',
+            WebkitBackdropFilter: 'blur(5px)',
+          }}
+        />
+      ))}
+      <div
+        className="absolute left-3 top-3 pointer-events-none text-[10px] sm:text-[11px] font-semibold px-2.5 py-1 rounded-md"
+        style={{
+          background: 'rgba(15,23,42,0.52)',
+          color: '#E2E8F0',
+          border: '1px solid rgba(148,163,184,0.35)',
+        }}
+      >
+        Public demo (names masked)
+      </div>
+    </>
+  );
+}
 
 function DashboardImageFallback({ view }: { view: DashboardView }) {
   return (
@@ -182,8 +257,35 @@ export function SFDashboardShowcase() {
   const [active, setActive] = useState(views[0].key);
   const [imageFailed, setImageFailed] = useState<Record<string, boolean>>({});
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const lastManualSelectRef = useRef(0);
+  const mobileTabs = useMemo(
+    () => views.filter((v) => ['university', 'hod', 'supervisor', 'student'].includes(v.key)),
+    []
+  );
+  const mobileTabKeys = useMemo(() => mobileTabs.map((t) => t.key), [mobileTabs]);
   const current = useMemo(() => views.find((v) => v.key === active) ?? views[0], [active]);
   const Icon = current.icon;
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 1023px)');
+    if (!media.matches) return;
+
+    const id = window.setInterval(() => {
+      if (Date.now() - lastManualSelectRef.current < 9000) return;
+      setActive((prev) => {
+        const idx = mobileTabKeys.indexOf(prev);
+        if (idx < 0) return mobileTabKeys[0];
+        return mobileTabKeys[(idx + 1) % mobileTabKeys.length];
+      });
+    }, 3800);
+
+    return () => window.clearInterval(id);
+  }, [mobileTabKeys]);
+
+  const handleRoleSelect = (key: string) => {
+    lastManualSelectRef.current = Date.now();
+    setActive(key);
+  };
 
   return (
     <section id="dashboards" className="py-24 px-6" style={{ background: '#FFFFFF' }}>
@@ -197,8 +299,46 @@ export function SFDashboardShowcase() {
           </p>
         </div>
 
+        <Reveal className="lg:hidden mb-5">
+          <div className="overflow-x-auto [scrollbar-width:none]" style={{ msOverflowStyle: 'none' }}>
+            <div className="flex gap-2 min-w-max pr-1">
+              {mobileTabs.map((tab) => {
+                const isActive = active === tab.key;
+                return (
+                  <button
+                    key={tab.key}
+                    onClick={() => handleRoleSelect(tab.key)}
+                    className="relative px-4 py-2.5 rounded-xl text-left transition-all"
+                    style={{
+                      minWidth: 148,
+                      background: isActive ? NAVY : '#F8FAFC',
+                      color: isActive ? '#FFFFFF' : INK,
+                      border: isActive ? '1px solid rgba(26,60,94,0.2)' : '1px solid #E2E8F0',
+                      transform: isActive ? 'translateY(-1px)' : 'translateY(0)',
+                    }}
+                  >
+                    <div className="text-xs font-semibold">{tab.role.replace(' Dashboard', '')}</div>
+                    <div
+                      className="text-[11px] mt-0.5"
+                      style={{ color: isActive ? 'rgba(255,255,255,0.72)' : MUTED }}
+                    >
+                      {tab.portal}
+                    </div>
+                    {isActive && (
+                      <span
+                        className="absolute left-2 right-2 bottom-1 h-[2px] rounded-full"
+                        style={{ background: ORANGE, animation: 'sfTabSlide 3.8s linear infinite' }}
+                      />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </Reveal>
+
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
-          <Reveal>
+          <Reveal className="hidden lg:block">
             <div className="rounded-2xl p-4 lg:p-5" style={{ border: cardBorder, background: '#FBFDFF' }}>
               <div className="text-xs font-bold uppercase mb-3" style={{ color: ORANGE, letterSpacing: '0.12em' }}>
                 Roles
@@ -207,7 +347,7 @@ export function SFDashboardShowcase() {
                 {views.map((v) => (
                   <button
                     key={v.key}
-                    onClick={() => setActive(v.key)}
+                    onClick={() => handleRoleSelect(v.key)}
                     className="w-full text-left rounded-xl px-4 py-3 transition-all"
                     style={{
                       background: active === v.key ? NAVY : 'transparent',
@@ -255,6 +395,15 @@ export function SFDashboardShowcase() {
                   {current.subtitle}
                 </p>
 
+                <div className="mt-4 rounded-xl p-4" style={{ background: '#F8FBFF', border: '1px solid #E2EAF4' }}>
+                  <div className="text-xs font-bold uppercase" style={{ color: ORANGE, letterSpacing: '0.1em' }}>
+                    {current.audience}
+                  </div>
+                  <p className="mt-1.5 text-sm" style={{ color: INK }}>
+                    {current.decisionImpact}
+                  </p>
+                </div>
+
                 <div className="mt-6">
                   <button
                     type="button"
@@ -265,18 +414,21 @@ export function SFDashboardShowcase() {
                     {imageFailed[current.key] ? (
                       <DashboardImageFallback view={current} />
                     ) : (
-                      <img
-                        src={current.image}
-                        alt={current.imageAlt}
-                        className="w-full h-auto block"
-                        loading="lazy"
-                        onError={() =>
-                          setImageFailed((prev) => ({
-                            ...prev,
-                            [current.key]: true,
-                          }))
-                        }
-                      />
+                      <div className="relative">
+                        <img
+                          src={current.image}
+                          alt={current.imageAlt}
+                          className="w-full h-auto block"
+                          loading="lazy"
+                          onError={() =>
+                            setImageFailed((prev) => ({
+                              ...prev,
+                              [current.key]: true,
+                            }))
+                          }
+                        />
+                        <NameRedactionOverlays boxes={current.redactions} />
+                      </div>
                     )}
                   </button>
                   <p className="mt-2 text-xs" style={{ color: MUTED }}>
@@ -357,10 +509,18 @@ export function SFDashboardShowcase() {
                   className="w-full max-h-[85vh] object-contain rounded-xl"
                   style={{ boxShadow: '0 30px 80px -20px rgba(0,0,0,0.65)' }}
                 />
+                <NameRedactionOverlays boxes={current.redactions} />
               </div>
             </div>
           </div>
         )}
+
+        <style>{`
+          @keyframes sfTabSlide {
+            from { transform: scaleX(0.35); transform-origin: left; opacity: 0.7; }
+            to { transform: scaleX(1); transform-origin: left; opacity: 1; }
+          }
+        `}</style>
       </div>
     </section>
   );
