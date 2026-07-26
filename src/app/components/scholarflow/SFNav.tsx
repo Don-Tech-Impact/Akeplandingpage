@@ -5,6 +5,7 @@ import { NAVY, ORANGE } from './theme';
 
 const SECTIONS = [
   { label: 'Features', id: 'features' },
+  { label: 'Dashboards', id: 'dashboards' },
   { label: 'How It Works', id: 'how-it-works' },
   { label: 'About', id: 'about' },
   { label: 'Contact', id: 'contact' },
