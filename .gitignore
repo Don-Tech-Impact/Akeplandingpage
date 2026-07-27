@@ -26,3 +26,27 @@ Thumbs.db
 .cache/
 .eslintcache
 learning/
+
+# terraform (state, plans, local overrides, sensitive vars)
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+terraform.tfvars
+terraform.tfvars.json
+*.tfvars
+*.tfvars.json
+.terraformrc
+terraform.rc
+
+# common secrets and local cert/key material
+*.pem
+*.key
+*.p12
+*.jks
