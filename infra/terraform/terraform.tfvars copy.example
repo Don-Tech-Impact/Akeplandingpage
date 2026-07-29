@@ -9,7 +9,7 @@ environment     = "prod"
 image_tag       = "latest"
 
 # API settings
-allowed_origins = "https://akepapp.com,https://www.akepapp.com"
+allowed_origins = "https://akepapp.com,https://www.akepapp.com,https://dash.akepapp.com"
 from_email      = "no-reply@akepapp.com"
 notify_to       = "info@akepapp.com"
 

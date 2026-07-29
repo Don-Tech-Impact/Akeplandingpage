@@ -1,4 +1,18 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8787";
+function resolveApiBaseUrl() {
+  const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
+  if (configuredBaseUrl) {
+    return configuredBaseUrl.replace(/\/+$/, "");
+  }
+
+  // Keep localhost default only for local development.
+  if (import.meta.env.DEV) {
+    return "http://localhost:8787";
+  }
+
+  return "";
+}
+
+const API_BASE_URL = resolveApiBaseUrl();
 
 type WaitlistPayload = {
   name?: string;
@@ -19,6 +33,10 @@ type ContactPayload = {
 };
 
 async function postJson<TPayload>(path: string, payload: TPayload) {
+  if (!API_BASE_URL && !import.meta.env.DEV) {
+    throw new Error("Frontend misconfigured: set VITE_API_BASE_URL for production builds.");
+  }
+
   const response = await fetch(`${API_BASE_URL}${path}`, {
     method: "POST",
     headers: {
