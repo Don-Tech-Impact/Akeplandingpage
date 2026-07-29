@@ -3,6 +3,7 @@ data "aws_availability_zones" "available" {
 }
 
 locals {
+  https_enabled = length(trimspace(var.acm_certificate_arn)) > 0
   name = "${var.project_name}-${var.environment}"
   tags = {
     Project     = var.project_name
@@ -283,6 +284,30 @@ resource "aws_lb_listener" "http" {
   protocol          = "HTTP"
 
   default_action {
+    type = local.https_enabled && var.redirect_http_to_https ? "redirect" : "forward"
+
+    dynamic "redirect" {
+      for_each = local.https_enabled && var.redirect_http_to_https ? [1] : []
+      content {
+        port        = "443"
+        protocol    = "HTTPS"
+        status_code = "HTTP_301"
+      }
+    }
+
+    target_group_arn = local.https_enabled && var.redirect_http_to_https ? null : aws_lb_target_group.api.arn
+  }
+}
+
+resource "aws_lb_listener" "https" {
+  count             = local.https_enabled ? 1 : 0
+  load_balancer_arn = aws_lb.api.arn
+  port              = 443
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+  certificate_arn   = var.acm_certificate_arn
+
+  default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.api.arn
   }
@@ -341,6 +366,11 @@ resource "aws_secretsmanager_secret" "sendgrid" {
   tags = local.tags
 }
 
+resource "aws_secretsmanager_secret_version" "sendgrid" {
+  secret_id     = aws_secretsmanager_secret.sendgrid.id
+  secret_string = var.sendgrid_api_key
+}
+
 resource "aws_ecs_service" "api" {
   name            = local.name
   cluster         = aws_ecs_cluster.main.id
@@ -363,9 +393,56 @@ resource "aws_ecs_service" "api" {
 
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
-  health_check_grace_period_seconds   = 30
+  health_check_grace_period_seconds  = 30
+
+  deployment_circuit_breaker {
+    enable   = true
+    rollback = true
+  }
 
   depends_on = [aws_lb_listener.http]
 
   tags = local.tags
+}
+
+resource "aws_appautoscaling_target" "ecs" {
+  max_capacity       = var.max_task_count
+  min_capacity       = var.min_task_count
+  resource_id        = "service/${aws_ecs_cluster.main.name}/${aws_ecs_service.api.name}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace  = "ecs"
+}
+
+resource "aws_appautoscaling_policy" "cpu" {
+  name               = "${local.name}-cpu-target"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.ecs.resource_id
+  scalable_dimension = aws_appautoscaling_target.ecs.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.ecs.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
+    }
+    target_value       = var.cpu_target_utilization
+    scale_in_cooldown  = 180
+    scale_out_cooldown = 60
+  }
+}
+
+resource "aws_appautoscaling_policy" "memory" {
+  name               = "${local.name}-memory-target"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.ecs.resource_id
+  scalable_dimension = aws_appautoscaling_target.ecs.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.ecs.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageMemoryUtilization"
+    }
+    target_value       = var.memory_target_utilization
+    scale_in_cooldown  = 180
+    scale_out_cooldown = 60
+  }
 }

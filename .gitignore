@@ -44,6 +44,8 @@ terraform.tfvars.json
 *.tfvars.json
 .terraformrc
 terraform.rc
+infra/terraform/backend*.hcl
+!infra/terraform/backend*.example.hcl
 
 # common secrets and local cert/key material
 *.pem

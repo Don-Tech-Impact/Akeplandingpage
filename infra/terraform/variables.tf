@@ -46,6 +46,30 @@ variable "desired_count" {
   default     = 2
 }
 
+variable "min_task_count" {
+  description = "Minimum number of ECS tasks for autoscaling"
+  type        = number
+  default     = 1
+}
+
+variable "max_task_count" {
+  description = "Maximum number of ECS tasks for autoscaling"
+  type        = number
+  default     = 4
+}
+
+variable "cpu_target_utilization" {
+  description = "Target average CPU utilization percentage for ECS autoscaling"
+  type        = number
+  default     = 60
+}
+
+variable "memory_target_utilization" {
+  description = "Target average memory utilization percentage for ECS autoscaling"
+  type        = number
+  default     = 70
+}
+
 variable "cpu" {
   description = "Task CPU units"
   type        = number
@@ -74,7 +98,11 @@ variable "sendgrid_api_key" {
   description = "SendGrid API key"
   type        = string
   sensitive   = true
-  default     = ""
+
+  validation {
+    condition     = length(trimspace(var.sendgrid_api_key)) > 0
+    error_message = "sendgrid_api_key must be provided (use terraform.tfvars or TF_VAR_sendgrid_api_key)."
+  }
 }
 
 variable "from_email" {
@@ -87,4 +115,33 @@ variable "notify_to" {
   description = "Admin notification email address"
   type        = string
   default     = "info@akepapp.com"
+}
+
+variable "api_domain_name" {
+  description = "Public API DNS name for future HTTPS listener setup (e.g. api.akepapp.com)"
+  type        = string
+  default     = ""
+}
+
+variable "acm_certificate_arn" {
+  description = "ACM certificate ARN for future ALB HTTPS listener"
+  type        = string
+  default     = ""
+}
+
+variable "redirect_http_to_https" {
+  description = "Redirect HTTP requests to HTTPS when an ACM certificate is configured"
+  type        = bool
+  default     = true
+}
+
+
+#S3 Bucket varibale 
+variable "bucket_name" {
+  description = <<-EOT
+    Fully-qualified S3 bucket name. S3 names are globally unique across all
+    AWS accounts, so this MUST be set to something free such as
+    "akep-uploads-<env>-<short-random>". Do not rely on the default.
+  EOT
+  type        = string
 }

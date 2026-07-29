@@ -1,0 +1,28 @@
+# Copy this file to terraform.tfvars and fill your real values.
+# Do NOT commit terraform.tfvars.
+
+aws_region      = "af-south-1"
+project_name    = "akep-email-api"
+environment     = "prod"
+
+# Deployment image tag in ECR (example: v1.0.0, git SHA, latest)
+image_tag       = "latest"
+
+# API settings
+allowed_origins = "https://akepapp.com,https://www.akepapp.com"
+from_email      = "no-reply@akepapp.com"
+notify_to       = "info@akepapp.com"
+
+# Required secret
+sendgrid_api_key = "REPLACE_WITH_REAL_SENDGRID_KEY"
+
+# Autoscaling
+desired_count              = 2
+min_task_count             = 1
+max_task_count             = 4
+cpu_target_utilization     = 60
+memory_target_utilization  = 70
+
+# Reserved for HTTPS phase
+api_domain_name      = "api.akepapp.com"
+acm_certificate_arn  = ""
