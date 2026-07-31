@@ -27,6 +27,9 @@ Thumbs.db
 .eslintcache
 learning/
 
+# runtime data (contains user-submitted PII)
+data/*.jsonl
+
 # terraform (state, plans, local overrides, sensitive vars)
 **/.terraform/*
 *.tfstate
@@ -52,3 +55,8 @@ infra/terraform/backend*.hcl
 *.key
 *.p12
 *.jks
+
+
+docs/
+DEPLOYMENT.md
+AWS_DEPLOYMENT.md

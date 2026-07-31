@@ -58,22 +58,9 @@ NODE_ENV=production
 
 ---
 
-## Phase 2: Build & Deploy Frontend (S3 + CloudFront) — ~10 minutes
+## Phase 2: Build & Deploy Frontend (AWS Amplify) — ~10 minutes
 
-### 2.1 Create AWS Account & IAM User (if needed)
-- Go to https://aws.amazon.com
-- Create account (or use existing)
-- In IAM, create a user with S3 + CloudFront permissions
-- Get Access Key ID and Secret Access Key
-
-### 2.2 Create S3 Bucket
-- In AWS S3 console:
-  - Create bucket: `akepapp-frontend` (or any name)
-  - Region: `us-east-1` (for CloudFront compatibility)
-  - Block public access: OFF (so CloudFront can read)
-  - Keep other defaults
-
-### 2.3 Build Frontend Locally
+### 2.1 Build Frontend Locally
 ```bash
 # From project root
 npm install
@@ -81,65 +68,45 @@ npm run build
 ```
 - Output goes to `dist/`
 
-### 2.4 Set Frontend Environment Variable
+### 2.2 Set Frontend Environment Variable
 ```bash
-# Create/update .env.local
-echo "VITE_API_BASE_URL=https://akep-email-api-xxxxx.onrender.com" > .env.local
+echo "VITE_API_BASE_URL=https://api.akepapp.com" > .env.production
 ```
-- Replace `xxxxx` with your actual Render service ID
 
-### 2.5 Rebuild with API URL
+### 2.3 Rebuild with API URL
 ```bash
 npm run build
 ```
 
-### 2.6 Upload to S3
-Option A: AWS CLI
-```bash
-aws s3 sync dist/ s3://akepapp-frontend --delete
-```
-
-Option B: Manual in AWS console
-- Open S3 > akepapp-frontend
-- Upload all files from `dist/` folder
-
-### 2.7 Create CloudFront Distribution
-- In CloudFront console:
-  - Click "Create distribution"
-  - **Origin domain:** Select your S3 bucket
-  - **Viewer protocol policy:** Redirect HTTP to HTTPS
-  - **Default root object:** `index.html`
-  - **Custom error responses:**
-    - 404 → `index.html` (for SPA routing)
-    - 403 → `index.html`
-  - Click "Create distribution"
-- Wait for deployment (5–15 min)
-- Note the CloudFront domain: `dxxxxx.cloudfront.net`
+### 2.4 Deploy on Amplify
+1. AWS Console → search **Amplify** → **Host web app**
+2. Connect GitHub repo and select the `main` branch
+3. Confirm Amplify picks up [amplify.yml](amplify.yml)
+4. Add environment variable in Amplify:
+   ```
+   VITE_API_BASE_URL=https://api.akepapp.com
+   ```
+5. Save and deploy
+6. Note the Amplify URL, then add the custom domain `www.akepapp.com`
 
 ---
 
 ## Phase 3: Configure Cloudflare DNS — ~5 minutes
 
 ### 3.1 Add Records in Cloudflare
-1. Log into Cloudflare console (your akepapp.com domain)
-2. Go to "DNS" tab
-3. Add these CNAME records:
+1. Log into Cloudflare console for `akepapp.com`
+2. Go to **DNS** and add these records:
 
 | Type | Name | Target | TTL |
 |------|------|--------|-----|
-| CNAME | www | dxxxxx.cloudfront.net | Auto |
-| CNAME | api | akep-email-api-xxxxx.onrender.com | Auto |
-
-- Replace `dxxxxx` with your CloudFront domain ID
-- Replace `xxxxx` with your Render service ID
+| CNAME | www | your Amplify domain | Auto |
+| CNAME | dash | your dashboard host | Auto |
+| CNAME | api | api.akepapp.com target host | Auto |
 
 ### 3.2 (Optional) Root Domain (@)
-If you want `akepapp.com` (without www) to work:
-- Cloudflare → "Add record"
-- Type: CNAME
-- Name: @
-- Target: dxxxxx.cloudfront.net
-- TTL: Auto
+If you want `akepapp.com` to work, set a redirect rule:
+- Match: hostname equals `akepapp.com`
+- Action: Redirect to `https://www.akepapp.com`
 
 ### 3.3 Enable HTTPS in Cloudflare
 - Cloudflare console > SSL/TLS
@@ -150,7 +117,7 @@ If you want `akepapp.com` (without www) to work:
 ### 3.4 Wait for DNS propagation
 - Can take 5 minutes to 24 hours
 - Test: `nslookup www.akepapp.com` or `dig www.akepapp.com`
-- You should see your CloudFront IP
+- You should see your Amplify CNAME target
 
 ---
 
@@ -165,14 +132,10 @@ VITE_API_BASE_URL=https://api.akepapp.com
 ### 4.2 Build & Deploy Again
 ```bash
 npm run build
-aws s3 sync dist/ s3://akepapp-frontend --delete
 ```
 
-### 4.3 CloudFront Cache Invalidation
-After uploading, invalidate CloudFront cache so new files are served immediately:
-```bash
-aws cloudfront create-invalidation --distribution-id dxxxxx --paths "/*"
-```
+### 4.3 Redeploy Amplify
+- Push to `main` or click **Redeploy** in Amplify
 
 ---
 
@@ -211,11 +174,10 @@ aws cloudfront create-invalidation --distribution-id dxxxxx --paths "/*"
 ## Quick Reference: Your URLs
 
 Once deployed:
-- **Frontend:** https://www.akepapp.com (or https://akepapp.com if you set up root)
+- **Frontend:** https://www.akepapp.com
+- **Dashboard:** https://dash.akepapp.com
 - **API:** https://api.akepapp.com
-- **Render service:** https://akep-email-api-xxxxx.onrender.com (internal, don't use in production)
-- **S3 bucket:** akepapp-frontend (internal, only CloudFront accesses)
-- **CloudFront:** dxxxxx.cloudfront.net (internal, Cloudflare points to this)
+- **Amplify:** your Amplify app domain
 
 ---
 
