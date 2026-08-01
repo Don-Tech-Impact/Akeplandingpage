@@ -1,7 +1,28 @@
+const SAFE_PROD_API_BASE_URL = "https://email_api.akepapp.com";
+
+function normalizeBaseUrl(value?: string) {
+  if (!value) return "";
+  return value.trim().replace(/\/+$/, "");
+}
+
 function resolveApiBaseUrl() {
-  const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
+  const configuredBaseUrl = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL);
   if (configuredBaseUrl) {
-    return configuredBaseUrl.replace(/\/+$/, "");
+    const normalizedBaseUrl = configuredBaseUrl;
+
+    // In production, avoid using raw ALB hostnames from stale environment settings.
+    if (!import.meta.env.DEV) {
+      try {
+        const host = new URL(normalizedBaseUrl).hostname;
+        if (host.endsWith("elb.amazonaws.com")) {
+          return SAFE_PROD_API_BASE_URL;
+        }
+      } catch {
+        return SAFE_PROD_API_BASE_URL;
+      }
+    }
+
+    return normalizedBaseUrl;
   }
 
   // Keep localhost default only for local development.
@@ -9,7 +30,7 @@ function resolveApiBaseUrl() {
     return "http://localhost:8787";
   }
 
-  return "";
+  return SAFE_PROD_API_BASE_URL;
 }
 
 const API_BASE_URL = resolveApiBaseUrl();
