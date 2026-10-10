@@ -11,7 +11,6 @@ const DATA_DIR = join(__dirname, "../../data");
 const WAITLIST_LOG = join(DATA_DIR, "waitlist.jsonl");
 
 const app = express();
-app.set("trust proxy", 1);
 
 const PORT = Number(process.env.PORT || 8787);
 const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || "")
@@ -54,12 +53,21 @@ async function sendEmail({ to, fromName, subject, html, text }) {
 }
 
 // ── Rate limiters ─────────────────────────────────────────────────────────────
+// Azure's proxy appends the client port to X-Forwarded-For (e.g. 1.2.3.4:5678)
+function clientIp(req) {
+  const forwarded = (req.headers["x-forwarded-for"] || "").split(",")[0].trim();
+  const raw = forwarded || req.socket.remoteAddress || "unknown";
+  return raw.replace(/^(\d{1,3}(?:\.\d{1,3}){3}):\d+$/, "$1").replace(/^\[(.+)\]:\d+$/, "$1");
+}
+
 // Waitlist: max 3 submissions per IP per hour
 const waitlistLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   max: 3,
   standardHeaders: true,
   legacyHeaders: false,
+  validate: false,
+  keyGenerator: clientIp,
   message: { ok: false, error: "Too many requests — please try again later." },
 });
 
@@ -69,6 +77,8 @@ const contactLimiter = rateLimit({
   max: 5,
   standardHeaders: true,
   legacyHeaders: false,
+  validate: false,
+  keyGenerator: clientIp,
   message: { ok: false, error: "Too many requests — please try again later." },
 });
 
