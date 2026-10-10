@@ -12,6 +12,7 @@ const DATA_DIR = join(__dirname, "../../data");
 const WAITLIST_LOG = join(DATA_DIR, "waitlist.jsonl");
 
 const app = express();
+app.set("trust proxy", 1);
 
 const PORT = Number(process.env.PORT || 8787);
 const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || "")
