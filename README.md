@@ -46,11 +46,11 @@ npm run dev:api
 
 The frontend sends form submissions to `VITE_API_BASE_URL` (default `http://localhost:8787`).
 
-## Render deployment (email API)
+## Backend deployment (email API)
 
-The repository includes `render.yaml` configured to deploy `server/` as a web service.
+The repository includes `render.yaml` configured to deploy `server/` as a web service, but your current production API is the `api.akepapp.com` subdomain.
 
-Set these Render environment variables for the backend service:
+Set these backend environment variables for the service:
 
 - `ALLOWED_ORIGINS` (for example: `https://your-frontend-domain.com`)
 - `SMTP_HOST`
@@ -69,9 +69,9 @@ API endpoints exposed by the backend:
 
 ## Frontend production env
 
-For your S3/CloudFront frontend deployment, set:
+For your Amplify frontend deployment, set:
 
-- `VITE_API_BASE_URL=https://<your-render-service>.onrender.com`
+- `VITE_API_BASE_URL=https://api.akepapp.com`
 
 This keeps frontend and backend fully decoupled.
   

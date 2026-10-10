@@ -26,3 +26,37 @@ Thumbs.db
 .cache/
 .eslintcache
 learning/
+
+# runtime data (contains user-submitted PII)
+data/*.jsonl
+
+# terraform (state, plans, local overrides, sensitive vars)
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+terraform.tfvars
+terraform.tfvars.json
+*.tfvars
+*.tfvars.json
+.terraformrc
+terraform.rc
+infra/terraform/backend*.hcl
+!infra/terraform/backend*.example.hcl
+
+# common secrets and local cert/key material
+*.pem
+*.key
+*.p12
+*.jks
+
+
+docs/
+DEPLOYMENT.md
+AWS_DEPLOYMENT.md

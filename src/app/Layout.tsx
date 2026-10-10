@@ -1,22 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
-import { AkepNav } from './components/akep/AkepNav';
-import { AkepFooter } from './components/akep/AkepFooter';
+import { SFNav } from './components/scholarflow/SFNav';
+import { SFFooter } from './components/scholarflow/SFFooter';
+import { SFModalProvider, useSFModal } from './components/scholarflow/SFModalProvider';
 import { Toaster } from './components/ui/sonner';
 
-export function Layout({
-  children,
-  onCta,
-}: {
-  children: React.ReactNode;
-  onCta?: () => void;
-}) {
+function LayoutInner({ children }: { children: React.ReactNode }) {
   const [scrollPct, setScrollPct] = useState(0);
   const { pathname } = useLocation();
+  const isHome = pathname === '/';
+  const { openTrial } = useSFModal();
 
-  // Scroll to top on every route change
+  // Scroll to top on route change (but preserve anchor jumps).
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (!window.location.hash) window.scrollTo(0, 0);
   }, [pathname]);
 
   // Scroll progress bar
@@ -30,27 +27,27 @@ export function Layout({
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const handleCta = () => {
-    if (onCta) {
-      onCta();
-      return;
-    }
-    // Default: scroll to waitlist if present on this page
-    const el = document.getElementById('waitlist');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
-    <div className="min-h-screen" style={{ background: 'white', color: '#0B0B14' }}>
-      {/* Gold scroll progress bar */}
+    <div className="min-h-screen" style={{ background: '#FFFFFF', color: '#111827' }}>
+      {/* Orange scroll progress bar */}
       <div
         className="fixed top-0 left-0 z-[100] h-0.5 pointer-events-none"
-        style={{ width: `${scrollPct}%`, background: '#F59E0B', transition: 'width 80ms linear' }}
+        style={{ width: `${scrollPct}%`, background: '#E8892B', transition: 'width 80ms linear' }}
       />
-      <AkepNav onCta={handleCta} />
+      <SFNav isHome={isHome} onTrial={openTrial} />
+      {/* Spacer so fixed nav doesn't cover content on non-home routes */}
+      {!isHome && <div style={{ height: 72, background: '#1A3C5E' }} />}
       {children}
-      <AkepFooter />
+      <SFFooter />
       <Toaster />
     </div>
+  );
+}
+
+export function Layout({ children }: { children: React.ReactNode; onCta?: () => void }) {
+  return (
+    <SFModalProvider>
+      <LayoutInner>{children}</LayoutInner>
+    </SFModalProvider>
   );
 }

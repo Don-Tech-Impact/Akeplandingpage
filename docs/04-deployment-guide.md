@@ -66,7 +66,7 @@ App Runner deploys your Node.js Express server directly from GitHub source code.
    SENDGRID_API_KEY          = SG.your_new_rotated_key_here
    FROM_EMAIL                = no-reply@akepapp.com
    NOTIFY_TO                 = atlebbie@gmail.com
-   ALLOWED_ORIGINS           = https://akepapp.com,https://www.akepapp.com
+   ALLOWED_ORIGINS           = https://akepapp.com,https://www.akepapp.com,https://dash.akepapp.com
    AKEP_LINKEDIN_URL         = https://linkedin.com/company/akepapp
    AKEP_TWITTER_URL          = https://twitter.com/akepapp
    SUPPORT_URL               = https://akepapp.com/support
@@ -129,13 +129,13 @@ Amplify handles the React/Vite build and serves via CloudFront CDN.
 
 ## 5. Step 3 — Connect Custom Domain
 
-### Frontend — akepapp.com → Amplify
+### Frontend — www.akepapp.com → Amplify
 
 1. Amplify → your app → **Domain management → Add domain**
-2. Enter `akepapp.com`
+2. Enter `www.akepapp.com`
 3. Amplify generates SSL certificate + gives you DNS records
 4. In your DNS provider, add the CNAME/ALIAS records Amplify provides
-5. Also add `www.akepapp.com` → redirects to root
+5. Add a redirect rule so `akepapp.com` redirects to `https://www.akepapp.com`
 6. Propagation: up to 24h, usually under 1h
 
 ### Backend — api.akepapp.com → App Runner
@@ -145,7 +145,7 @@ Amplify handles the React/Vite build and serves via CloudFront CDN.
 3. Add the CNAME record to your DNS provider
 4. Update `ALLOWED_ORIGINS` in App Runner env vars:
    ```
-   ALLOWED_ORIGINS=https://akepapp.com,https://www.akepapp.com
+   ALLOWED_ORIGINS=https://akepapp.com,https://www.akepapp.com,https://dash.akepapp.com
    ```
 5. Update `VITE_API_BASE_URL` in Amplify:
    ```

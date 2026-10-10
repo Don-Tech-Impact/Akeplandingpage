@@ -1,6 +1,6 @@
-# AKEP Deployment Guide – AWS SES + EC2/Lambda + S3/CloudFront
+# AKEP Deployment Guide – AWS SES + EC2/Lambda + Amplify
 
-Complete setup for Cloudflare domain (akepapp.com) → AWS infrastructure with SES email.
+Complete setup for Cloudflare domain (akepapp.com) → AWS infrastructure with SES email and Amplify for the frontend.
 
 ---
 
@@ -8,7 +8,7 @@ Complete setup for Cloudflare domain (akepapp.com) → AWS infrastructure with S
 
 ```
 akepapp.com (Cloudflare DNS)
-├── www.akepapp.com → CloudFront → S3 (Frontend)
+├── www.akepapp.com → Amplify (Frontend)
 ├── api.akepapp.com → existing Python API on EC2
 │   └── email_service/ → isolated email endpoints only
 └── SES (Email sending from AWS SES)
@@ -411,47 +411,32 @@ sudo certbot --nginx -d api.akepapp.com
 
 ---
 
-## Phase 4: Frontend (S3 + CloudFront) — ~10 minutes
+## Phase 4: Frontend (AWS Amplify) — ~10 minutes
 
-### 4.1 Create S3 Bucket
-```bash
-aws s3api create-bucket \
-  --bucket akepapp-frontend \
-  --region us-east-1
-```
-
-### 4.2 Update Frontend .env
+### 4.1 Update Frontend .env
 Create `.env.production`:
 ```
-# For Lambda:
-VITE_API_BASE_URL=https://xxxxx.execute-api.us-east-1.amazonaws.com
-
-# For EC2:
 VITE_API_BASE_URL=https://api.akepapp.com
 ```
 
-### 4.3 Build Frontend
+### 4.2 Build Frontend
 ```bash
 npm install
 npm run build
 ```
 
-### 4.4 Upload to S3
-```bash
-aws s3 sync dist/ s3://akepapp-frontend --delete
-```
+### 4.3 Create Amplify App
+- AWS console → Amplify → **Host web app**
+- Connect GitHub repo and select branch `main`
+- Confirm Amplify uses [amplify.yml](amplify.yml)
+- Add environment variable:
+  - `VITE_API_BASE_URL=https://api.akepapp.com`
 
-### 4.5 Create CloudFront Distribution
-- AWS console → CloudFront → "Create distribution"
-  - Origin domain: `akepapp-frontend.s3.us-east-1.amazonaws.com`
-  - Viewer protocol: HTTPS only
-  - Default root object: `index.html`
-  - Custom error responses:
-    - 403 → `/index.html` (HTTP 200)
-    - 404 → `/index.html` (HTTP 200)
-  - Create
-
-- Note CloudFront domain: `dxxxxx.cloudfront.net`
+### 4.4 Map the Custom Domain
+- Frontend: `www.akepapp.com`
+- Dashboard: `dash.akepapp.com`
+- API: `api.akepapp.com`
+- Apex `akepapp.com` should redirect to `https://www.akepapp.com`
 
 ---
 
@@ -463,22 +448,22 @@ In Cloudflare for `akepapp.com`:
 **Frontend (www):**
 - Type: CNAME
 - Name: `www`
-- Target: `dxxxxx.cloudfront.net`
+- Target: your Amplify domain
 
-**Backend (Lambda):**
+**Dashboard:**
+- Type: CNAME
+- Name: `dash`
+- Target: your dashboard host
+
+**API:**
 - Type: CNAME
 - Name: `api`
-- Target: `xxxxx.execute-api.us-east-1.amazonaws.com`
-
-**Backend (EC2):**
-- Type: A
-- Name: `api`
-- Target: `your-elastic-ip`
+- Target: `api.akepapp.com`'s current origin host
 
 **Root (@):**
-- Type: CNAME
+- Type: Redirect Rule or CNAME flattened alias
 - Name: `@`
-- Target: `dxxxxx.cloudfront.net`
+- Target: `https://www.akepapp.com`
 
 ### 5.2 SSL/TLS in Cloudflare
 - SSL/TLS → Encryption mode: **Full (strict)**
@@ -488,6 +473,7 @@ In Cloudflare for `akepapp.com`:
 ```bash
 # Check DNS
 nslookup www.akepapp.com
+nslookup dash.akepapp.com
 nslookup api.akepapp.com
 ```
 
@@ -524,9 +510,9 @@ VITE_API_BASE_URL=https://api.akepapp.com
 Rebuild and redeploy:
 ```bash
 npm run build
-aws s3 sync dist/ s3://akepapp-frontend --delete
-aws cloudfront create-invalidation --distribution-id dxxxxx --paths "/*"
 ```
+
+Then redeploy Amplify.
 
 ---
 
