@@ -1,7 +1,6 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import sgMail from "@sendgrid/mail";
 import rateLimit from "express-rate-limit";
 import { appendFileSync, mkdirSync } from "fs";
 import { join, dirname } from "path";
@@ -33,8 +32,26 @@ app.use(
   }),
 );
 
-// Initialise SendGrid with API key
-sgMail.setApiKey(process.env.SENDGRID_API_KEY || "");
+/** Send an email through the Resend REST API */
+async function sendEmail({ to, fromName, subject, html, text }) {
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.RESEND_API_KEY || ""}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: `${fromName} <${getFromEmail()}>`,
+      to: [to],
+      subject,
+      ...(html ? { html } : {}),
+      ...(text ? { text } : {}),
+    }),
+  });
+  if (!res.ok) {
+    throw new Error(`Resend API ${res.status}: ${await res.text()}`);
+  }
+}
 
 // ── Rate limiters ─────────────────────────────────────────────────────────────
 // Waitlist: max 3 submissions per IP per hour
@@ -81,14 +98,7 @@ function getFromEmail() {
 
 /** Internal admin notification — plain text */
 async function sendAdminNotification({ subject, body }) {
-  const to = getNotifyTo();
-  const from = getFromEmail();
-  await sgMail.send({
-    to,
-    from: { name: "AKEP System", email: from },
-    subject,
-    text: body,
-  });
+  await sendEmail({ to: getNotifyTo(), fromName: "AKEP System", subject, text: body });
 }
 
 /** Waitlist confirmation email HTML */
@@ -568,14 +578,13 @@ function buildDemoEmail({ name, institution }) {
 
 /** Send demo confirmation to the user who requested it */
 async function sendDemoConfirmation({ to, name, institution }) {
-  const from = getFromEmail();
   const hasInstitution = typeof institution === "string" && institution.trim().length > 0;
   const subject = hasInstitution
     ? `${institution.trim()} — your AKEP demo request is confirmed`
     : "Your AKEP demo request is confirmed — we'll be in touch within 24h";
-  await sgMail.send({
+  await sendEmail({
     to,
-    from: { name: "AKEP Team", email: from },
+    fromName: "AKEP Team",
     subject,
     html: buildDemoEmail({ name, institution }),
   });
@@ -583,51 +592,37 @@ async function sendDemoConfirmation({ to, name, institution }) {
 
 /** Send waitlist confirmation to the user who signed up */
 async function sendWaitlistConfirmation({ to, name, institution }) {
-  const from = getFromEmail();
-  const hasName        = typeof name        === "string" && name.trim().length > 0;
-  const hasInstitution = typeof institution === "string" && institution.trim().length > 0;
-  const firstName = hasName ? name.trim().split(" ")[0] : "";
-
-  await sgMail.send({
+  await sendEmail({
     to,
-    from:       { name: "AKEP Team", email: from },
-    templateId: "d-18167d93c27a43388e9a6112691b9492",
-    dynamicTemplateData: {
-      first_name:  firstName,
-      institution: hasInstitution ? institution.trim() : "",
-    },
+    fromName: "AKEP Team",
+    subject: "You're on the AKEP waitlist",
+    html: buildWaitlistEmail({ name, institution }),
   });
 }
 
 /**
- * Add contact to SendGrid Marketing Contacts.
- * This populates the SendGrid dashboard Contacts list so you can
- * browse all waitlist signups and send campaigns later.
- * Optionally segments into a list if SENDGRID_WAITLIST_LIST_ID is set.
+ * Add contact to a Resend Audience (optional).
+ * Skipped unless RESEND_AUDIENCE_ID is set.
  */
-async function addToSendGridContacts({ email, name }) {
-  const contact = { email };
+async function addToResendContacts({ email, name }) {
+  const audienceId = process.env.RESEND_AUDIENCE_ID;
+  if (!audienceId) return;
+  const payload = { email };
   if (typeof name === "string" && name.trim()) {
     const parts = name.trim().split(" ");
-    contact.first_name = parts[0];
-    if (parts.length > 1) contact.last_name = parts.slice(1).join(" ");
+    payload.first_name = parts[0];
+    if (parts.length > 1) payload.last_name = parts.slice(1).join(" ");
   }
-  const listId = process.env.SENDGRID_WAITLIST_LIST_ID;
-  const payload = {
-    contacts: [contact],
-    ...(listId ? { list_ids: [listId] } : {}),
-  };
-  const res = await fetch("https://api.sendgrid.com/v3/marketing/contacts", {
-    method: "PUT",
+  const res = await fetch(`https://api.resend.com/audiences/${audienceId}/contacts`, {
+    method: "POST",
     headers: {
-      Authorization: `Bearer ${process.env.SENDGRID_API_KEY}`,
+      Authorization: `Bearer ${process.env.RESEND_API_KEY || ""}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
   });
   if (!res.ok) {
-    const errText = await res.text();
-    throw new Error(`SendGrid Contacts API ${res.status}: ${errText}`);
+    throw new Error(`Resend Contacts API ${res.status}: ${await res.text()}`);
   }
 }
 
@@ -680,7 +675,7 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
       `Submitted at: ${new Date().toISOString()}`,
     ];
 
-    // Emails + SendGrid Contacts run in parallel.
+    // Emails + Resend Contacts run in parallel.
     // Contacts failure is non-fatal so it never blocks the response.
     await Promise.all([
       sendAdminNotification({
@@ -688,7 +683,7 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
         body: lines.join("\n"),
       }),
       sendWaitlistConfirmation({ to: email.trim(), name: safeName, institution: safeInstitution }),
-      addToSendGridContacts({ email: email.trim(), name: safeName }).catch((e) =>
+      addToResendContacts({ email: email.trim(), name: safeName }).catch((e) =>
         console.error("contacts_api_error", e.message)
       ),
     ]);
