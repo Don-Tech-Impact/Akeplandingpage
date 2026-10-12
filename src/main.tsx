@@ -6,6 +6,8 @@ import { HowItWorksPage } from "./app/pages/HowItWorksPage.tsx";
 import { SecurityPage } from "./app/pages/SecurityPage.tsx";
 import { UseCasesPage } from "./app/pages/UseCasesPage.tsx";
 import { AboutPage } from "./app/pages/AboutPage.tsx";
+import { UniversitiesPage } from "./app/pages/UniversitiesPage.tsx";
+import { UniversityPage } from "./app/pages/UniversityPage.tsx";
 import { PricingPage } from "./app/pages/PricingPage.tsx";
 import "./styles/index.css";
 
@@ -17,6 +19,8 @@ const router = createBrowserRouter([
   { path: "/use-cases", element: <UseCasesPage /> },
   { path: "/about", element: <AboutPage /> },
   { path: "/pricing", element: <PricingPage /> },
+  { path: "/universities", element: <UniversitiesPage /> },
+  { path: "/universities/:slug", element: <UniversityPage /> },
 ]);
 
 createRoot(document.getElementById("root")!).render(

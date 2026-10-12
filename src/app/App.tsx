@@ -7,6 +7,7 @@ import { SFDashboardShowcase } from './components/scholarflow/SFDashboardShowcas
 import { SFHowItWorks } from './components/scholarflow/SFHowItWorks';
 import { SFTrust } from './components/scholarflow/SFTrust';
 import { SFTrialCTA } from './components/scholarflow/SFTrialCTA';
+import { SFUniversities } from './components/scholarflow/SFUniversities';
 import { SFAbout } from './components/scholarflow/SFAbout';
 
 function Home() {
@@ -19,6 +20,7 @@ function Home() {
       <SFDashboardShowcase />
       <SFHowItWorks />
       <SFTrust />
+      <SFUniversities />
       <SFTrialCTA onTrial={openTrial} />
       <SFAbout />
     </>

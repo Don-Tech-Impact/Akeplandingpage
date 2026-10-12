@@ -3,10 +3,11 @@ import { Menu, X } from 'lucide-react';
 import { SFLogo } from './SFUI';
 import { NAVY, ORANGE } from './theme';
 
-const SECTIONS = [
+const SECTIONS: { label: string; id: string; page?: string }[] = [
   { label: 'Features', id: 'features' },
   { label: 'Dashboards', id: 'dashboards' },
   { label: 'How It Works', id: 'how-it-works' },
+  { label: 'Universities', id: 'universities', page: '/universities' },
   { label: 'About', id: 'about' },
   { label: 'Contact', id: 'contact' },
 ];
@@ -65,7 +66,7 @@ export function SFNav({ isHome = true, onTrial }: { isHome?: boolean; onTrial: (
           {SECTIONS.map((s) => (
             <a
               key={s.id}
-              href={linkHref(s.id)}
+              href={s.page ?? linkHref(s.id)}
               className="text-sm font-medium transition-colors"
               style={{
                 color: active === s.id ? ORANGE : 'rgba(255,255,255,0.8)',
@@ -116,7 +117,7 @@ export function SFNav({ isHome = true, onTrial }: { isHome?: boolean; onTrial: (
           {SECTIONS.map((s) => (
             <a
               key={s.id}
-              href={linkHref(s.id)}
+              href={s.page ?? linkHref(s.id)}
               onClick={() => setOpen(false)}
               className="py-2.5 text-sm font-medium"
               style={{ color: 'rgba(255,255,255,0.85)' }}
