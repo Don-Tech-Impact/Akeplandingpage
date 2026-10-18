@@ -74,4 +74,30 @@ For your Amplify frontend deployment, set:
 - `VITE_API_BASE_URL=https://api.akepapp.com`
 
 This keeps frontend and backend fully decoupled.
+
+## Search and social sharing
+
+The official public address is `https://www.akepapp.com`. `npm run build`
+generates page-specific HTML metadata, `robots.txt` and `sitemap.xml` using
+`src/seo.json`. Keep the manifest in sync when adding public routes.
+Metadata is available without JavaScript; page content still renders in React.
+University profiles are dynamic and are not included in the static sitemap.
+
+The social preview uses `public/og-image.png` (1200 x 630); its editable source
+is `public/og-image.svg`. Update both when changing the artwork.
+
+After deploying:
+
+1. Redirect alternative public domains to `https://www.akepapp.com`, preserving
+   paths. Configure redirects in Cloudflare; do not redirect the API or dashboard.
+2. Verify `akepapp.com` as a Domain property in Google Search Console using the
+   supplied DNS TXT record. Submit `https://www.akepapp.com/sitemap.xml`.
+3. Inspect the homepage URL and request indexing. Indexing and rankings are not
+   guaranteed by submitting a sitemap.
+4. Test shared links with LinkedIn Post Inspector and check the preview image.
+5. Publish helpful, accurate content for university research teams and earn
+   relevant links. Social shares do not guarantee a Google ranking.
+
+Search Console verification, Cloudflare redirects and social account ownership
+must be configured in the respective accounts; this build does not set them up.
   

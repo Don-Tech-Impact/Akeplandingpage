@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router";
+import { PageMetadata } from "./app/components/PageMetadata";
 import App from "./app/App.tsx";
 import { FeaturesPage } from "./app/pages/FeaturesPage.tsx";
 import { HowItWorksPage } from "./app/pages/HowItWorksPage.tsx";
@@ -12,15 +13,20 @@ import { PricingPage } from "./app/pages/PricingPage.tsx";
 import "./styles/index.css";
 
 const router = createBrowserRouter([
-  { path: "/", element: <App /> },
-  { path: "/features", element: <FeaturesPage /> },
-  { path: "/how-it-works", element: <HowItWorksPage /> },
-  { path: "/security", element: <SecurityPage /> },
-  { path: "/use-cases", element: <UseCasesPage /> },
-  { path: "/about", element: <AboutPage /> },
-  { path: "/pricing", element: <PricingPage /> },
-  { path: "/universities", element: <UniversitiesPage /> },
-  { path: "/universities/:slug", element: <UniversityPage /> },
+  {
+    element: <><PageMetadata /><Outlet /></>,
+    children: [
+      { path: "/", element: <App /> },
+      { path: "/features", element: <FeaturesPage /> },
+      { path: "/how-it-works", element: <HowItWorksPage /> },
+      { path: "/security", element: <SecurityPage /> },
+      { path: "/use-cases", element: <UseCasesPage /> },
+      { path: "/about", element: <AboutPage /> },
+      { path: "/pricing", element: <PricingPage /> },
+      { path: "/universities", element: <UniversitiesPage /> },
+      { path: "/universities/:slug", element: <UniversityPage /> },
+    ],
+  },
 ]);
 
 createRoot(document.getElementById("root")!).render(

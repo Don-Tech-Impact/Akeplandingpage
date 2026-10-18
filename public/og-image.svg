@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#15283c"/>
+  <rect x="64" y="64" width="8" height="502" rx="4" fill="#ef8821"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="112" y="156" fill="#ef8821" font-size="26" font-weight="bold">BUILT FOR AFRICAN RESEARCH UNIVERSITIES</text>
+    <text x="112" y="264" fill="#ffffff" font-size="78" font-weight="bold">ScholarFlow</text>
+    <text x="112" y="345" fill="#ffffff" font-size="38">Research progress. Clearer supervision.</text>
+    <text x="112" y="404" fill="#c5d4e3" font-size="30">Dissertation management for university teams.</text>
+    <text x="112" y="523" fill="#ef8821" font-size="28">www.akepapp.com</text>
+  </g>
+</svg>

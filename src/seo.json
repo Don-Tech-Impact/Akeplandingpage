@@ -1,0 +1,37 @@
+{
+  "origin": "https://www.akepapp.com",
+  "pages": {
+    "/": {
+      "title": "ScholarFlow | Dissertation Management for African Universities",
+      "description": "Manage PhD progress, supervisor workflows and dissertation reviews with ScholarFlow. Explore a 60-day trial for your university research office."
+    },
+    "/features": {
+      "title": "Research Management Features | ScholarFlow",
+      "description": "Explore tools for dissertation management, postgraduate progress tracking and supervisor workflows for university research offices."
+    },
+    "/how-it-works": {
+      "title": "How ScholarFlow Works | University Research Management",
+      "description": "Discover how ScholarFlow helps universities organize postgraduate research, coordinate supervision and manage dissertation workflows."
+    },
+    "/security": {
+      "title": "Security and Data Protection | ScholarFlow",
+      "description": "Learn about ScholarFlow's approach to security, access controls and protecting university research data."
+    },
+    "/use-cases": {
+      "title": "University Research Management Use Cases | ScholarFlow",
+      "description": "Explore how university research offices and supervisors can use ScholarFlow to coordinate postgraduate research and dissertation reviews."
+    },
+    "/about": {
+      "title": "About AKEP and ScholarFlow",
+      "description": "Meet the team behind ScholarFlow and learn about our mission to support research management at African universities."
+    },
+    "/pricing": {
+      "title": "Plans and Pricing | ScholarFlow",
+      "description": "Explore plans for your institution's research management needs and request a ScholarFlow demonstration."
+    },
+    "/universities": {
+      "title": "Partner Universities | ScholarFlow",
+      "description": "Explore the ScholarFlow university directory and learn more about participating institutions."
+    }
+  }
+}
