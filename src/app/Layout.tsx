@@ -8,8 +8,8 @@ import { Toaster } from './components/ui/sonner';
 function LayoutInner({ children }: { children: React.ReactNode }) {
   const [scrollPct, setScrollPct] = useState(0);
   const { pathname } = useLocation();
-  const isHome = pathname === '/';
-  const { openTrial } = useSFModal();
+  const isHome = pathname === '/' || pathname === '/fr' || pathname === '/fr/';
+  const { openDemo } = useSFModal();
 
   // Scroll to top on route change (but preserve anchor jumps).
   useEffect(() => {
@@ -34,7 +34,7 @@ function LayoutInner({ children }: { children: React.ReactNode }) {
         className="fixed top-0 left-0 z-[100] h-0.5 pointer-events-none"
         style={{ width: `${scrollPct}%`, background: '#E8892B', transition: 'width 80ms linear' }}
       />
-      <SFNav isHome={isHome} onTrial={openTrial} />
+      <SFNav isHome={isHome} onDemo={openDemo} />
       {/* Spacer so fixed nav doesn't cover content on non-home routes */}
       {!isHome && <div style={{ height: 72, background: '#1A3C5E' }} />}
       {children}

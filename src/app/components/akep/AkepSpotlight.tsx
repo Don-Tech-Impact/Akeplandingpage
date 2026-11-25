@@ -24,15 +24,14 @@ const spots: Spot[] = [
     mock: 'submission',
   },
   {
-    eyebrow: 'AI Detection',
-    title: 'Catch overlap before defense, not after',
+    eyebrow: 'Topic review',
+    title: 'Review potential topic overlap',
     body:
-      'A semantic similarity engine cross-checks every submission against your archive and external sources, flagging plagiarism and AI-generated text with confidence scores.',
+      'Compare a proposed research topic with existing topics to help academic staff review potential overlap. Chapter plagiarism scanning is coming soon.',
     bullets: [
-      'Semantic similarity beyond keyword match',
-      'Confidence scoring with passage-level highlights',
-      'AI-generated text detection signal',
-      'Reviewer workflow for accept / dispute / escalate',
+      'Compare proposed topics with existing topics',
+      'Support academic review of potential topic overlap',
+      'Keep academic decisions with authorized staff',
     ],
     mock: 'duplicate',
   },
@@ -40,7 +39,7 @@ const spots: Spot[] = [
     eyebrow: 'Supervisor Matching',
     title: 'Match students to supervisors that actually fit',
     body:
-      'AKEP ranks supervisors by topical fit, current load, and availability — so deans assign in minutes instead of weeks of back-and-forth.',
+      'ScholarFlow helps institutions consider topical fit, current load, and availability when coordinating supervisor assignments.',
     bullets: [
       'Topical fit from supervisor publications',
       'Live workload caps and term availability',
@@ -51,9 +50,9 @@ const spots: Spot[] = [
   },
   {
     eyebrow: 'Reporting',
-    title: 'Accreditation-ready reports in one click',
+    title: 'Reporting for institutional review',
     body:
-      'Every action is logged. Dashboards and exports map to common accreditation frameworks — turn weeks of report prep into a single export.',
+      'Use workflow activity, dashboards, and available exports to review postgraduate research progress and prepare institutional reporting.',
     bullets: [
       'Pre-built templates for accreditation cycles',
       'CSV / PDF exports with audit signature',
@@ -114,37 +113,23 @@ function MockDuplicate() {
       style={{ background: 'white', border: `1px solid ${BORDER}` }}
     >
       <div className="flex items-center gap-2 text-sm" style={{ color: MUTED }}>
-        <Sparkles size={14} style={{ color: PURPLE }} /> AI similarity scan
+        <Sparkles size={14} style={{ color: PURPLE }} /> AI topic-overlap check
       </div>
       <div className="mt-4">
         <div className="text-sm" style={{ color: INK }}>
           "Machine Learning Applications in Sub-Saharan Agriculture"
         </div>
         <div className="text-xs mt-0.5" style={{ color: MUTED }}>
-          12,438 documents compared · 3.2s
+          Illustrative topic comparison
         </div>
       </div>
       <div className="mt-4 space-y-2">
         {[
-          { src: 'ML for crop yield prediction (2023)', score: 87 },
-          { src: 'Smart irrigation: a Sahel study (2022)', score: 54 },
-          { src: 'AI in West African agritech (2024)', score: 31 },
+          'ML for crop yield prediction (2023)',
+          'Smart irrigation: a Sahel study (2022)',
+          'AI in West African agritech (2024)',
         ].map((d) => (
-          <div key={d.src}>
-            <div className="flex justify-between text-xs" style={{ color: INK }}>
-              <span>{d.src}</span>
-              <span style={{ color: PURPLE }}>{d.score}%</span>
-            </div>
-            <div className="mt-1 h-1.5 rounded-full" style={{ background: PURPLE_SOFT }}>
-              <div
-                className="h-full rounded-full"
-                style={{
-                  width: `${d.score}%`,
-                  background: `linear-gradient(90deg, ${PURPLE}, #A78BFA)`,
-                }}
-              />
-            </div>
-          </div>
+          <div key={d} className="text-xs" style={{ color: INK }}>{d}</div>
         ))}
       </div>
     </div>
@@ -257,7 +242,7 @@ export function AkepSpotlight() {
         <div className="text-center mb-16 max-w-2xl mx-auto">
           <SectionEyebrow>Product</SectionEyebrow>
           <h2 className="mt-4" style={{ color: INK, letterSpacing: '-0.01em' }}>
-            A closer look at the workflows AKEP automates
+            A closer look at ScholarFlow workflows
           </h2>
         </div>
 

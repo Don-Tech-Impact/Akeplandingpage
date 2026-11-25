@@ -1,33 +1,11 @@
-import { useState } from 'react';
-import { toast } from 'sonner';
 import { ArrowRight } from 'lucide-react';
 import { DARK } from './AkepUI';
-import { submitWaitlist } from '../../lib/api';
+import { useI18n } from '../../../i18n/I18nProvider';
+import { useSFModal } from '../scholarflow/SFModalProvider';
 
 export function AkepWaitlist() {
-  const [email, setEmail] = useState('');
-  const [org, setOrg] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setIsSubmitting(true);
-    try {
-      await submitWaitlist({
-        email,
-        institution: org,
-        source: 'Homepage waitlist section',
-      });
-      toast.success(`You're on the list, ${org || 'friend'}! We'll be in touch.`);
-      setEmail('');
-      setOrg('');
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Failed to join waitlist');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const { t } = useI18n();
+  const { openPilot } = useSFModal();
 
   return (
     <section id="waitlist" className="relative py-24 px-6 overflow-hidden" style={{ background: DARK }}>
@@ -48,49 +26,21 @@ export function AkepWaitlist() {
       />
       <div className="relative max-w-3xl mx-auto text-center">
         <h2 className="text-white" style={{ letterSpacing: '-0.01em' }}>
-          Your university could be live on AKEP in 24 hours
+          {t('waitlist.title')}
         </h2>
         <p className="mt-4 text-white/70">
-          Join 40+ research offices already on the waitlist. Early access is free — includes
-          onboarding and 6 months of University-tier access on launch.
+          {t('waitlist.body')}
         </p>
-        <form
-          onSubmit={submit}
-          className="mt-8 flex flex-col sm:flex-row gap-3 max-w-xl mx-auto"
-        >
-          <input
-            type="text"
-            value={org}
-            onChange={(e) => setOrg(e.target.value)}
-            placeholder="University name"
-            className="flex-1 px-4 py-3 rounded-lg text-white placeholder-white/40 outline-none border focus:border-white/40"
-            style={{
-              borderColor: 'rgba(255,255,255,0.12)',
-              backgroundColor: 'rgba(255,255,255,0.05)',
-            }}
-          />
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@university.edu"
-            className="flex-1 px-4 py-3 rounded-lg text-white placeholder-white/40 outline-none border focus:border-white/40"
-            style={{
-              borderColor: 'rgba(255,255,255,0.12)',
-              backgroundColor: 'rgba(255,255,255,0.05)',
-            }}
-          />
+        <div className="mt-8">
           <button
-            type="submit"
-            disabled={isSubmitting}
-            className="px-5 py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition"
+            type="button"
+            onClick={openPilot}
+            className="px-5 py-3 rounded-lg inline-flex items-center justify-center gap-2 hover:opacity-90 transition"
             style={{ background: 'white', color: DARK }}
           >
-            {isSubmitting ? 'Submitting…' : 'Reserve My Spot'} <ArrowRight size={16} />
+            {t('waitlist.submit')} <ArrowRight size={16} />
           </button>
-        </form>
-        <p className="mt-4 text-xs text-white/45">No spam. Unsubscribe anytime.</p>
+        </div>
       </div>
     </section>
   );

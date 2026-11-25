@@ -3,23 +3,23 @@ import { SectionEyebrow } from './AkepUI';
 const steps = [
   {
     n: '01',
-    title: 'Onboard your university',
-    desc: 'Connect SSO, import faculties and your existing dissertation archive. No IT team needed — live in under 24 hours.',
+    title: 'Scope your workflows',
+    desc: 'Identify the teams, research stages, access needs, and existing records relevant to your evaluation.',
   },
   {
     n: '02',
-    title: 'AI screens every submission',
-    desc: 'Every new dissertation is automatically checked for duplicates, formatting compliance, and metadata completeness.',
+    title: 'Configure review steps',
+    desc: 'Agree how submissions, review stages, and milestone updates should be handled by your institution.',
   },
   {
     n: '03',
-    title: 'Workflows run themselves',
-    desc: 'Supervisors are notified, defenses are scheduled, signatures collected — no email chains, no chasing.',
+    title: 'Bring teams into the process',
+    desc: 'Introduce the agreed workflow to graduate-school staff, departments, supervisors, and students.',
   },
   {
     n: '04',
-    title: 'Everyone sees what they need',
-    desc: 'Deans track every dissertation in real time. Faculty see their workload. Students see their deadlines.',
+    title: 'Review progress and next steps',
+    desc: 'Assess workflow visibility and reporting against the evaluation goals agreed with your institution.',
   },
 ];
 
@@ -41,7 +41,7 @@ export function AkepHowItWorks() {
         <div className="text-center mb-16 max-w-2xl mx-auto">
           <SectionEyebrow>How it works</SectionEyebrow>
           <h2 className="mt-4 text-white" style={{ letterSpacing: '-0.01em' }}>
-            Live in One Day. Fully Automated by Week One.
+            A structured rollout, aligned to your institution.
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

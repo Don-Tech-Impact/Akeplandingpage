@@ -2,8 +2,10 @@ import { ArrowUpRight, MapPin } from 'lucide-react';
 import { Link } from 'react-router';
 import { assetUrl, placeOf, type PublicUniversity } from '../../lib/universities';
 import { NAVY, ORANGE, MUTED, BORDER } from '../scholarflow/theme';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 export function UniversityLogo({ u, size = 56 }: { u: PublicUniversity; size?: number }) {
+  const { t } = useI18n();
   const src = assetUrl(u.logo_url);
   const initials = u.name
     .split(/\s+/)
@@ -23,7 +25,7 @@ export function UniversityLogo({ u, size = 56 }: { u: PublicUniversity; size?: n
       }}
     >
       {src ? (
-        <img src={src} alt={`${u.name} logo`} className="w-full h-full object-contain p-1.5" loading="lazy" />
+        <img src={src} alt={t('universities.logo', { name: u.name })} className="w-full h-full object-contain p-1.5" loading="lazy" />
       ) : (
         <span className="font-bold" style={{ color: NAVY, fontSize: size * 0.34 }}>
           {initials}
@@ -34,10 +36,11 @@ export function UniversityLogo({ u, size = 56 }: { u: PublicUniversity; size?: n
 }
 
 export function UniversityCard({ u }: { u: PublicUniversity }) {
+  const { localizePath, language } = useI18n();
   const place = placeOf(u);
   return (
     <Link
-      to={`/universities/${u.slug}`}
+      to={localizePath(`/universities/${u.slug}`)}
       className="group flex flex-col rounded-2xl bg-white p-6 transition-all duration-200 hover:-translate-y-0.5"
       style={{ border: `1px solid ${BORDER}`, boxShadow: '0 1px 2px rgba(17,24,39,0.04)' }}
     >
@@ -55,7 +58,7 @@ export function UniversityCard({ u }: { u: PublicUniversity }) {
       </h3>
       {u.motto && (
         <p className="mt-1 text-sm italic" style={{ color: MUTED }}>
-          &ldquo;{u.motto}&rdquo;
+          {language === 'fr' ? `« ${u.motto} »` : `“${u.motto}”`}
         </p>
       )}
 

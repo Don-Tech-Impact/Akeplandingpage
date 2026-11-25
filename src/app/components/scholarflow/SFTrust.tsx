@@ -1,4 +1,4 @@
-import { FileText, BadgeCheck, ShieldCheck } from 'lucide-react';
+import { FileText, GraduationCap, Users } from 'lucide-react';
 import { Eyebrow, SectionHeading, cardBorder } from './SFUI';
 import { Reveal } from './Reveal';
 import { NAVY, ORANGE, MUTED } from './theme';
@@ -10,14 +10,14 @@ const creds = [
     body: '\u201CZero-Trust Boot Protocol for IoT Devices\u201D presented at ECCS 2026, European Conference on Cyber Security, Vienna, Austria.',
   },
   {
-    icon: BadgeCheck,
-    title: 'ISO 27001 Lead Auditor',
-    body: 'Certified February 2026. ScholarFlow is built on information security controls aligned with international standards.',
+    icon: GraduationCap,
+    title: 'Academic Background',
+    body: 'The founding team brings postgraduate study and research experience in AI and cybersecurity.',
   },
   {
-    icon: ShieldCheck,
-    title: 'Security-First Architecture',
-    body: 'Built on a modern, zero-trust stack — FastAPI, Next.js, PostgreSQL/pgvector, and AWS — with encryption, audit trails, and access controls designed for sensitive research data.',
+    icon: Users,
+    title: 'Institutional Focus',
+    body: 'ScholarFlow was developed after engagement with research offices across Africa.',
   },
 ];
 
@@ -26,8 +26,8 @@ export function SFTrust() {
     <section className="py-24 px-6" style={{ background: '#FFFFFF' }}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <Eyebrow>Why Trust Us</Eyebrow>
-          <SectionHeading>Built by Researchers, for Research Institutions</SectionHeading>
+          <Eyebrow>About AKEP Technologies</Eyebrow>
+          <SectionHeading>Meet the team and the thinking behind ScholarFlow</SectionHeading>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

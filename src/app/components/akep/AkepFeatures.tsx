@@ -4,33 +4,33 @@ import { INK, MUTED, PURPLE, BORDER, PURPLE_SOFT, SectionEyebrow } from './AkepU
 const features = [
   {
     icon: Brain,
-    title: 'Catch Plagiarism Before It Reaches a Supervisor',
-    desc: 'Semantic similarity engine compares every new submission against your full archive — catching plagiarism and overlap in seconds.',
+    title: 'Compare research topics for academic review',
+    desc: 'Compare a proposed topic with existing topics to help academic staff review potential overlap. Chapter plagiarism scanning is coming soon.',
   },
   {
     icon: Users,
-    title: 'Match Students to Supervisors in Seconds, Not Weeks',
-    desc: 'Match students to supervisors based on research interests, workload, and availability — without spreadsheets.',
+    title: 'Coordinate student and supervisor assignments',
+    desc: 'Bring research interests, supervisor workload, and availability into the assignment workflow.',
   },
   {
     icon: Workflow,
-    title: 'Zero Email Chains — Every Approval Tracked Automatically',
-    desc: 'From submission to defense, every approval, signature, and deadline is tracked automatically.',
+    title: 'Track approvals and milestones',
+    desc: 'Keep submission status, review steps, and deadlines visible through the research workflow.',
   },
   {
     icon: FileSearch,
-    title: 'Search 10 Years of Dissertations in Under 3 Seconds',
-    desc: 'Full-text search across years of dissertations with filters by faculty, topic, supervisor, and year.',
+    title: 'Find dissertation records',
+    desc: 'Search and review dissertation records using the information your institution keeps in ScholarFlow.',
   },
   {
     icon: ShieldCheck,
-    title: 'Accreditation-Ready Audit Reports — One Click',
-    desc: 'Every action logged. Export accreditation-ready audit reports in one click.',
+    title: 'Review activity and reporting',
+    desc: 'Use recorded workflow activity and available reports to support internal review and institutional reporting.',
   },
   {
     icon: LineChart,
-    title: 'Deans See Every Submission’s Status at a Glance',
-    desc: 'KPIs for deans and program directors — submissions, completion rates, supervisor load.',
+    title: 'Monitor progress across programmes',
+    desc: 'Give authorized leaders a view of submission status, programme progress, and supervisor workload.',
   },
 ];
 
@@ -44,8 +44,8 @@ export function AkepFeatures() {
             Replace Spreadsheets and Email Chains With One Platform
           </h2>
           <p className="mt-4 max-w-2xl mx-auto" style={{ color: MUTED }}>
-            AKEP replaces a dozen disconnected tools — Word templates, email chains, shared drives —
-            with a single, AI-powered workspace.
+            ScholarFlow, a product of AKEP Technologies, brings postgraduate research milestones,
+            supervision workflows, and progress reporting into one workspace.
           </p>
         </div>
 

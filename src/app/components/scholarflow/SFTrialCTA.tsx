@@ -1,11 +1,11 @@
 import { ArrowRight } from 'lucide-react';
 import { NAVY, NAVY_DEEP, ORANGE, FONT_HEAD } from './theme';
 
-export function SFTrialCTA({ onTrial }: { onTrial: () => void }) {
+export function SFTrialCTA({ onPilot }: { onPilot: () => void }) {
   const points = [
-    'Full platform access — nothing restricted',
-    'Onboarding workshop included',
-    'Data export guaranteed at trial end',
+    'Agree an evaluation scope',
+    'Set success measures before launch',
+    'Review implementation and data needs',
   ];
   return (
     <section
@@ -27,10 +27,10 @@ export function SFTrialCTA({ onTrial }: { onTrial: () => void }) {
             letterSpacing: '-0.02em',
           }}
         >
-          90 Days. Free. No Risk.
+          Explore an Institutional Pilot
         </h2>
         <p className="mt-4 text-lg font-medium" style={{ color: ORANGE }}>
-          See what ScholarFlow does for your research office — before you commit to anything.
+          Discuss your goals, requirements, and how your institution could evaluate ScholarFlow.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10 mb-10">
@@ -46,11 +46,11 @@ export function SFTrialCTA({ onTrial }: { onTrial: () => void }) {
         </div>
 
         <button
-          onClick={onTrial}
+          onClick={onPilot}
           className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold text-base transition-all hover:opacity-95"
           style={{ background: ORANGE, color: '#FFFFFF', boxShadow: '0 10px 30px rgba(232,137,43,0.45)' }}
         >
-          Request Your Free Trial <ArrowRight size={18} />
+          Discuss a Pilot <ArrowRight size={18} />
         </button>
 
         <p className="mt-6 text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>

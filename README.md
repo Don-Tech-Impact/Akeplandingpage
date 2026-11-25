@@ -46,6 +46,21 @@ npm run dev:api
 
 The frontend sends form submissions to `VITE_API_BASE_URL` (default `http://localhost:8787`).
 
+## Demo and pilot enquiries
+
+The institutional form requires a name, email, institution and role. Country,
+goal and additional details are optional. Both `/api/contact` and
+`/api/waitlist` accept these fields and enforce the required fields when
+`formType` is `institutional`; older email-only submissions remain supported.
+Notifications include the submitted qualification fields.
+
+After both emails are accepted by the email provider, the site displays a
+confirmation page. The email address is passed in browser navigation state,
+not in the URL. The booking button is disabled until a booking link is supplied.
+Deploy the updated email API before deploying the frontend so it does not discard
+the new fields. The French site remains a work in progress and should not be
+published until its outstanding translations and reviews are complete.
+
 ## Backend deployment (email API)
 
 The repository includes `render.yaml` configured to deploy `server/` as a web service, but your current production API is the `api.akepapp.com` subdomain.

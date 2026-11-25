@@ -2,20 +2,26 @@ import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { SFLogo } from './SFUI';
 import { NAVY, ORANGE } from './theme';
+import { useI18n } from '../../../i18n/I18nProvider';
+import { LanguageSwitch } from '../../../i18n/LanguageSwitch';
+import type { MessageKey } from '../../../i18n/en';
 
-const SECTIONS: { label: string; id: string; page?: string }[] = [
-  { label: 'Features', id: 'features' },
-  { label: 'Dashboards', id: 'dashboards' },
-  { label: 'How It Works', id: 'how-it-works' },
-  { label: 'Universities', id: 'universities', page: '/universities' },
-  { label: 'About', id: 'about' },
-  { label: 'Contact', id: 'contact' },
+const SECTIONS: { label: MessageKey; id: string; page?: string }[] = [
+  { label: 'nav.features', id: 'features' },
+  { label: 'nav.dashboards', id: 'dashboards' },
+  { label: 'nav.how', id: 'how-it-works' },
+  { label: 'nav.universities', id: 'universities', page: '/universities' },
+  { label: 'nav.security', id: 'security', page: '/security' },
+  { label: 'nav.pricing', id: 'pricing', page: '/pricing' },
+  { label: 'nav.about', id: 'about' },
+  { label: 'nav.contact', id: 'contact' },
 ];
 
-export function SFNav({ isHome = true, onTrial }: { isHome?: boolean; onTrial: () => void }) {
+export function SFNav({ isHome = true, onDemo }: { isHome?: boolean; onDemo: () => void }) {
   const [scrolled, setScrolled] = useState(!isHome);
   const [active, setActive] = useState('');
   const [open, setOpen] = useState(false);
+  const { t, localizePath } = useI18n();
 
   useEffect(() => {
     if (!isHome) {
@@ -47,7 +53,7 @@ export function SFNav({ isHome = true, onTrial }: { isHome?: boolean; onTrial: (
   }, [isHome]);
 
   const solid = scrolled;
-  const linkHref = (id: string) => (isHome ? `#${id}` : `/#${id}`);
+  const linkHref = (id: string) => (isHome ? `#${id}` : `${localizePath('/')}#${id}`);
 
   return (
     <nav
@@ -58,53 +64,56 @@ export function SFNav({ isHome = true, onTrial }: { isHome?: boolean; onTrial: (
       }}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between" style={{ height: 72 }}>
-        <a href={isHome ? '#top' : '/'} aria-label="ScholarFlow home">
+        <a href={isHome ? '#top' : localizePath('/')} aria-label={t('nav.home')}>
           <SFLogo light />
         </a>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden xl:flex items-center gap-4">
           {SECTIONS.map((s) => (
             <a
               key={s.id}
-              href={s.page ?? linkHref(s.id)}
+              href={s.page ? localizePath(s.page) : linkHref(s.id)}
               className="text-sm font-medium transition-colors"
               style={{
                 color: active === s.id ? ORANGE : 'rgba(255,255,255,0.8)',
               }}
             >
-              {s.label}
+              {t(s.label)}
             </a>
           ))}
         </div>
 
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden xl:flex items-center gap-4">
+          <LanguageSwitch />
           <a
             href="https://dash.akepapp.com"
             className="text-sm font-medium transition-colors"
             style={{ color: 'rgba(255,255,255,0.7)' }}
           >
-            Sign in
+            {t('nav.signIn')}
           </a>
           <button
-            onClick={onTrial}
+            onClick={onDemo}
             className="px-5 py-2.5 rounded-lg text-sm font-semibold transition-all hover:opacity-90"
             style={{ background: ORANGE, color: '#FFFFFF', boxShadow: '0 4px 14px rgba(232,137,43,0.4)' }}
           >
-            Start Free Trial
+            {t('nav.demo')}
           </button>
         </div>
 
-        <div className="flex md:hidden items-center gap-3">
+        <div className="flex xl:hidden items-center gap-3">
           <button
-            onClick={onTrial}
+            onClick={onDemo}
             className="px-4 py-2 rounded-lg text-xs font-semibold"
             style={{ background: ORANGE, color: '#FFFFFF' }}
           >
-            Free Trial
+            {t('nav.demo')}
           </button>
           <button
             onClick={() => setOpen(!open)}
-            aria-label="Toggle menu"
+            aria-label={t('nav.menu')}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
             style={{ color: '#FFFFFF' }}
           >
             {open ? <X size={24} /> : <Menu size={24} />}
@@ -113,16 +122,16 @@ export function SFNav({ isHome = true, onTrial }: { isHome?: boolean; onTrial: (
       </div>
 
       {open && (
-        <div className="md:hidden px-6 pb-5 flex flex-col gap-1" style={{ background: NAVY }}>
+        <div id="mobile-menu" className="xl:hidden px-6 pb-5 flex flex-col gap-1" style={{ background: NAVY }}>
           {SECTIONS.map((s) => (
             <a
               key={s.id}
-              href={s.page ?? linkHref(s.id)}
+              href={s.page ? localizePath(s.page) : linkHref(s.id)}
               onClick={() => setOpen(false)}
               className="py-2.5 text-sm font-medium"
               style={{ color: 'rgba(255,255,255,0.85)' }}
             >
-              {s.label}
+              {t(s.label)}
             </a>
           ))}
           <a
@@ -130,8 +139,9 @@ export function SFNav({ isHome = true, onTrial }: { isHome?: boolean; onTrial: (
             className="py-2.5 text-sm font-medium"
             style={{ color: 'rgba(255,255,255,0.7)' }}
           >
-            Sign in
+            {t('nav.signIn')}
           </a>
+          <LanguageSwitch />
         </div>
       )}
     </nav>

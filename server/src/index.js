@@ -2,13 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
-import { appendFileSync, mkdirSync } from "fs";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = join(__dirname, "../../data");
-const WAITLIST_LOG = join(DATA_DIR, "waitlist.jsonl");
+import { frenchConfirmation, frenchNotification } from "./email-fr.js";
 
 const app = express();
 // Behind ALB/Nginx, trust X-Forwarded-* headers for correct client IP handling.
@@ -133,13 +127,13 @@ function buildWaitlistEmail({ name, institution }) {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>You're on the AKEP waitlist</title>
+  <title>ScholarFlow pilot enquiry received</title>
 </head>
 <body style="margin:0; padding:0; background-color:#eef0f5; font-family:Arial, Helvetica, sans-serif;">
 
   <!-- Preheader (hidden preview text) -->
   <div style="display:none; max-height:0; overflow:hidden; opacity:0; color:transparent; font-size:1px; line-height:1px; mso-hide:all;">
-    ${hasInstitution ? `${institutionDisplay}'s` : 'Your'} AKEP waitlist spot is confirmed. 6 months free at launch — see what's coming.
+    ${hasInstitution ? `${institutionDisplay}'s` : 'Your'} ScholarFlow pilot enquiry has been received.
   </div>
 
   <!-- Outer wrapper -->
@@ -196,7 +190,7 @@ function buildWaitlistEmail({ name, institution }) {
 
               <!-- Headline -->
               <p style="margin:0 0 8px; font-family:Georgia,'Times New Roman',serif; font-size:26px; font-weight:700; color:#0D1B3E; text-align:center; letter-spacing:-0.02em;">
-                You're officially on the list
+                We’ve received your enquiry
               </p>
 
               ${hasInstitution ? `
@@ -212,8 +206,8 @@ function buildWaitlistEmail({ name, institution }) {
               ` : ''}
 
               <p style="margin:0 0 28px; font-family:Arial,sans-serif; font-size:14px; color:#475569; text-align:center; line-height:1.7;">
-                Hi <strong style="color:#0D1B3E;">${greeting}</strong> — your waitlist spot is confirmed.<br />
-                We'll reach out the moment AKEP opens for your cohort.
+                Hi <strong style="color:#0D1B3E;">${greeting}</strong> — we’ve received your ScholarFlow pilot enquiry.<br />
+                Our team will follow up to discuss next steps.
               </p>
 
               <!-- Early access callout -->
@@ -221,10 +215,10 @@ function buildWaitlistEmail({ name, institution }) {
                 <tr>
                   <td style="padding:16px 18px; background:#FFFBEB; border:1.5px solid #F59E0B; border-radius:10px;">
                     <p style="margin:0 0 5px; font-family:Arial,sans-serif; font-size:11px; font-weight:700; color:#92400E; text-transform:uppercase; letter-spacing:0.09em;">
-                      &#127942;&nbsp; Early Access Benefit
+                      Next steps
                     </p>
                     <p style="margin:0; font-family:Arial,sans-serif; font-size:14px; color:#78350F; line-height:1.6;">
-                      ${hasInstitution ? `<strong>${institutionDisplay}</strong> gets ` : 'Waitlist members get '}<strong>6 months of University-tier access free</strong> at launch, plus dedicated onboarding from our team.
+                      We’ll contact you about the evaluation scope, implementation requirements, and timing for your institution.
                     </p>
                   </td>
                 </tr>
@@ -323,7 +317,7 @@ function buildWaitlistEmail({ name, institution }) {
                 <tr>
                   <td style="padding:12px 14px; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px;">
                     <p style="margin:0; font-family:Arial,sans-serif; font-size:12px; color:#64748B; line-height:1.6;">
-                      If you didn't sign up for the AKEP waitlist, you can safely ignore this email — no account has been created and no further action is needed.
+                      If you didn't send a ScholarFlow pilot enquiry, you can safely ignore this email — no account has been created and no further action is needed.
                     </p>
                   </td>
                 </tr>
@@ -589,11 +583,16 @@ function buildDemoEmail({ name, institution }) {
 }
 
 /** Send demo confirmation to the user who requested it */
-async function sendDemoConfirmation({ to, name, institution }) {
+async function sendDemoConfirmation({ to, name, institution, language }) {
+  if (language === "fr") {
+    const confirmation = frenchConfirmation({ name, kind: "demo" });
+    await sendEmail({ to, fromName: "AKEP Team", ...confirmation });
+    return;
+  }
   const hasInstitution = typeof institution === "string" && institution.trim().length > 0;
   const subject = hasInstitution
-    ? `${institution.trim()} — your AKEP demo request is confirmed`
-    : "Your AKEP demo request is confirmed — we'll be in touch within 24h";
+    ? `${institution.trim()} — your ScholarFlow demo request is confirmed`
+    : "Your ScholarFlow demo request is confirmed — we'll be in touch within one business day";
   await sendEmail({
     to,
     fromName: "AKEP Team",
@@ -603,11 +602,16 @@ async function sendDemoConfirmation({ to, name, institution }) {
 }
 
 /** Send waitlist confirmation to the user who signed up */
-async function sendWaitlistConfirmation({ to, name, institution }) {
+async function sendWaitlistConfirmation({ to, name, institution, language }) {
+  if (language === "fr") {
+    const confirmation = frenchConfirmation({ name, kind: "pilot" });
+    await sendEmail({ to, fromName: "AKEP Team", ...confirmation });
+    return;
+  }
   await sendEmail({
     to,
     fromName: "AKEP Team",
-    subject: "You're on the AKEP waitlist",
+    subject: "ScholarFlow pilot enquiry received",
     html: buildWaitlistEmail({ name, institution }),
   });
 }
@@ -638,30 +642,28 @@ async function addToResendContacts({ email, name }) {
   }
 }
 
-/**
- * Append a waitlist entry to server/data/waitlist.jsonl
- * One JSON object per line — easy to parse, import to a spreadsheet, or migrate to a DB.
- * Non-fatal: a write failure never blocks the API response.
- */
-function appendToWaitlistLog(entry) {
-  try {
-    mkdirSync(DATA_DIR, { recursive: true });
-    appendFileSync(WAITLIST_LOG, JSON.stringify(entry) + "\n", "utf8");
-  } catch (err) {
-    console.error("waitlist_log_error", err.message);
-  }
-}
-
 app.get("/health", (_req, res) => {
   res.json({ ok: true });
 });
 
 app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
   try {
-    const { name, email, institution, role, country, source, challenge } = req.body || {};
+    const { name, email, institution, role, country, source, challenge, goal, formType, language = "en" } = req.body || {};
 
+    if (language !== "en" && language !== "fr") {
+      res.status(400).json({ ok: false, error: "Unsupported language." });
+      return;
+    }
     if (!validEmail(email)) {
       res.status(400).json({ ok: false, error: "A valid email address is required." });
+      return;
+    }
+    if (formType !== undefined && formType !== "institutional") {
+      res.status(400).json({ ok: false, error: "Unsupported form type." });
+      return;
+    }
+    if (formType === "institutional" && (!required(sanitise(name)) || !required(sanitise(institution)) || !required(sanitise(role)))) {
+      res.status(400).json({ ok: false, error: "Name, institution and role are required." });
       return;
     }
 
@@ -672,6 +674,7 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
     const safeCountry     = sanitise(country, 100);
     const safeSource      = sanitise(source, 100);
     const safeChallenge   = sanitise(challenge, 1000);
+    const safeGoal        = sanitise(goal);
 
     const lines = [
       "New waitlist submission",
@@ -683,34 +686,25 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
       `Country:     ${safeCountry     || "-"}`,
       `Source:      ${safeSource      || "-"}`,
       `Challenge:   ${safeChallenge   || "-"}`,
+      ...(safeGoal ? [`Goal:        ${safeGoal}`] : []),
       "",
       `Submitted at: ${new Date().toISOString()}`,
     ];
 
-    // Emails + Resend Contacts run in parallel.
-    // Contacts failure is non-fatal so it never blocks the response.
-    await Promise.all([
-      sendAdminNotification({
+    const notification = language === "fr"
+      ? frenchNotification({
+        kind: "pilot", name: safeName, email: email.trim(), institution: safeInstitution,
+        role: safeRole, country: safeCountry, source: safeSource,
+        challenge: safeChallenge, goal: safeGoal, submittedAt: new Date(),
+      })
+      : {
         subject: `[AKEP Waitlist] ${safeInstitution || email.trim()}`,
         body: lines.join("\n"),
-      }),
-      sendWaitlistConfirmation({ to: email.trim(), name: safeName, institution: safeInstitution }),
-      addToResendContacts({ email: email.trim(), name: safeName }).catch((e) =>
-        console.error("contacts_api_error", e.message)
-      ),
+      };
+    await Promise.all([
+      sendAdminNotification(notification),
+      sendWaitlistConfirmation({ to: email.trim(), name: safeName, institution: safeInstitution, language }),
     ]);
-
-    // Local JSONL backup — always non-fatal
-    appendToWaitlistLog({
-      name:        safeName        || null,
-      email:       email.trim(),
-      institution: safeInstitution || null,
-      role:        safeRole        || null,
-      country:     safeCountry     || null,
-      source:      safeSource      || null,
-      challenge:   safeChallenge   || null,
-      ts:          new Date().toISOString(),
-    });
 
     res.json({ ok: true });
   } catch (error) {
@@ -721,10 +715,22 @@ app.post("/api/waitlist", waitlistLimiter, async (req, res) => {
 
 app.post("/api/contact", contactLimiter, async (req, res) => {
   try {
-    const { name, email, institution, subject, message } = req.body || {};
+    const { name, email, institution, subject, message, role, country, goal, formType, language = "en" } = req.body || {};
 
+    if (language !== "en" && language !== "fr") {
+      res.status(400).json({ ok: false, error: "Unsupported language." });
+      return;
+    }
     if (!required(name) || !validEmail(email)) {
       res.status(400).json({ ok: false, error: "Name and a valid email are required." });
+      return;
+    }
+    if (formType !== undefined && formType !== "institutional") {
+      res.status(400).json({ ok: false, error: "Unsupported form type." });
+      return;
+    }
+    if (formType === "institutional" && (!required(sanitise(name)) || !required(sanitise(institution)) || !required(sanitise(role)))) {
+      res.status(400).json({ ok: false, error: "Name, institution and role are required." });
       return;
     }
 
@@ -732,6 +738,9 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
     const safeInstitution = sanitise(institution);
     const safeSubject     = sanitise(subject);
     const safeMessage     = sanitise(message, 2000);
+    const safeRole        = sanitise(role);
+    const safeCountry     = sanitise(country, 100);
+    const safeGoal        = sanitise(goal);
 
     const lines = [
       "New contact/demo submission",
@@ -739,18 +748,28 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
       `Name:        ${safeName}`,
       `Email:       ${email.trim()}`,
       `Institution: ${safeInstitution || "-"}`,
+      ...(safeRole ? [`Role:        ${safeRole}`] : []),
+      ...(safeCountry ? [`Country:     ${safeCountry}`] : []),
+      ...(safeGoal ? [`Goal:        ${safeGoal}`] : []),
       `Subject:     ${safeSubject     || "-"}`,
       `Message:     ${safeMessage     || "-"}`,
       "",
       `Submitted at: ${new Date().toISOString()}`,
     ];
 
-    await Promise.all([
-      sendAdminNotification({
+    const notification = language === "fr"
+      ? frenchNotification({
+        kind: "demo", name: safeName, email: email.trim(), institution: safeInstitution,
+        subject: safeSubject, message: safeMessage, role: safeRole, country: safeCountry,
+        goal: safeGoal, submittedAt: new Date(),
+      })
+      : {
         subject: `[AKEP Contact] ${safeSubject || safeName}`,
         body: lines.join("\n"),
-      }),
-      sendDemoConfirmation({ to: email.trim(), name: safeName, institution: safeInstitution }),
+      };
+    await Promise.all([
+      sendAdminNotification(notification),
+      sendDemoConfirmation({ to: email.trim(), name: safeName, institution: safeInstitution, language }),
     ]);
 
     res.json({ ok: true });
@@ -760,6 +779,6 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+export const server = app.listen(PORT, () => {
   console.log(`Email API listening on port ${PORT}`);
 });

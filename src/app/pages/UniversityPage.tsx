@@ -4,9 +4,18 @@ import { ArrowLeft, ExternalLink, GraduationCap, MapPin, Quote } from 'lucide-re
 import { Layout } from '../Layout';
 import { UniversityLogo } from '../components/universities/UniversityCard';
 import { NAVY, ORANGE, MUTED, BORDER } from '../components/scholarflow/theme';
-import { DEGREE_LABELS, fetchUniversity, placeOf, type PublicUniversity } from '../lib/universities';
+import { fetchUniversity, placeOf, type PublicUniversity } from '../lib/universities';
+import { useI18n } from '../../i18n/I18nProvider';
+import type { MessageKey } from '../../i18n/en';
+
+const degreeKeys: Record<string, MessageKey> = {
+  Certificate: 'degree.certificate', Diploma: 'degree.diploma',
+  HigherDiploma: 'degree.higher', AdvancedDiploma: 'degree.advanced',
+  Undergraduate: 'degree.undergraduate', Masters: 'degree.masters', PhD: 'degree.phd',
+};
 
 export function UniversityPage() {
+  const { t, localizePath } = useI18n();
   const { slug = '' } = useParams();
   const [u, setU] = useState<PublicUniversity | null>(null);
   const [state, setState] = useState<'loading' | 'ready' | 'missing' | 'error'>('loading');
@@ -30,13 +39,13 @@ export function UniversityPage() {
     <Layout>
       <section className="py-16 px-6">
         <div className="max-w-3xl mx-auto">
-          <Link to="/universities" className="inline-flex items-center gap-1.5 text-sm mb-8" style={{ color: MUTED }}>
-            <ArrowLeft size={15} /> All universities
+          <Link to={localizePath('/universities')} className="inline-flex items-center gap-1.5 text-sm mb-8" style={{ color: MUTED }}>
+            <ArrowLeft size={15} /> {t('universities.back')}
           </Link>
 
-          {state === 'loading' && <p className="text-sm" style={{ color: MUTED }}>Loading…</p>}
-          {state === 'missing' && <p className="text-sm" style={{ color: MUTED }}>This university isn&apos;t listed.</p>}
-          {state === 'error' && <p className="text-sm" style={{ color: MUTED }}>Something went wrong. Please try again.</p>}
+          {state === 'loading' && <p className="text-sm" style={{ color: MUTED }}>{t('universities.loading')}</p>}
+          {state === 'missing' && <p className="text-sm" style={{ color: MUTED }}>{t('universities.missing')}</p>}
+          {state === 'error' && <p className="text-sm" style={{ color: MUTED }}>{t('universities.error')}</p>}
 
           {state === 'ready' && u && (
             <article className="rounded-3xl bg-white p-8 sm:p-10" style={{ border: `1px solid ${BORDER}` }}>
@@ -65,7 +74,7 @@ export function UniversityPage() {
 
               {u.focus_areas.length > 0 && (
                 <div className="mt-8">
-                  <h2 className="text-xs font-semibold uppercase tracking-widest" style={{ color: MUTED }}>Focus areas</h2>
+                  <h2 className="text-xs font-semibold uppercase tracking-widest" style={{ color: MUTED }}>{t('universities.focus')}</h2>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {u.focus_areas.map((f) => (
                       <span key={f} className="rounded-full px-3 py-1.5 text-xs font-medium" style={{ background: '#EEF4FB', color: NAVY }}>
@@ -79,12 +88,12 @@ export function UniversityPage() {
               {u.degree_levels.length > 0 && (
                 <div className="mt-8">
                   <h2 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest" style={{ color: MUTED }}>
-                    <GraduationCap size={14} /> Degree levels
+                    <GraduationCap size={14} /> {t('universities.degrees')}
                   </h2>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {u.degree_levels.map((d) => (
                       <span key={d} className="rounded-full px-3 py-1.5 text-xs font-medium" style={{ border: `1px solid ${BORDER}`, color: NAVY }}>
-                        {DEGREE_LABELS[d] ?? d}
+                        {degreeKeys[d] ? t(degreeKeys[d]) : d}
                       </span>
                     ))}
                   </div>
@@ -99,7 +108,7 @@ export function UniversityPage() {
                   className="mt-10 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white"
                   style={{ background: ORANGE }}
                 >
-                  Visit website <ExternalLink size={14} />
+                  {t('universities.website')} <ExternalLink size={14} />
                 </a>
               )}
             </article>

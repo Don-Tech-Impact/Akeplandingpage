@@ -10,21 +10,31 @@ import { AboutPage } from "./app/pages/AboutPage.tsx";
 import { UniversitiesPage } from "./app/pages/UniversitiesPage.tsx";
 import { UniversityPage } from "./app/pages/UniversityPage.tsx";
 import { PricingPage } from "./app/pages/PricingPage.tsx";
+import { I18nProvider } from "./i18n/I18nProvider";
+import { NotFoundPage } from "./app/pages/NotFoundPage";
+import { ThankYouPage } from "./app/pages/ThankYouPage";
 import "./styles/index.css";
+
+const pages = [
+  { index: true, element: <App /> },
+  { path: "features", element: <FeaturesPage /> },
+  { path: "how-it-works", element: <HowItWorksPage /> },
+  { path: "security", element: <SecurityPage /> },
+  { path: "use-cases", element: <UseCasesPage /> },
+  { path: "about", element: <AboutPage /> },
+  { path: "pricing", element: <PricingPage /> },
+  { path: "universities", element: <UniversitiesPage /> },
+  { path: "universities/:slug", element: <UniversityPage /> },
+  { path: "thank-you", element: <ThankYouPage /> },
+  { path: "*", element: <NotFoundPage /> },
+];
 
 const router = createBrowserRouter([
   {
-    element: <><PageMetadata /><Outlet /></>,
+    element: <I18nProvider><PageMetadata /><Outlet /></I18nProvider>,
     children: [
-      { path: "/", element: <App /> },
-      { path: "/features", element: <FeaturesPage /> },
-      { path: "/how-it-works", element: <HowItWorksPage /> },
-      { path: "/security", element: <SecurityPage /> },
-      { path: "/use-cases", element: <UseCasesPage /> },
-      { path: "/about", element: <AboutPage /> },
-      { path: "/pricing", element: <PricingPage /> },
-      { path: "/universities", element: <UniversitiesPage /> },
-      { path: "/universities/:slug", element: <UniversityPage /> },
+      { path: "/", children: pages },
+      { path: "/fr", children: pages },
     ],
   },
 ]);

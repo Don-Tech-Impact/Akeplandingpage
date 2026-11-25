@@ -17,7 +17,7 @@ const team: Member[] = [
     name: 'Abdulai Tamba Lebbie',
     role: 'Founder & DevSecOps Engineer',
     photo: '/team/abdulai-tamba-lebbie.jpg',
-    bio: 'MSc in AI & Cybersecurity (University of Udine, Italy & University of Klagenfurt, Austria) and ISO 27001 Lead Auditor. Published at ECCS 2026, Vienna. He designs and secures the infrastructure that ScholarFlow runs on.',
+    bio: 'MSc in AI & Cybersecurity (University of Udine, Italy & University of Klagenfurt, Austria). Published at ECCS 2026, Vienna. Leads platform infrastructure and engineering.',
     linkedin: 'https://www.linkedin.com/in/abdulai-tamba-lebbie-9556919b/',
     email: 'atlebbie@gmail.com',
   },

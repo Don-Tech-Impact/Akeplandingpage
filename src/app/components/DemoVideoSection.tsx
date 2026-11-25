@@ -12,7 +12,7 @@ interface DemoVideoSectionProps {
 
 const chapters = [
   { time: '00:00', seconds: 0, label: 'University Onboarding', icon: Building2 },
-  { time: '00:45', seconds: 45, label: 'AI Duplicate Detection', icon: Sparkles },
+  { time: '00:45', seconds: 45, label: 'AI Topic-Overlap Checking', icon: Sparkles },
   { time: '01:30', seconds: 90, label: 'Supervisor Matching', icon: Users },
   { time: '02:15', seconds: 135, label: 'Dashboard & Reporting', icon: BarChart3 },
 ];

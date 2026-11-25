@@ -5,8 +5,10 @@ import { Eyebrow, SectionHeading } from '../components/scholarflow/SFUI';
 import { MUTED, BORDER } from '../components/scholarflow/theme';
 import { UniversityCard } from '../components/universities/UniversityCard';
 import { useUniversities } from '../components/universities/useUniversities';
+import { useI18n } from '../../i18n/I18nProvider';
 
 export function UniversitiesPage() {
+  const { t } = useI18n();
   const { items, error, loading } = useUniversities();
   const [q, setQ] = useState('');
 
@@ -24,10 +26,10 @@ export function UniversitiesPage() {
       <section className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <Eyebrow>Universities</Eyebrow>
-            <SectionHeading>Find your university on ScholarFlow</SectionHeading>
+            <Eyebrow>{t('universities.eyebrow')}</Eyebrow>
+            <SectionHeading>{t('universities.heading')}</SectionHeading>
             <p className="mt-4 text-sm" style={{ color: MUTED }}>
-              Institutions that manage dissertations with ScholarFlow.
+              {t('universities.body')}
             </p>
           </div>
 
@@ -36,22 +38,22 @@ export function UniversitiesPage() {
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Search by name, city or focus"
-              aria-label="Search universities"
+              placeholder={t('universities.search')}
+              aria-label={t('universities.searchLabel')}
               className="w-full rounded-full bg-white py-3 pl-11 pr-4 text-sm outline-none focus:ring-2"
               style={{ border: `1px solid ${BORDER}` }}
             />
           </div>
 
-          {loading && <p className="text-center text-sm" style={{ color: MUTED }}>Loading…</p>}
+          {loading && <p className="text-center text-sm" style={{ color: MUTED }}>{t('universities.loading')}</p>}
           {error && (
             <p className="text-center text-sm" style={{ color: MUTED }}>
-              We couldn&apos;t load universities right now. Please try again shortly.
+              {t('universities.loadError')}
             </p>
           )}
           {items && shown.length === 0 && (
             <p className="text-center text-sm" style={{ color: MUTED }}>
-              {items.length === 0 ? 'No universities are listed yet.' : 'No universities match your search.'}
+              {t(items.length === 0 ? 'universities.empty' : 'universities.noMatch')}
             </p>
           )}
 

@@ -2,36 +2,52 @@
   "origin": "https://www.akepapp.com",
   "pages": {
     "/": {
-      "title": "ScholarFlow | Dissertation Management for African Universities",
-      "description": "Manage PhD progress, supervisor workflows and dissertation reviews with ScholarFlow. Explore a 60-day trial for your university research office."
+      "title": "ScholarFlow | Graduate Research Management",
+      "description": "Coordinate postgraduate research milestones, supervision workflows and institutional progress reporting with ScholarFlow.",
+      "frTitle": "ScholarFlow | Gestion de la recherche de troisième cycle",
+      "frDescription": "Coordonnez les étapes de la recherche de troisième cycle, l’encadrement et le suivi institutionnel avec ScholarFlow."
     },
     "/features": {
       "title": "Research Management Features | ScholarFlow",
-      "description": "Explore tools for dissertation management, postgraduate progress tracking and supervisor workflows for university research offices."
+      "description": "Explore tools for dissertation management, postgraduate progress tracking and supervisor workflows for university research offices.",
+      "frTitle": "Fonctionnalités de gestion de la recherche | ScholarFlow",
+      "frDescription": "Découvrez les outils de gestion des mémoires, de suivi de la recherche de troisième cycle et d’encadrement universitaire."
     },
     "/how-it-works": {
       "title": "How ScholarFlow Works | University Research Management",
-      "description": "Discover how ScholarFlow helps universities organize postgraduate research, coordinate supervision and manage dissertation workflows."
+      "description": "Discover how ScholarFlow helps universities organize postgraduate research, coordinate supervision and manage dissertation workflows.",
+      "frTitle": "Fonctionnement de ScholarFlow | Gestion de la recherche universitaire",
+      "frDescription": "Découvrez comment ScholarFlow aide les universités à organiser la recherche de troisième cycle et à coordonner l’encadrement des mémoires."
     },
     "/security": {
-      "title": "Security and Data Protection | ScholarFlow",
-      "description": "Learn about ScholarFlow's approach to security, access controls and protecting university research data."
+      "title": "ScholarFlow Security and Data Protection | AKEP Technologies",
+      "description": "Discuss security, privacy, hosting and procurement requirements for a ScholarFlow university evaluation.",
+      "frTitle": "Sécurité et protection des données | ScholarFlow",
+      "frDescription": "Échangez avec AKEP sur vos exigences de sécurité, de confidentialité, d’hébergement et d’achat pour l’évaluation de ScholarFlow."
     },
     "/use-cases": {
       "title": "University Research Management Use Cases | ScholarFlow",
-      "description": "Explore how university research offices and supervisors can use ScholarFlow to coordinate postgraduate research and dissertation reviews."
+      "description": "Explore how university research offices and supervisors can use ScholarFlow to coordinate postgraduate research and dissertation reviews.",
+      "frTitle": "Cas d’utilisation pour les universités | ScholarFlow",
+      "frDescription": "Découvrez comment les directions de la recherche et les encadreurs peuvent coordonner la recherche de troisième cycle avec ScholarFlow."
     },
     "/about": {
       "title": "About AKEP and ScholarFlow",
-      "description": "Meet the team behind ScholarFlow and learn about our mission to support research management at African universities."
+      "description": "Meet the team behind ScholarFlow and learn about our mission to support research management at African universities.",
+      "frTitle": "À propos d’AKEP et de ScholarFlow",
+      "frDescription": "Découvrez l’équipe de ScholarFlow et sa mission au service de la gestion de la recherche dans les universités africaines."
     },
     "/pricing": {
-      "title": "Plans and Pricing | ScholarFlow",
-      "description": "Explore plans for your institution's research management needs and request a ScholarFlow demonstration."
+      "title": "Institutional Pricing | ScholarFlow by AKEP Technologies",
+      "description": "Discuss institutional licensing for ScholarFlow, tailored to postgraduate research scale, deployment requirements and support needs.",
+      "frTitle": "Tarifs institutionnels | ScholarFlow par AKEP Technologies",
+      "frDescription": "Demandez un devis pour une licence institutionnelle ScholarFlow adaptée à vos besoins de déploiement et d’accompagnement."
     },
     "/universities": {
       "title": "Partner Universities | ScholarFlow",
-      "description": "Explore the ScholarFlow university directory and learn more about participating institutions."
+      "description": "Explore the ScholarFlow university directory and learn more about participating institutions.",
+      "frTitle": "Annuaire des universités | ScholarFlow",
+      "frDescription": "Consultez l’annuaire ScholarFlow et découvrez les établissements universitaires qui y figurent."
     }
   }
 }

@@ -16,7 +16,7 @@ const SCENE_DURATION = 6000;
 
 const scenes = [
   { time: '00:00', label: 'University Onboarding' },
-  { time: '00:45', label: 'AI Duplicate Detection' },
+  { time: '00:45', label: 'AI Topic-Overlap Checking' },
   { time: '01:30', label: 'Supervisor Matching' },
   { time: '02:15', label: 'Dashboard & Reporting' },
 ];
@@ -186,7 +186,7 @@ function SceneDuplicate() {
     <div className="w-full max-w-2xl">
       <div className="flex items-center gap-2 text-white/80 mb-4">
         <Sparkles size={16} style={{ color: '#A78BFA' }} />
-        <span className="text-sm">AI scanning new submission…</span>
+        <span className="text-sm">AI comparing a proposed topic…</span>
       </div>
       <Card>
         <div className="text-white text-sm mb-1">
@@ -202,7 +202,7 @@ function SceneDuplicate() {
             style={{ background: 'linear-gradient(90deg, #6B21F5, #A78BFA)' }}
           />
         </div>
-        <div className="mt-2 text-xs text-white/60">Comparing against 12,438 dissertations…</div>
+        <div className="mt-2 text-xs text-white/60">Comparing with existing topics (illustration)…</div>
       </Card>
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -216,9 +216,9 @@ function SceneDuplicate() {
       >
         <AlertTriangle size={16} style={{ color: '#FBBF24' }} className="mt-0.5" />
         <div className="flex-1">
-          <div className="text-white text-sm">2 potential overlaps detected</div>
+          <div className="text-white text-sm">Potential topic overlap for review</div>
           <div className="text-white/60 text-xs mt-0.5">
-            87% similarity · "ML for crop yield prediction" (2023)
+            "ML for crop yield prediction" (2023)
           </div>
         </div>
         <span

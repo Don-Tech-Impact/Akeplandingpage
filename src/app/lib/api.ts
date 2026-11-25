@@ -36,6 +36,8 @@ function resolveApiBaseUrl() {
 const API_BASE_URL = resolveApiBaseUrl();
 
 type WaitlistPayload = {
+  language?: "en" | "fr";
+  formType?: "institutional";
   name?: string;
   email: string;
   institution?: string;
@@ -43,12 +45,18 @@ type WaitlistPayload = {
   country?: string;
   source?: string;
   challenge?: string;
+  goal?: string;
 };
 
 type ContactPayload = {
+  language?: "en" | "fr";
+  formType?: "institutional";
   name: string;
   email: string;
   institution?: string;
+  role?: string;
+  country?: string;
+  goal?: string;
   subject?: string;
   message?: string;
 };

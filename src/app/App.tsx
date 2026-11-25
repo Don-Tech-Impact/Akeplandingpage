@@ -11,17 +11,17 @@ import { SFUniversities } from './components/scholarflow/SFUniversities';
 import { SFAbout } from './components/scholarflow/SFAbout';
 
 function Home() {
-  const { openTrial, openDemo } = useSFModal();
+  const { openPilot, openDemo } = useSFModal();
   return (
     <>
-      <SFHero onTrial={openTrial} onDemo={openDemo} />
+      <SFHero onPilot={openPilot} onDemo={openDemo} />
       <SFProblem />
       <SFFeatures />
       <SFDashboardShowcase />
       <SFHowItWorks />
       <SFTrust />
       <SFUniversities />
-      <SFTrialCTA onTrial={openTrial} />
+      <SFTrialCTA onPilot={openPilot} />
       <SFAbout />
     </>
   );
@@ -34,4 +34,3 @@ export default function App() {
     </Layout>
   );
 }
-

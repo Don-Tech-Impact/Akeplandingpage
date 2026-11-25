@@ -1,48 +1,61 @@
-import { LayoutDashboard, ScanSearch, Workflow, GraduationCap, BarChart3, Lock } from 'lucide-react';
+import { LayoutDashboard, ScanSearch, Workflow, GraduationCap, BarChart3, Lock, FileText, Languages } from 'lucide-react';
 import { Eyebrow, SectionHeading, cardBorder } from './SFUI';
 import { Reveal } from './Reveal';
 import { NAVY, ORANGE, MUTED } from './theme';
+import { useI18n } from '../../../i18n/I18nProvider';
+import type { MessageKey } from '../../../i18n/en';
 
-const features = [
+const features: { icon: typeof Lock; title: MessageKey; body: MessageKey }[] = [
   {
     icon: LayoutDashboard,
-    title: 'Real-Time Progress Dashboards',
-    body: 'See every student\u2019s dissertation stage at a glance. No more chasing updates by email.',
+    title: 'features.dashboards',
+    body: 'features.dashboardsBody',
   },
   {
     icon: ScanSearch,
-    title: 'AI Plagiarism Screening',
-    body: 'Automated similarity detection runs on every submission before supervisor review. Consistent, fast, auditable.',
+    title: 'features.topic',
+    body: 'features.topicBody',
   },
   {
     icon: Workflow,
-    title: 'Supervisor Workflow Tools',
-    body: 'Structured feedback requests, revision tracking, and permanent archived communication threads \u2014 not WhatsApp.',
+    title: 'features.supervisor',
+    body: 'features.supervisorBody',
   },
   {
     icon: GraduationCap,
-    title: 'Student Progress Portal',
-    body: 'Each student sees their current stage, deadlines, and supervisor feedback history in one place.',
+    title: 'features.student',
+    body: 'features.studentBody',
   },
   {
     icon: BarChart3,
-    title: 'Research Office Analytics',
-    body: 'Institution-wide reports: completion rates, bottlenecks, supervisor workload \u2014 all exportable.',
+    title: 'features.analytics',
+    body: 'features.analyticsBody',
   },
   {
     icon: Lock,
-    title: 'Secure Data Storage',
-    body: 'ISO 27001-aligned controls. All data encrypted at rest and in transit. Role-based access across departments.',
+    title: 'features.security',
+    body: 'features.securityBody',
+  },
+  {
+    icon: FileText,
+    title: 'features.guidelines',
+    body: 'features.guidelinesBody',
+  },
+  {
+    icon: Languages,
+    title: 'features.language',
+    body: 'features.languageBody',
   },
 ];
 
 export function SFFeatures() {
+  const { t } = useI18n();
   return (
     <section id="features" className="py-24 px-6" style={{ background: '#FFFFFF' }}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <Eyebrow>The Platform</Eyebrow>
-          <SectionHeading>Everything Your Research Office Needs, In One Place</SectionHeading>
+          <Eyebrow>{t('features.eyebrow')}</Eyebrow>
+          <SectionHeading>{t('features.heading')}</SectionHeading>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -58,8 +71,8 @@ export function SFFeatures() {
                 >
                   <f.icon size={22} style={{ color: ORANGE }} />
                 </div>
-                <h3 className="font-bold mb-2" style={{ color: NAVY, fontSize: 18 }}>{f.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: MUTED }}>{f.body}</p>
+                <h3 className="font-bold mb-2" style={{ color: NAVY, fontSize: 18 }}>{t(f.title)}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: MUTED }}>{t(f.body)}</p>
               </div>
             </Reveal>
           ))}

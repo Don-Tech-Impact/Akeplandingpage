@@ -2,8 +2,10 @@ import { ArrowRight } from 'lucide-react';
 import { PrimaryCTA, OutlineCTA } from './SFUI';
 import { DashboardMockup } from './DashboardMockup';
 import { NAVY, NAVY_DEEP, ORANGE, FONT_HEAD } from './theme';
+import { useI18n } from '../../../i18n/I18nProvider';
 
-export function SFHero({ onTrial, onDemo }: { onTrial: () => void; onDemo: () => void }) {
+export function SFHero({ onPilot, onDemo }: { onPilot: () => void; onDemo: () => void }) {
+  const { t } = useI18n();
   return (
     <section
       id="top"
@@ -29,7 +31,7 @@ export function SFHero({ onTrial, onDemo }: { onTrial: () => void; onDemo: () =>
           className="inline-block text-xs font-bold uppercase mb-6"
           style={{ color: ORANGE, letterSpacing: '0.16em' }}
         >
-          Built for African Research Universities
+          {t('hero.eyebrow')}
         </span>
 
         <h1
@@ -44,29 +46,27 @@ export function SFHero({ onTrial, onDemo }: { onTrial: () => void; onDemo: () =>
             animation: 'sfHeroIn 0.6s ease both',
           }}
         >
-          Your Research Office.<br />Finally Under Control.
+          {t('hero.title')}
         </h1>
 
         <p
           className="mt-6 max-w-2xl mx-auto text-lg leading-relaxed"
           style={{ color: 'rgba(226,235,247,0.8)' }}
         >
-          ScholarFlow replaces spreadsheets, email chains, and guesswork with real-time PhD
-          dashboards, AI plagiarism screening, and supervisor workflows — built for institutions
-          like yours.
+          {t('hero.body')}
         </p>
 
         <div className="mt-9 flex flex-col sm:flex-row gap-3 justify-center">
-          <PrimaryCTA onClick={onTrial}>
-            Start Your 60-Day Free Trial <ArrowRight size={17} />
+          <PrimaryCTA onClick={onDemo}>
+            {t('hero.demo')} <ArrowRight size={17} />
           </PrimaryCTA>
-          <OutlineCTA light onClick={onDemo}>
-            Book a Demo
+          <OutlineCTA light onClick={onPilot}>
+            {t('hero.pilot')}
           </OutlineCTA>
         </div>
 
         <p className="mt-5 text-sm" style={{ color: 'rgba(226,235,247,0.6)' }}>
-          Free for 90 days. No contract. Full data export guaranteed.
+          {t('hero.note')}
         </p>
 
         <div className="mt-14">
