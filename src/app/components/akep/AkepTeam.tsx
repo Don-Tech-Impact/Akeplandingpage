@@ -1,6 +1,7 @@
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { SectionEyebrow } from './AkepUI';
 import { Linkedin, Twitter, Github } from 'lucide-react';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 interface Member {
   name: string;
@@ -49,6 +50,7 @@ const team: Member[] = [
 ];
 
 function TeamCard({ member }: { member: Member }) {
+  const { t } = useI18n();
   return (
     <div
       className="rounded-2xl p-5 sm:p-6 lg:p-7 text-center flex flex-col items-center"
@@ -99,7 +101,7 @@ function TeamCard({ member }: { member: Member }) {
               href={member.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${member.name} on LinkedIn`}
+              aria-label={t('about.linkedin', { name: member.name })}
               className="flex items-center justify-center w-9 h-9 rounded-xl transition-all hover:scale-110"
               style={{ color: 'rgba(255,255,255,0.75)', background: 'rgba(255,255,255,0.06)' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#FFFFFF')}
@@ -113,7 +115,7 @@ function TeamCard({ member }: { member: Member }) {
               href={member.github}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${member.name} on GitHub`}
+              aria-label={t('team.github', { name: member.name })}
               className="flex items-center justify-center w-9 h-9 rounded-xl transition-all hover:scale-110"
               style={{ color: 'rgba(255,255,255,0.75)', background: 'rgba(255,255,255,0.06)' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#FFFFFF')}
@@ -127,7 +129,7 @@ function TeamCard({ member }: { member: Member }) {
               href={member.twitter}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${member.name} on X (Twitter)`}
+              aria-label={t('team.twitter', { name: member.name })}
               className="flex items-center justify-center w-9 h-9 rounded-xl transition-all hover:scale-110"
               style={{ color: 'rgba(255,255,255,0.75)', background: 'rgba(255,255,255,0.06)' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#FFFFFF')}
@@ -143,6 +145,13 @@ function TeamCard({ member }: { member: Member }) {
 }
 
 export function AkepTeam() {
+  const { t } = useI18n();
+  const localizedTeam = [
+    { ...team[0], role: t('team.role1'), bio: t('team.bio1') },
+    { ...team[1], role: t('team.role2'), bio: t('team.bio2') },
+    { ...team[2], role: t('team.role3'), bio: t('team.bio3') },
+    { ...team[3], role: t('team.role4'), bio: t('team.bio4') },
+  ];
   return (
     <section
       id="team"
@@ -158,19 +167,18 @@ export function AkepTeam() {
       />
       <div className="relative max-w-6xl mx-auto">
         <div className="text-center mb-10 sm:mb-14 max-w-2xl mx-auto px-2">
-          <SectionEyebrow>Team</SectionEyebrow>
+          <SectionEyebrow>{t('team.eyebrow')}</SectionEyebrow>
           <h2 className="mt-4 text-white text-2xl sm:text-3xl lg:text-4xl" style={{ letterSpacing: '-0.01em' }}>
-            Builders, researchers, and operators behind AKEP
+            {t('team.heading')}
           </h2>
           <p className="mt-4 text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.65)' }}>
-            A small, focused team with deep roots in African higher education, applied AI, and
-            software for research operations.
+            {t('team.body')}
           </p>
         </div>
 
         {/* Mobile: 1 col · Tablet: 2 col · Desktop: 4 col */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
-          {team.map((m) => (
+          {localizedTeam.map((m) => (
             <TeamCard key={m.name} member={m} />
           ))}
         </div>

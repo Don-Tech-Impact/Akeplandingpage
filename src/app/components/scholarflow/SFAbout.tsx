@@ -2,6 +2,7 @@ import { Linkedin, Mail } from 'lucide-react';
 import { Eyebrow, SectionHeading, cardBorder } from './SFUI';
 import { Reveal } from './Reveal';
 import { NAVY, ORANGE, MUTED, INK } from './theme';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 type Member = {
   name: string;
@@ -32,22 +33,24 @@ const team: Member[] = [
 ];
 
 export function SFAbout() {
+  const { t } = useI18n();
+  const localizedTeam = [
+    { ...team[0], role: t('about.founderRole'), bio: t('about.founderBio') },
+    { ...team[1], role: t('about.cofounderRole'), bio: t('about.cofounderBio') },
+  ];
   return (
     <section id="about" className="py-24 px-6" style={{ background: '#FFFFFF' }}>
       <div className="max-w-6xl mx-auto">
         <div className="max-w-2xl mb-14">
-          <Eyebrow>About AKEP Technologies</Eyebrow>
-          <SectionHeading>Meet the Team Building ScholarFlow</SectionHeading>
+          <Eyebrow>{t('trust.eyebrow')}</Eyebrow>
+          <SectionHeading>{t('about.heading')}</SectionHeading>
           <p className="mt-5 text-lg leading-relaxed" style={{ color: MUTED }}>
-            AKEP Technologies is an AI-focused company founded in 2023. ScholarFlow is our flagship
-            product, built after direct engagement with research offices across Africa. We believe
-            the infrastructure managing African research should be as ambitious as the research
-            itself.
+            {t('about.body')}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {team.map((m, i) => (
+          {localizedTeam.map((m, i) => (
             <Reveal key={m.name} delay={i * 120}>
               <div
                 className="rounded-2xl overflow-hidden h-full flex flex-col"
@@ -79,7 +82,7 @@ export function SFAbout() {
                       href={m.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={`${m.name} on LinkedIn`}
+                      aria-label={t('about.linkedin', { name: m.name })}
                       className="inline-flex items-center justify-center w-10 h-10 rounded-lg"
                       style={{ background: 'rgba(26,60,94,0.08)', color: NAVY }}
                     >
@@ -87,7 +90,7 @@ export function SFAbout() {
                     </a>
                     <a
                       href={`mailto:${m.email}`}
-                      aria-label={`Email ${m.name}`}
+                      aria-label={t('about.email', { name: m.name })}
                       className="inline-flex items-center gap-2 px-4 h-10 rounded-lg text-sm font-semibold"
                       style={{ background: 'rgba(232,137,43,0.12)', color: INK }}
                     >

@@ -29,10 +29,14 @@ app.use(
 
 /** Send an email through the Resend REST API */
 async function sendEmail({ to, fromName, subject, html, text }) {
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  if (!apiKey || apiKey === "re_your-resend-api-key-here") {
+    throw new Error("RESEND_API_KEY is not configured for the email API.");
+  }
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${process.env.RESEND_API_KEY || ""}`,
+      Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({

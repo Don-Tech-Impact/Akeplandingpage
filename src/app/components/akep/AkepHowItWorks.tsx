@@ -1,4 +1,5 @@
 import { SectionEyebrow } from './AkepUI';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 const steps = [
   {
@@ -24,6 +25,13 @@ const steps = [
 ];
 
 export function AkepHowItWorks() {
+  const { t } = useI18n();
+  const localizedSteps = [
+    { ...steps[0], title: t('howPage.step1'), desc: t('howPage.step1Body') },
+    { ...steps[1], title: t('howPage.step2'), desc: t('howPage.step2Body') },
+    { ...steps[2], title: t('howPage.step3'), desc: t('howPage.step3Body') },
+    { ...steps[3], title: t('howPage.step4'), desc: t('howPage.step4Body') },
+  ];
   return (
     <section
       id="how"
@@ -39,13 +47,13 @@ export function AkepHowItWorks() {
       />
       <div className="relative max-w-6xl mx-auto">
         <div className="text-center mb-16 max-w-2xl mx-auto">
-          <SectionEyebrow>How it works</SectionEyebrow>
+          <SectionEyebrow>{t('howPage.eyebrow')}</SectionEyebrow>
           <h2 className="mt-4 text-white" style={{ letterSpacing: '-0.01em' }}>
-            A structured rollout, aligned to your institution.
+            {t('howPage.heading')}
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {steps.map((s) => (
+          {localizedSteps.map((s) => (
             <div
               key={s.n}
               className="rounded-2xl p-6 transition-all hover:-translate-y-0.5"

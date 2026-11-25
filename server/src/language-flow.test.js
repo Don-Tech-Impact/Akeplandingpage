@@ -4,6 +4,7 @@ import { once } from "node:events";
 
 test("request endpoints select French emails, preserve English defaults, and reject invalid languages", async () => {
   process.env.PORT = "0";
+  process.env.RESEND_API_KEY = "test-key";
   const originalFetch = globalThis.fetch;
   const messages = [];
   globalThis.fetch = async (url, options) => {
@@ -80,6 +81,11 @@ test("request endpoints select French emails, preserve English defaults, and rej
       messages.length = 0;
       assert.equal((await post(path, { ...request, country: "", goal: "" })).status, 200);
     }
+
+    messages.length = 0;
+    delete process.env.RESEND_API_KEY;
+    assert.equal((await post("/api/waitlist", { email: "example@example.test" })).status, 500);
+    assert.equal(messages.length, 0);
   } finally {
     globalThis.fetch = originalFetch;
     await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));

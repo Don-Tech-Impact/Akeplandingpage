@@ -2,6 +2,7 @@ import { FileText, GraduationCap, Users } from 'lucide-react';
 import { Eyebrow, SectionHeading, cardBorder } from './SFUI';
 import { Reveal } from './Reveal';
 import { NAVY, ORANGE, MUTED } from './theme';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 const creds = [
   {
@@ -22,16 +23,22 @@ const creds = [
 ];
 
 export function SFTrust() {
+  const { t } = useI18n();
+  const localizedCreds = [
+    { ...creds[0], title: t('trust.research'), body: t('trust.researchBody') },
+    { ...creds[1], title: t('trust.academic'), body: t('trust.academicBody') },
+    { ...creds[2], title: t('trust.focus'), body: t('trust.focusBody') },
+  ];
   return (
     <section className="py-24 px-6" style={{ background: '#FFFFFF' }}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <Eyebrow>About AKEP Technologies</Eyebrow>
-          <SectionHeading>Meet the team and the thinking behind ScholarFlow</SectionHeading>
+          <Eyebrow>{t('trust.eyebrow')}</Eyebrow>
+          <SectionHeading>{t('trust.heading')}</SectionHeading>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {creds.map((c, i) => (
+          {localizedCreds.map((c, i) => (
             <Reveal key={c.title} delay={i * 100}>
               <div className="rounded-2xl p-7 h-full" style={{ border: cardBorder }}>
                 <div

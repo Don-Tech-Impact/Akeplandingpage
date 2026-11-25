@@ -1,5 +1,6 @@
 import { Check, FileText, Sparkles, Users, BarChart3 } from 'lucide-react';
 import { INK, MUTED, PURPLE, BORDER, PURPLE_SOFT, SectionEyebrow } from './AkepUI';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 interface Spot {
   eyebrow: string;
@@ -64,13 +65,16 @@ const spots: Spot[] = [
 ];
 
 function MockSubmission() {
+  const { t } = useI18n();
+  const names = t('spot.names').split('|');
+  const statuses = t('spot.status').split('|');
   return (
     <div
       className="rounded-xl p-5"
       style={{ background: 'white', border: `1px solid ${BORDER}` }}
     >
       <div className="flex items-center gap-2 text-sm" style={{ color: MUTED }}>
-        <FileText size={14} style={{ color: PURPLE }} /> Submission queue · Spring 2026
+        <FileText size={14} style={{ color: PURPLE }} /> {t('spot.queue')}
       </div>
       <div className="mt-4 space-y-2">
         {[
@@ -78,13 +82,13 @@ function MockSubmission() {
           { name: 'M. Okonkwo — Public health policy', status: 'Awaiting supervisor', tone: 'wait' },
           { name: 'L. Bensalem — Computational linguistics', status: 'Accepted', tone: 'ok' },
           { name: 'K. Nyong\'o — Water systems modeling', status: 'Flagged: overlap', tone: 'warn' },
-        ].map((r) => (
+        ].map((r, i) => (
           <div
             key={r.name}
             className="flex items-center justify-between text-sm rounded-lg px-3 py-2"
             style={{ background: '#F8F7FB' }}
           >
-            <span style={{ color: INK }}>{r.name}</span>
+            <span style={{ color: INK }}>{names[i]}</span>
             <span
               className="text-xs px-2 py-0.5 rounded"
               style={
@@ -97,7 +101,7 @@ function MockSubmission() {
                   : { background: '#EEF1F8', color: '#3F3F52' }
               }
             >
-              {r.status}
+              {statuses[i]}
             </span>
           </div>
         ))}
@@ -107,28 +111,25 @@ function MockSubmission() {
 }
 
 function MockDuplicate() {
+  const { t } = useI18n();
   return (
     <div
       className="rounded-xl p-5"
       style={{ background: 'white', border: `1px solid ${BORDER}` }}
     >
       <div className="flex items-center gap-2 text-sm" style={{ color: MUTED }}>
-        <Sparkles size={14} style={{ color: PURPLE }} /> AI topic-overlap check
+        <Sparkles size={14} style={{ color: PURPLE }} /> {t('spot.check')}
       </div>
       <div className="mt-4">
         <div className="text-sm" style={{ color: INK }}>
-          "Machine Learning Applications in Sub-Saharan Agriculture"
+          {t('spot.example')}
         </div>
         <div className="text-xs mt-0.5" style={{ color: MUTED }}>
-          Illustrative topic comparison
+          {t('spot.illustration')}
         </div>
       </div>
       <div className="mt-4 space-y-2">
-        {[
-          'ML for crop yield prediction (2023)',
-          'Smart irrigation: a Sahel study (2022)',
-          'AI in West African agritech (2024)',
-        ].map((d) => (
+        {t('spot.comparisons').split('|').map((d) => (
           <div key={d} className="text-xs" style={{ color: INK }}>{d}</div>
         ))}
       </div>
@@ -137,6 +138,8 @@ function MockDuplicate() {
 }
 
 function MockSupervisor() {
+  const { t } = useI18n();
+  const subjects = t('spot.subjects').split('|');
   const rows = [
     { name: 'Prof. M. Sow', match: 96, load: '3 / 8', topic: 'Applied ML' },
     { name: 'Dr. F. Ndiaye', match: 89, load: '5 / 8', topic: 'AgriTech' },
@@ -148,7 +151,7 @@ function MockSupervisor() {
       style={{ background: 'white', border: `1px solid ${BORDER}` }}
     >
       <div className="flex items-center gap-2 text-sm" style={{ color: MUTED }}>
-        <Users size={14} style={{ color: PURPLE }} /> Matching supervisor · A. Diallo
+        <Users size={14} style={{ color: PURPLE }} /> {t('spot.matching')}
       </div>
       <div className="mt-4 space-y-2">
         {rows.map((r, i) => (
@@ -169,7 +172,7 @@ function MockSupervisor() {
             <div className="flex-1 text-sm" style={{ color: INK }}>
               <div>{r.name}</div>
               <div className="text-xs" style={{ color: MUTED }}>
-                {r.topic} · load {r.load}
+                {subjects[i]} · {t('spot.load')} {r.load}
               </div>
             </div>
             <div className="text-sm" style={{ color: PURPLE }}>
@@ -183,6 +186,8 @@ function MockSupervisor() {
 }
 
 function MockReporting() {
+  const { t, language } = useI18n();
+  const labels = t('spot.stats').split('|');
   const bars = [42, 60, 55, 78, 70, 88, 84];
   return (
     <div
@@ -190,24 +195,24 @@ function MockReporting() {
       style={{ background: 'white', border: `1px solid ${BORDER}` }}
     >
       <div className="flex items-center gap-2 text-sm" style={{ color: MUTED }}>
-        <BarChart3 size={14} style={{ color: PURPLE }} /> Submissions · last 7 weeks
+        <BarChart3 size={14} style={{ color: PURPLE }} /> {t('spot.lastWeeks')}
       </div>
       <div className="mt-5 grid grid-cols-3 gap-2 mb-4">
         {[
           { v: '1,284', l: 'Active' },
           { v: '312', l: 'In review' },
           { v: '8,420', l: 'Completed' },
-        ].map((k) => (
+        ].map((k, i) => (
           <div
             key={k.l}
             className="rounded-lg p-3"
             style={{ background: '#F8F7FB' }}
           >
             <div className="text-lg" style={{ color: INK }}>
-              {k.v}
+              {language === 'fr' ? new Intl.NumberFormat('fr-FR').format(Number(k.v.replaceAll(',', ''))) : k.v}
             </div>
             <div className="text-xs" style={{ color: MUTED }}>
-              {k.l}
+              {labels[i]}
             </div>
           </div>
         ))}
@@ -236,18 +241,29 @@ function Mock({ kind }: { kind: Spot['mock'] }) {
 }
 
 export function AkepSpotlight() {
+  const { t } = useI18n();
+  const translations = [
+    { text: t('spot.submission'), bullets: t('spot.submissionBullets') },
+    { text: t('spot.topic'), bullets: t('spot.topicBullets') },
+    { text: t('spot.supervisor'), bullets: t('spot.supervisorBullets') },
+    { text: t('spot.reporting'), bullets: t('spot.reportingBullets') },
+  ];
+  const localizedSpots = spots.map((spot, index) => {
+    const [eyebrow, title, body] = translations[index].text.split('|');
+    return { ...spot, eyebrow, title, body, bullets: translations[index].bullets.split('|') };
+  });
   return (
     <section className="py-24 px-6" style={{ background: '#F8F7FB' }}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16 max-w-2xl mx-auto">
-          <SectionEyebrow>Product</SectionEyebrow>
+          <SectionEyebrow>{t('spot.eyebrow')}</SectionEyebrow>
           <h2 className="mt-4" style={{ color: INK, letterSpacing: '-0.01em' }}>
-            A closer look at ScholarFlow workflows
+            {t('spot.heading')}
           </h2>
         </div>
 
         <div className="space-y-20">
-          {spots.map((s, i) => {
+          {localizedSpots.map((s, i) => {
             const flip = i % 2 === 1;
             return (
               <div

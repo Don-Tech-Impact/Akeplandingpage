@@ -32,6 +32,11 @@ cp .env.example .env
 cp server/.env.example server/.env
 ```
 
+Set `RESEND_API_KEY` in `server/.env` to your own Resend API key, and set
+`FROM_EMAIL` to an address on a domain verified in Resend. Do not share the key
+in chat or commit the `.env` file. Add the exact frontend origin to
+`ALLOWED_ORIGINS` if you use a different local host or port.
+
 5. Run frontend:
 
 ```bash
@@ -44,7 +49,15 @@ npm run dev
 npm run dev:api
 ```
 
-The frontend sends form submissions to `VITE_API_BASE_URL` (default `http://localhost:8787`).
+The frontend sends form submissions to `VITE_API_BASE_URL`. Development defaults
+to `http://localhost:8787`, but production builds default to the live API if
+this variable is unset. For `npm run preview` to use the local API, set
+`VITE_API_BASE_URL=http://localhost:8787` in the root `.env` **before** running
+`npm run build`, then restart the preview.
+Both frontend and backend must be running to send email. Check
+`http://localhost:8787/health` if the form reports a network error, and check
+the backend terminal for email-provider errors. A successful health check alone
+does not verify that the Resend key or sender domain is valid.
 
 ## Demo and pilot enquiries
 
@@ -59,7 +72,16 @@ confirmation page. The email address is passed in browser navigation state,
 not in the URL. The booking button is disabled until a booking link is supplied.
 Deploy the updated email API before deploying the frontend so it does not discard
 the new fields. The French site remains a work in progress and should not be
-published until its outstanding translations and reviews are complete.
+published until its outstanding translations and reviews are complete. University
+directory descriptions, mottos and focus areas come from the university API and
+may still be in English. Dashboard screenshots also contain English text and need
+French replacements. The translation CSV covers the website dictionaries and SEO,
+but not the email templates or API-provided content; it needs a native review.
+
+The English demo overview now describes an illustrative workflow instead of
+claiming a verified two-minute video or a fully automated pipeline. Its mock
+university and onboarding, topic-review and supervisor-selection labels were
+changed to avoid implying a real university deployment or unverified automation.
 
 ## Backend deployment (email API)
 
@@ -68,11 +90,7 @@ The repository includes `render.yaml` configured to deploy `server/` as a web se
 Set these backend environment variables for the service:
 
 - `ALLOWED_ORIGINS` (for example: `https://your-frontend-domain.com`)
-- `SMTP_HOST`
-- `SMTP_PORT`
-- `SMTP_SECURE` (`true` or `false`)
-- `SMTP_USER`
-- `SMTP_PASS`
+- `RESEND_API_KEY`
 - `NOTIFY_TO`
 - `FROM_EMAIL`
 

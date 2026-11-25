@@ -1,11 +1,13 @@
 import { ArrowRight } from 'lucide-react';
 import { NAVY, NAVY_DEEP, ORANGE, FONT_HEAD } from './theme';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 export function SFTrialCTA({ onPilot }: { onPilot: () => void }) {
+  const { t } = useI18n();
   const points = [
-    'Agree an evaluation scope',
-    'Set success measures before launch',
-    'Review implementation and data needs',
+    t('pilot.scope'),
+    t('pilot.measures'),
+    t('pilot.requirements'),
   ];
   return (
     <section
@@ -27,10 +29,10 @@ export function SFTrialCTA({ onPilot }: { onPilot: () => void }) {
             letterSpacing: '-0.02em',
           }}
         >
-          Explore an Institutional Pilot
+          {t('pilot.heading')}
         </h2>
         <p className="mt-4 text-lg font-medium" style={{ color: ORANGE }}>
-          Discuss your goals, requirements, and how your institution could evaluate ScholarFlow.
+          {t('pilot.body')}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10 mb-10">
@@ -50,15 +52,15 @@ export function SFTrialCTA({ onPilot }: { onPilot: () => void }) {
           className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold text-base transition-all hover:opacity-95"
           style={{ background: ORANGE, color: '#FFFFFF', boxShadow: '0 10px 30px rgba(232,137,43,0.45)' }}
         >
-          Discuss a Pilot <ArrowRight size={18} />
+          {t('hero.pilot')} <ArrowRight size={18} />
         </button>
 
         <p className="mt-6 text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
-          Already spoken to us? Email{' '}
+          {t('pilot.emailBefore')}{' '}
           <a href="mailto:hello@akepapp.com" className="font-semibold" style={{ color: '#FFFFFF' }}>
             hello@akepapp.com
           </a>{' '}
-          to get started today.
+          {t('pilot.emailAfter')}
         </p>
       </div>
     </section>

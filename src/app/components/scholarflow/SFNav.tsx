@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { SFLogo } from './SFUI';
 import { NAVY, ORANGE } from './theme';
@@ -21,7 +21,30 @@ export function SFNav({ isHome = true, onDemo }: { isHome?: boolean; onDemo: () 
   const [scrolled, setScrolled] = useState(!isHome);
   const [active, setActive] = useState('');
   const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const { t, localizePath } = useI18n();
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.target instanceof Node && !menuRef.current?.contains(event.target) && !menuButtonRef.current?.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener('pointerdown', onPointerDown, true);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown, true);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!isHome) {
@@ -63,17 +86,17 @@ export function SFNav({ isHome = true, onDemo }: { isHome?: boolean; onDemo: () 
         boxShadow: solid ? '0 2px 16px rgba(17,24,39,0.12)' : 'none',
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between" style={{ height: 72 }}>
-        <a href={isHome ? '#top' : localizePath('/')} aria-label={t('nav.home')}>
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4" style={{ height: 72 }}>
+        <a href={isHome ? '#top' : localizePath('/')} aria-label={t('nav.home')} className="shrink-0">
           <SFLogo light />
         </a>
 
-        <div className="hidden xl:flex items-center gap-4">
+        <div className="hidden 2xl:flex items-center gap-3">
           {SECTIONS.map((s) => (
             <a
               key={s.id}
               href={s.page ? localizePath(s.page) : linkHref(s.id)}
-              className="text-sm font-medium transition-colors"
+              className="text-sm font-medium transition-colors whitespace-nowrap"
               style={{
                 color: active === s.id ? ORANGE : 'rgba(255,255,255,0.8)',
               }}
@@ -83,37 +106,41 @@ export function SFNav({ isHome = true, onDemo }: { isHome?: boolean; onDemo: () 
           ))}
         </div>
 
-        <div className="hidden xl:flex items-center gap-4">
+        <div className="hidden 2xl:flex items-center gap-3 shrink-0">
           <LanguageSwitch />
           <a
             href="https://dash.akepapp.com"
-            className="text-sm font-medium transition-colors"
+            className="text-sm font-medium transition-colors whitespace-nowrap"
             style={{ color: 'rgba(255,255,255,0.7)' }}
           >
             {t('nav.signIn')}
           </a>
           <button
             onClick={onDemo}
-            className="px-5 py-2.5 rounded-lg text-sm font-semibold transition-all hover:opacity-90"
+            className="px-4 py-2.5 rounded-lg text-sm font-semibold transition-all hover:opacity-90 whitespace-nowrap"
             style={{ background: ORANGE, color: '#FFFFFF', boxShadow: '0 4px 14px rgba(232,137,43,0.4)' }}
           >
             {t('nav.demo')}
           </button>
         </div>
 
-        <div className="flex xl:hidden items-center gap-3">
+        <div className="flex 2xl:hidden items-center gap-2 sm:gap-3 shrink-0">
+          <LanguageSwitch />
           <button
             onClick={onDemo}
-            className="px-4 py-2 rounded-lg text-xs font-semibold"
+            className="hidden sm:block px-4 py-2 rounded-lg text-xs font-semibold"
             style={{ background: ORANGE, color: '#FFFFFF' }}
           >
             {t('nav.demo')}
           </button>
           <button
-            onClick={() => setOpen(!open)}
+            ref={menuButtonRef}
+            type="button"
+            onClick={() => setOpen((previous) => !previous)}
             aria-label={t('nav.menu')}
             aria-expanded={open}
             aria-controls="mobile-menu"
+            className="rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             style={{ color: '#FFFFFF' }}
           >
             {open ? <X size={24} /> : <Menu size={24} />}
@@ -122,7 +149,15 @@ export function SFNav({ isHome = true, onDemo }: { isHome?: boolean; onDemo: () 
       </div>
 
       {open && (
-        <div id="mobile-menu" className="xl:hidden px-6 pb-5 flex flex-col gap-1" style={{ background: NAVY }}>
+        <div
+          ref={menuRef}
+          id="mobile-menu"
+          className="2xl:hidden absolute top-[72px] right-4 sm:right-6 w-[calc(100vw-2rem)] max-w-xs rounded-xl p-4 flex flex-col gap-1 max-h-[calc(100dvh-88px)] overflow-y-auto"
+          style={{ background: NAVY, boxShadow: '0 12px 30px rgba(0,0,0,0.25)' }}
+        >
+          <button onClick={() => { setOpen(false); onDemo(); }} className="sm:hidden py-2.5 text-left text-sm font-semibold" style={{ color: ORANGE }}>
+            {t('nav.demo')}
+          </button>
           {SECTIONS.map((s) => (
             <a
               key={s.id}
@@ -141,7 +176,6 @@ export function SFNav({ isHome = true, onDemo }: { isHome?: boolean; onDemo: () 
           >
             {t('nav.signIn')}
           </a>
-          <LanguageSwitch />
         </div>
       )}
     </nav>

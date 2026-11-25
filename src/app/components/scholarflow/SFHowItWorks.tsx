@@ -1,6 +1,7 @@
 import { Eyebrow, SectionHeading } from './SFUI';
 import { Reveal } from './Reveal';
 import { NAVY, ORANGE, TINT, MUTED } from './theme';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 const steps = [
   {
@@ -26,16 +27,23 @@ const steps = [
 ];
 
 export function SFHowItWorks() {
+  const { t, language } = useI18n();
+  const frenchSteps = [
+    { week: t('rollout.week1'), title: t('rollout.title1'), body: t('rollout.body1') },
+    { week: t('rollout.week2'), title: t('rollout.title2'), body: t('rollout.body2') },
+    { week: t('rollout.week3'), title: t('rollout.title3'), body: t('rollout.body3') },
+    { week: t('rollout.week4'), title: t('rollout.title4'), body: t('rollout.body4') },
+  ];
   return (
     <section id="how-it-works" className="py-24 px-6" style={{ background: TINT }}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <Eyebrow>How It Works</Eyebrow>
-          <SectionHeading>From Day One to Full Operation in 8 Weeks</SectionHeading>
+          <Eyebrow>{t('rollout.eyebrow')}</Eyebrow>
+          <SectionHeading>{t('rollout.heading')}</SectionHeading>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
-          {steps.map((s, i) => (
+          {(language === 'fr' ? frenchSteps : steps).map((s, i) => (
             <Reveal key={s.title} delay={i * 100}>
               <div className="relative rounded-2xl p-6 h-full" style={{ background: '#FFFFFF' }}>
                 <div
@@ -55,7 +63,7 @@ export function SFHowItWorks() {
         </div>
 
         <p className="text-center mt-12 font-bold" style={{ color: NAVY, fontSize: 18 }}>
-          Zero cost. No contract. No lock-in.
+          {t('rollout.note')}
         </p>
       </div>
     </section>

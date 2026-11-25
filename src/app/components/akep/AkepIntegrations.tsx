@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Search } from 'lucide-react';
 import { INK, MUTED, PURPLE, BORDER, PURPLE_SOFT, SectionEyebrow } from './AkepUI';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 interface Integration {
   name: string;
@@ -34,8 +35,14 @@ const integrations: Integration[] = [
 const categories = ['All', 'Identity', 'Storage', 'Productivity', 'Communication', 'Research', 'LMS'];
 
 export function AkepIntegrations() {
+  const { t } = useI18n();
   const [active, setActive] = useState('All');
   const [query, setQuery] = useState('');
+  const categoryLabels: Record<string, string> = {
+    All: t('integration.all'), Identity: t('integration.identity'), Storage: t('integration.storage'),
+    Productivity: t('integration.productivity'), Communication: t('integration.communication'),
+    Research: t('integration.research'), LMS: t('integration.lms'),
+  };
 
   const visible = integrations.filter(
     (i) =>
@@ -47,12 +54,12 @@ export function AkepIntegrations() {
     <section id="integrations" className="py-24 px-6" style={{ background: '#F8F7FB' }}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10 max-w-2xl mx-auto">
-          <SectionEyebrow>Integrations</SectionEyebrow>
+          <SectionEyebrow>{t('integration.eyebrow')}</SectionEyebrow>
           <h2 className="mt-4" style={{ color: INK, letterSpacing: '-0.01em' }}>
-            Plugs into the tools your university already uses
+            {t('integration.heading')}
           </h2>
           <p className="mt-4" style={{ color: MUTED }}>
-            Connect identity, storage, communication, and research tools — no rip-and-replace.
+            {t('integration.body')}
           </p>
         </div>
 
@@ -65,7 +72,8 @@ export function AkepIntegrations() {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search integrations…"
+              placeholder={t('integration.search')}
+              aria-label={t('integration.search')}
               className="flex-1 py-3 outline-none bg-transparent text-sm"
               style={{ color: INK }}
             />
@@ -84,7 +92,7 @@ export function AkepIntegrations() {
                     border: `1px solid ${isActive ? PURPLE : BORDER}`,
                   }}
                 >
-                  {c}
+                  {categoryLabels[c]}
                 </button>
               );
             })}
@@ -109,7 +117,7 @@ export function AkepIntegrations() {
                   {i.name}
                 </div>
                 <div className="text-xs" style={{ color: MUTED }}>
-                  {i.category}
+                  {categoryLabels[i.category]}
                 </div>
               </div>
             </div>
@@ -121,12 +129,12 @@ export function AkepIntegrations() {
             className="mt-8 rounded-xl p-6 text-center text-sm"
             style={{ background: 'white', border: `1px solid ${BORDER}`, color: MUTED }}
           >
-            No integrations match — request one and we'll add it to the roadmap.
+            {t('integration.empty')}
           </div>
         )}
 
         <p className="mt-6 text-center text-xs" style={{ color: MUTED }}>
-          Don't see your stack? Our REST API and webhooks cover anything not in the catalog.
+          {t('integration.footer')}
         </p>
       </div>
     </section>

@@ -1,5 +1,6 @@
 import { GraduationCap, Building2, BookOpen, Microscope, ArrowUpRight } from 'lucide-react';
 import { INK, MUTED, PURPLE, BORDER, PURPLE_SOFT, SectionEyebrow } from './AkepUI';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 const cases = [
   {
@@ -25,17 +26,24 @@ const cases = [
 ];
 
 export function AkepUseCases() {
+  const { t } = useI18n();
+  const localizedCases = [
+    { ...cases[0], title: t('cases.research'), desc: t('cases.researchBody') },
+    { ...cases[1], title: t('cases.deans'), desc: t('cases.deansBody') },
+    { ...cases[2], title: t('cases.faculty'), desc: t('cases.facultyBody') },
+    { ...cases[3], title: t('cases.doctoral'), desc: t('cases.doctoralBody') },
+  ];
   return (
     <section id="use-cases" className="py-24 px-6" style={{ background: 'white' }}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <SectionEyebrow>For your team</SectionEyebrow>
+          <SectionEyebrow>{t('cases.eyebrow')}</SectionEyebrow>
           <h2 className="mt-4" style={{ color: INK, letterSpacing: '-0.01em' }}>
-            A shared workflow for postgraduate research
+            {t('cases.heading')}
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {cases.map((c) => (
+          {localizedCases.map((c) => (
             <div
               key={c.title}
               className="rounded-2xl p-8 transition-all hover:shadow-md group"

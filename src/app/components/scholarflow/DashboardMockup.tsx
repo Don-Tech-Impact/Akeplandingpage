@@ -1,12 +1,14 @@
 import { NAVY, ORANGE, TINT, MUTED, INK } from './theme';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 // Pure-CSS/SVG dashboard mockup inside a browser frame — no image asset needed.
 export function DashboardMockup() {
+  const { t, language } = useI18n();
   const students = [
-    { name: 'A. Bangura', stage: 'Proposal', pct: 20, color: '#F59E0B' },
-    { name: 'M. Okonkwo', stage: 'Data Collection', pct: 55, color: '#3B82F6' },
-    { name: 'F. Diallo', stage: 'Writing', pct: 78, color: '#8B5CF6' },
-    { name: 'S. Mensah', stage: 'Under Review', pct: 92, color: '#10B981' },
+    { name: 'A. Bangura', stage: t('mock.proposal'), pct: 20, color: '#F59E0B' },
+    { name: 'M. Okonkwo', stage: t('mock.collection'), pct: 55, color: '#3B82F6' },
+    { name: 'F. Diallo', stage: t('mock.writing'), pct: 78, color: '#8B5CF6' },
+    { name: 'S. Mensah', stage: t('mock.underReview'), pct: 92, color: '#10B981' },
   ];
   return (
     <div
@@ -25,24 +27,24 @@ export function DashboardMockup() {
 
       {/* Dashboard body */}
       <div className="p-5 text-left" style={{ background: '#FFFFFF' }}>
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-wrap gap-2 items-center justify-between mb-4">
           <div>
             <div className="text-xs font-semibold uppercase" style={{ color: ORANGE, letterSpacing: '0.1em' }}>
-              Research Office
+              {t('mock.office')}
             </div>
-            <div className="font-bold" style={{ color: NAVY, fontSize: 18 }}>PhD Progress Overview</div>
+            <div className="font-bold" style={{ color: NAVY, fontSize: 18 }}>{t('mock.overview')}</div>
           </div>
           <div className="px-3 py-1.5 rounded-lg text-xs font-semibold" style={{ background: TINT, color: NAVY }}>
-            Semester 2 · 2026
+            {t('mock.semester')}
           </div>
         </div>
 
         {/* Stat tiles */}
         <div className="grid grid-cols-3 gap-3 mb-5">
           {[
-            { label: 'Active PhDs', value: '148' },
-            { label: 'In Review', value: '23' },
-            { label: 'On Track', value: '86%' },
+            { label: t('mock.active'), value: '148' },
+            { label: t('mock.review'), value: '23' },
+            { label: t('mock.onTrack'), value: new Intl.NumberFormat(language === 'fr' ? 'fr-FR' : 'en', { style: 'percent' }).format(0.86) },
           ].map((s) => (
             <div key={s.label} className="rounded-lg p-3" style={{ background: TINT }}>
               <div className="font-bold" style={{ color: NAVY, fontSize: 22 }}>{s.value}</div>

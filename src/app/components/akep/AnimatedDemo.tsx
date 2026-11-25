@@ -11,6 +11,7 @@ import {
   BarChart3,
   Sparkles,
 } from 'lucide-react';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 const SCENE_DURATION = 6000;
 
@@ -27,6 +28,7 @@ interface AnimatedDemoProps {
 }
 
 export function AnimatedDemo({ activeIndex, onSelect }: AnimatedDemoProps) {
+  const { t } = useI18n();
   const [playing, setPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
   const startRef = useRef<number>(performance.now());
@@ -65,7 +67,7 @@ export function AnimatedDemo({ activeIndex, onSelect }: AnimatedDemoProps) {
           <div className="w-2 h-2 rounded-full bg-green-500/80" />
           <span className="ml-2">akep.app/demo</span>
         </div>
-        <div className="text-xs text-white/50">{scenes[activeIndex].time}</div>
+        <div className="text-xs text-white/50">{t('video.illustration')}</div>
       </div>
 
       <div className="absolute inset-0 pt-12 pb-6 px-6 flex items-center justify-center">
@@ -91,7 +93,7 @@ export function AnimatedDemo({ activeIndex, onSelect }: AnimatedDemoProps) {
           <button
             onClick={() => setPlaying(!playing)}
             className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white"
-            aria-label={playing ? 'Pause' : 'Play'}
+            aria-label={playing ? t('video.pause') : t('video.play')}
           >
             {playing ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
           </button>
@@ -132,6 +134,8 @@ function Card({ children, delay = 0 }: { children: React.ReactNode; delay?: numb
 }
 
 function SceneOnboarding() {
+  const { t } = useI18n();
+  const labels = t('video.onboarding').split('|');
   const steps = [
     { icon: Building2, label: 'Connect SSO' },
     { icon: Users, label: 'Import 12 faculties' },
@@ -142,7 +146,7 @@ function SceneOnboarding() {
     <div className="w-full max-w-2xl">
       <div className="flex items-center gap-2 text-white/80 mb-4">
         <Building2 size={16} style={{ color: '#A78BFA' }} />
-        <span className="text-sm">Université Cheikh Anta Diop · Setup</span>
+        <span className="text-sm">{t('video.setup')}</span>
       </div>
       <div className="space-y-3">
         {steps.map((s, i) => (
@@ -166,7 +170,7 @@ function SceneOnboarding() {
             >
               <s.icon size={14} style={{ color: '#E9D5FF' }} />
             </motion.div>
-            <span className="text-white/90 text-sm flex-1">{s.label}</span>
+            <span className="text-white/90 text-sm flex-1">{labels[i]}</span>
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -182,17 +186,18 @@ function SceneOnboarding() {
 }
 
 function SceneDuplicate() {
+  const { t } = useI18n();
   return (
     <div className="w-full max-w-2xl">
       <div className="flex items-center gap-2 text-white/80 mb-4">
         <Sparkles size={16} style={{ color: '#A78BFA' }} />
-        <span className="text-sm">AI comparing a proposed topic…</span>
+        <span className="text-sm">{t('video.comparing')}</span>
       </div>
       <Card>
         <div className="text-white text-sm mb-1">
-          "Machine Learning Applications in Sub-Saharan Agriculture"
+          {t('spot.example')}
         </div>
-        <div className="text-white/50 text-xs">Submitted by A. Diallo · Comp. Sci. · 2026</div>
+        <div className="text-white/50 text-xs">{t('video.submitted')}</div>
         <div className="mt-4 h-1.5 rounded-full bg-white/10 overflow-hidden">
           <motion.div
             initial={{ width: 0 }}
@@ -202,7 +207,7 @@ function SceneDuplicate() {
             style={{ background: 'linear-gradient(90deg, #6B21F5, #A78BFA)' }}
           />
         </div>
-        <div className="mt-2 text-xs text-white/60">Comparing with existing topics (illustration)…</div>
+        <div className="mt-2 text-xs text-white/60">{t('video.compare')}</div>
       </Card>
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -216,16 +221,16 @@ function SceneDuplicate() {
       >
         <AlertTriangle size={16} style={{ color: '#FBBF24' }} className="mt-0.5" />
         <div className="flex-1">
-          <div className="text-white text-sm">Potential topic overlap for review</div>
+          <div className="text-white text-sm">{t('video.overlap')}</div>
           <div className="text-white/60 text-xs mt-0.5">
-            "ML for crop yield prediction" (2023)
+            {t('video.example')}
           </div>
         </div>
         <span
           className="text-xs px-2 py-1 rounded"
           style={{ background: 'rgba(245, 158, 11, 0.2)', color: '#FCD34D' }}
         >
-          Flagged
+          {t('video.flagged')}
         </span>
       </motion.div>
     </div>
@@ -233,6 +238,9 @@ function SceneDuplicate() {
 }
 
 function SceneSupervisor() {
+  const { t, language } = useI18n();
+  const subjects = t('spot.subjects').split('|');
+  const loads = t('video.studentLoads').split('|');
   const matches = [
     { name: 'Prof. M. Sow', match: 96, load: '3/8 students', topic: 'Applied ML' },
     { name: 'Dr. F. Ndiaye', match: 89, load: '5/8 students', topic: 'AgriTech' },
@@ -242,7 +250,7 @@ function SceneSupervisor() {
     <div className="w-full max-w-2xl">
       <div className="flex items-center gap-2 text-white/80 mb-4">
         <Users size={16} style={{ color: '#A78BFA' }} />
-        <span className="text-sm">Matching supervisor for A. Diallo</span>
+        <span className="text-sm">{t('video.matches')}</span>
       </div>
       <div className="space-y-2">
         {matches.map((m, i) => (
@@ -269,14 +277,14 @@ function SceneSupervisor() {
             <div className="flex-1">
               <div className="text-white text-sm">{m.name}</div>
               <div className="text-white/50 text-xs">
-                {m.topic} · {m.load}
+                {subjects[i]} · {loads[i]}
               </div>
             </div>
             <div className="text-right">
               <div className="text-sm" style={{ color: '#A78BFA' }}>
-                {m.match}%
+                {new Intl.NumberFormat(language === 'fr' ? 'fr-FR' : 'en', { style: 'percent' }).format(m.match / 100)}
               </div>
-              <div className="text-white/40 text-xs">match</div>
+              <div className="text-white/40 text-xs">{t('video.match')}</div>
             </div>
           </motion.div>
         ))}
@@ -287,13 +295,15 @@ function SceneSupervisor() {
         transition={{ delay: 1.6 }}
         className="mt-3 text-center text-xs text-white/60"
       >
-        ✓ Prof. M. Sow auto-assigned · notification sent
+        {t('video.assigned')}
       </motion.div>
     </div>
   );
 }
 
 function SceneDashboard() {
+  const { t, language } = useI18n();
+  const labels = t('spot.stats').split('|');
   const bars = [40, 65, 55, 80, 72, 90, 85];
   const kpis = [
     { label: 'Active', value: '1,284' },
@@ -304,7 +314,7 @@ function SceneDashboard() {
     <div className="w-full max-w-2xl">
       <div className="flex items-center gap-2 text-white/80 mb-4">
         <BarChart3 size={16} style={{ color: '#A78BFA' }} />
-        <span className="text-sm">Dean dashboard · Spring 2026</span>
+        <span className="text-sm">{t('video.dean')}</span>
       </div>
       <div className="grid grid-cols-3 gap-3 mb-3">
         {kpis.map((k, i) => (
@@ -319,8 +329,8 @@ function SceneDashboard() {
               background: 'rgba(20,16,43,0.7)',
             }}
           >
-            <div className="text-white text-xl">{k.value}</div>
-            <div className="text-white/50 text-xs">{k.label}</div>
+            <div className="text-white text-xl">{language === 'fr' ? new Intl.NumberFormat('fr-FR').format(Number(k.value.replaceAll(',', ''))) : k.value}</div>
+            <div className="text-white/50 text-xs">{labels[i]}</div>
           </motion.div>
         ))}
       </div>
@@ -340,13 +350,7 @@ function SceneDashboard() {
           ))}
         </div>
         <div className="mt-2 flex justify-between text-xs text-white/40">
-          <span>Mon</span>
-          <span>Tue</span>
-          <span>Wed</span>
-          <span>Thu</span>
-          <span>Fri</span>
-          <span>Sat</span>
-          <span>Sun</span>
+          {t('video.weekdays').split('|').map((day) => <span key={day}>{day}</span>)}
         </div>
       </Card>
     </div>

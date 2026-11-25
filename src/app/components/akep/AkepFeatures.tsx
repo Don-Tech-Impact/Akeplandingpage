@@ -1,5 +1,6 @@
 import { Brain, ShieldCheck, Workflow, FileSearch, Users, LineChart } from 'lucide-react';
 import { INK, MUTED, PURPLE, BORDER, PURPLE_SOFT, SectionEyebrow } from './AkepUI';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 const features = [
   {
@@ -35,22 +36,30 @@ const features = [
 ];
 
 export function AkepFeatures() {
+  const { t } = useI18n();
+  const localizedFeatures = [
+    { ...features[0], title: t('featurePage.topic'), desc: t('featurePage.topicBody') },
+    { ...features[1], title: t('featurePage.assign'), desc: t('featurePage.assignBody') },
+    { ...features[2], title: t('featurePage.approvals'), desc: t('featurePage.approvalsBody') },
+    { ...features[3], title: t('featurePage.records'), desc: t('featurePage.recordsBody') },
+    { ...features[4], title: t('featurePage.activity'), desc: t('featurePage.activityBody') },
+    { ...features[5], title: t('featurePage.progress'), desc: t('featurePage.progressBody') },
+  ];
   return (
     <section id="features" className="py-24 px-6" style={{ background: 'white' }}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <SectionEyebrow>Platform</SectionEyebrow>
+          <SectionEyebrow>{t('featurePage.eyebrow')}</SectionEyebrow>
           <h2 className="mt-4" style={{ color: INK, letterSpacing: '-0.01em' }}>
-            Replace Spreadsheets and Email Chains With One Platform
+            {t('featurePage.heading')}
           </h2>
           <p className="mt-4 max-w-2xl mx-auto" style={{ color: MUTED }}>
-            ScholarFlow, a product of AKEP Technologies, brings postgraduate research milestones,
-            supervision workflows, and progress reporting into one workspace.
+            {t('featurePage.body')}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((f) => (
+          {localizedFeatures.map((f) => (
             <div
               key={f.title}
               className="rounded-2xl p-6 transition-all hover:-translate-y-0.5 hover:shadow-md"

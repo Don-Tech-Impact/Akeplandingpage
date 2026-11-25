@@ -4,6 +4,7 @@ import { Building2, GraduationCap, School, UserRoundCog, Users2, X } from 'lucid
 import { Eyebrow, SectionHeading, cardBorder } from './SFUI';
 import { Reveal } from './Reveal';
 import { NAVY, ORANGE, MUTED, INK, TINT } from './theme';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 type RedactionBox = {
   top: string;
@@ -180,6 +181,7 @@ const views: DashboardView[] = [
 ];
 
 function NameRedactionOverlays({ boxes }: { boxes: RedactionBox[] }) {
+  const { t } = useI18n();
   return (
     <>
       {boxes.map((box, idx) => (
@@ -207,7 +209,7 @@ function NameRedactionOverlays({ boxes }: { boxes: RedactionBox[] }) {
           border: '1px solid rgba(148,163,184,0.35)',
         }}
       >
-        Public demo (names masked)
+        {t('dashboard.masked')}
       </div>
     </>
   );
@@ -254,16 +256,41 @@ function DashboardImageFallback({ view }: { view: DashboardView }) {
 }
 
 export function SFDashboardShowcase() {
+  const { t, language } = useI18n();
+  const translations = [
+    { text: t('dashboard.university.text'), metrics: t('dashboard.university.metrics'), actions: t('dashboard.university.actions'), wins: t('dashboard.university.wins'), rows: t('dashboard.university.rows'), values: t('dashboard.university.values') },
+    { text: t('dashboard.hod.text'), metrics: t('dashboard.hod.metrics'), actions: t('dashboard.hod.actions'), wins: t('dashboard.hod.wins'), rows: t('dashboard.hod.rows'), values: t('dashboard.hod.values') },
+    { text: t('dashboard.supervisor.text'), metrics: t('dashboard.supervisor.metrics'), actions: t('dashboard.supervisor.actions'), wins: t('dashboard.supervisor.wins'), rows: t('dashboard.supervisor.rows'), values: t('dashboard.supervisor.values') },
+    { text: t('dashboard.workspace.text'), metrics: t('dashboard.workspace.metrics'), actions: t('dashboard.workspace.actions'), wins: t('dashboard.workspace.wins'), rows: t('dashboard.workspace.rows'), values: t('dashboard.workspace.values') },
+    { text: t('dashboard.student.text'), metrics: t('dashboard.student.metrics'), actions: t('dashboard.student.actions'), wins: t('dashboard.student.wins'), rows: t('dashboard.student.rows'), values: t('dashboard.student.values') },
+  ];
+  const localizedViews = views.map((view, index) => {
+    const translation = translations[index];
+    const [role, portal, title, subtitle, audience, decisionImpact, imageAlt] = translation.text.split('|');
+    const metrics = translation.metrics.split('|');
+    const rows = translation.rows.split('|');
+    const values = translation.values.split('|');
+    return {
+      ...view, role, portal, title, subtitle, audience, decisionImpact, imageAlt,
+      metrics: view.metrics.map((metric, i) => ({
+        ...metric, label: metrics[i],
+        value: metric.value === '2 slots' ? t('dashboard.capacity')
+          : metric.value === 'Not started' ? t('dashboard.notStarted')
+          : language === 'fr' && /^[\d,]+$/.test(metric.value) ? new Intl.NumberFormat('fr-FR').format(Number(metric.value.replaceAll(',', '')))
+          : metric.value,
+      })),
+      actions: translation.actions.split('|'),
+      wins: translation.wins.split('|'),
+      mockRows: view.mockRows.map((row, i) => ({ ...row, label: rows[i], value: values[i] })),
+    };
+  });
   const [active, setActive] = useState(views[0].key);
   const [imageFailed, setImageFailed] = useState<Record<string, boolean>>({});
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const lastManualSelectRef = useRef(0);
-  const mobileTabs = useMemo(
-    () => views.filter((v) => ['university', 'hod', 'supervisor', 'student'].includes(v.key)),
-    []
-  );
-  const mobileTabKeys = useMemo(() => mobileTabs.map((t) => t.key), [mobileTabs]);
-  const current = useMemo(() => views.find((v) => v.key === active) ?? views[0], [active]);
+  const mobileTabs = localizedViews.filter((v) => ['university', 'hod', 'supervisor', 'student'].includes(v.key));
+  const mobileTabKeys = useMemo(() => ['university', 'hod', 'supervisor', 'student'], []);
+  const current = localizedViews.find((v) => v.key === active) ?? localizedViews[0];
   const Icon = current.icon;
 
   useEffect(() => {
@@ -291,11 +318,10 @@ export function SFDashboardShowcase() {
     <section id="dashboards" className="py-24 px-6" style={{ background: '#FFFFFF' }}>
       <div className="max-w-6xl mx-auto">
         <div className="max-w-3xl mb-12">
-          <Eyebrow>Main Dashboards</Eyebrow>
-          <SectionHeading>Every Role Gets the Right Workspace</SectionHeading>
+          <Eyebrow>{t('dashboard.eyebrow')}</Eyebrow>
+          <SectionHeading>{t('dashboard.heading')}</SectionHeading>
           <p className="mt-5 text-lg leading-relaxed" style={{ color: MUTED }}>
-            ScholarFlow ships role-specific dashboards for University Admin, HOD, Supervisors, and
-            Students. Each view is optimized for the decisions that role must make daily.
+            {t('dashboard.body')}
           </p>
         </div>
 
@@ -317,7 +343,7 @@ export function SFDashboardShowcase() {
                       transform: isActive ? 'translateY(-1px)' : 'translateY(0)',
                     }}
                   >
-                    <div className="text-xs font-semibold">{tab.role.replace(' Dashboard', '')}</div>
+                    <div className="text-xs font-semibold">{language === 'en' ? tab.role.replace(' Dashboard', '') : tab.role}</div>
                     <div
                       className="text-[11px] mt-0.5"
                       style={{ color: isActive ? 'rgba(255,255,255,0.72)' : MUTED }}
@@ -341,10 +367,10 @@ export function SFDashboardShowcase() {
           <Reveal className="hidden lg:block">
             <div className="rounded-2xl p-4 lg:p-5" style={{ border: cardBorder, background: '#FBFDFF' }}>
               <div className="text-xs font-bold uppercase mb-3" style={{ color: ORANGE, letterSpacing: '0.12em' }}>
-                Roles
+                {t('dashboard.roles')}
               </div>
               <div className="space-y-2">
-                {views.map((v) => (
+                {localizedViews.map((v) => (
                   <button
                     key={v.key}
                     onClick={() => handleRoleSelect(v.key)}
@@ -433,8 +459,8 @@ export function SFDashboardShowcase() {
                   </button>
                   <p className="mt-2 text-xs" style={{ color: MUTED }}>
                     {imageFailed[current.key]
-                      ? 'Screenshot placeholder shown. Add real image files under public/dashboards to replace this preview.'
-                      : 'Click to expand dashboard screenshot.'}
+                      ? t('dashboard.fallback')
+                      : t('dashboard.expand')}
                   </p>
                 </div>
 
@@ -454,7 +480,7 @@ export function SFDashboardShowcase() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                   <div className="rounded-xl p-4" style={{ border: '1px solid #E5EDF6' }}>
                     <div className="text-xs font-bold uppercase mb-2" style={{ color: ORANGE, letterSpacing: '0.1em' }}>
-                      Key actions
+                      {t('dashboard.actions')}
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {current.actions.map((a) => (
@@ -471,7 +497,7 @@ export function SFDashboardShowcase() {
 
                   <div className="rounded-xl p-4" style={{ border: '1px solid #E5EDF6' }}>
                     <div className="text-xs font-bold uppercase mb-2" style={{ color: ORANGE, letterSpacing: '0.1em' }}>
-                      Outcomes
+                      {t('dashboard.outcomes')}
                     </div>
                     <ul className="space-y-1.5">
                       {current.wins.map((w) => (
@@ -499,7 +525,7 @@ export function SFDashboardShowcase() {
                   onClick={() => setLightboxOpen(false)}
                   className="absolute -top-11 right-0 w-9 h-9 rounded-lg flex items-center justify-center"
                   style={{ background: 'rgba(255,255,255,0.14)', color: '#FFFFFF' }}
-                  aria-label="Close screenshot"
+                  aria-label={t('dashboard.close')}
                 >
                   <X size={18} />
                 </button>

@@ -66,13 +66,24 @@ async function postJson<TPayload>(path: string, payload: TPayload) {
     throw new Error("Frontend misconfigured: set VITE_API_BASE_URL for production builds.");
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+  } catch (error) {
+    if (!(error instanceof TypeError)) throw error;
+    throw new Error(
+      import.meta.env.DEV
+        ? "Cannot reach the local email API. Start it with npm run dev:api and check its CORS settings."
+        : "Cannot reach the email service. Please check your connection and try again.",
+      { cause: error },
+    );
+  }
 
   const data = await response.json().catch(() => ({}));
 

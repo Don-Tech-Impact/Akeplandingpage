@@ -1,5 +1,6 @@
 import { ReactNode, useId } from 'react';
 import { NAVY, NAVY_DEEP, ORANGE, ORANGE_DARK, INK, MUTED, BORDER, FONT_HEAD } from './theme';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 /**
  * ScholarFlow logo — a graduation cap that dissolves into a "flow" of motion,
@@ -16,6 +17,7 @@ export function SFLogo({
   showTagline?: boolean;
   markOnly?: boolean;
 }) {
+  const { t } = useI18n();
   const uid = useId().replace(/[:]/g, '');
   const gBadge = `sfBadge-${uid}`;
   const gCap = `sfCap-${uid}`;
@@ -82,7 +84,7 @@ export function SFLogo({
         </span>
         {showTagline && (
           <span style={{ color: subColor, fontSize: Math.max(9, size * 0.26), fontWeight: 500, marginTop: 3, letterSpacing: '0.02em' }}>
-            by AKEP Technologies
+            {t('logo.by')}
           </span>
         )}
       </div>
