@@ -1,0 +1,178 @@
+/* Shared visual polish for public pages. Presentation only — no layout-critical rules. */
+
+.sf-page-title {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 4.2vw, 3.1rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.sf-section-title {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.sf-card-title {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.sf-feature-title {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+}
+
+.sf-lead {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+@media (min-width: 768px) {
+  .sf-lead {
+    font-size: 1.125rem;
+  }
+}
+
+/* Cards: calm lift on hover, clear focus when interactive. */
+.sf-card {
+  transition:
+    transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 220ms ease;
+}
+
+@media (hover: hover) {
+  .sf-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px -22px rgba(15, 34, 54, 0.35);
+    border-color: #f3c48f !important;
+  }
+}
+
+.sf-card-dark {
+  transition:
+    transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 220ms ease,
+    background-color 220ms ease;
+}
+
+@media (hover: hover) {
+  .sf-card-dark:hover {
+    transform: translateY(-3px);
+    border-color: rgba(244, 178, 106, 0.45) !important;
+  }
+}
+
+/* Buttons: tactile press and arrow nudge. */
+.sf-btn {
+  transition:
+    transform 160ms ease,
+    box-shadow 200ms ease,
+    background-color 200ms ease,
+    opacity 200ms ease;
+}
+
+.sf-btn:active {
+  transform: scale(0.98);
+}
+
+.sf-btn svg:last-child {
+  transition: transform 200ms ease;
+}
+
+@media (hover: hover) {
+  .sf-btn:hover svg:last-child {
+    transform: translateX(3px);
+  }
+}
+
+.sf-btn:focus-visible,
+.sf-card:focus-visible,
+.sf-focus:focus-visible {
+  outline: 2px solid #e8892b;
+  outline-offset: 3px;
+}
+
+/* Comfortable tap targets for text links in lists (WCAG 2.2 target size). */
+.sf-tap {
+  display: inline-block;
+  padding-block: 0.3rem;
+}
+
+/* Loading skeleton. */
+.sf-skeleton {
+  background: linear-gradient(90deg, #eef2f7 0%, #f7f9fc 40%, #eef2f7 80%);
+  background-size: 200% 100%;
+  animation: sf-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes sf-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* Success check stroke-draw. */
+.sf-check-draw path,
+.sf-check-draw circle {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: sf-draw 650ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.sf-check-draw path {
+  animation-delay: 250ms;
+}
+
+@keyframes sf-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.sf-fade-in {
+  animation: sf-fade-in 500ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes sf-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .sf-check-draw path,
+  .sf-check-draw circle {
+    stroke-dashoffset: 0;
+  }
+}

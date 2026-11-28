@@ -11,11 +11,16 @@ export function Reveal({
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [shown, setShown] = useState(false);
+  const [shown, setShown] = useState(
+    () =>
+      typeof window === 'undefined' ||
+      typeof IntersectionObserver === 'undefined' ||
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  );
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || shown) return;
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -23,11 +28,11 @@ export function Reveal({
           obs.disconnect();
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, []);
+  }, [shown]);
 
   return (
     <div
@@ -35,8 +40,8 @@ export function Reveal({
       className={className}
       style={{
         opacity: shown ? 1 : 0,
-        transform: shown ? 'translateY(0)' : 'translateY(24px)',
-        transition: `opacity 0.6s ease ${delay}ms, transform 0.6s ease ${delay}ms`,
+        transform: shown ? 'none' : 'translateY(14px)',
+        transition: `opacity 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) ${delay}ms, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) ${delay}ms`,
       }}
     >
       {children}
