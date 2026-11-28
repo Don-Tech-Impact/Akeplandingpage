@@ -486,6 +486,7 @@ key,english,french,reviewer_comment,approved
 "universities.loadError","We couldn’t load universities right now. Please try again shortly.","Impossible de charger les universités pour le moment. Veuillez réessayer ultérieurement.","",""
 "universities.empty","No universities are listed yet.","Aucune université ne figure encore dans l’annuaire.","",""
 "universities.noMatch","No universities match your search.","Aucune université ne correspond à votre recherche.","",""
+"universities.retry","Try again","Réessayer","",""
 "universities.back","All universities","Toutes les universités","",""
 "universities.missing","This university isn’t listed.","Cette université ne figure pas dans l’annuaire.","",""
 "universities.error","Something went wrong. Please try again.","Une erreur s’est produite. Veuillez réessayer.","",""

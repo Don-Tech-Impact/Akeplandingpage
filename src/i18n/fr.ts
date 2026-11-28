@@ -347,6 +347,7 @@ export const fr = {
   'universities.loadError': 'Impossible de charger les universités pour le moment. Veuillez réessayer ultérieurement.',
   'universities.empty': 'Aucune université ne figure encore dans l’annuaire.',
   'universities.noMatch': 'Aucune université ne correspond à votre recherche.',
+  'universities.retry': 'Réessayer',
   'universities.back': 'Toutes les universités',
   'universities.missing': 'Cette université ne figure pas dans l’annuaire.',
   'universities.error': 'Une erreur s’est produite. Veuillez réessayer.',

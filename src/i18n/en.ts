@@ -345,6 +345,7 @@ export const en = {
   'universities.loadError': 'We couldn’t load universities right now. Please try again shortly.',
   'universities.empty': 'No universities are listed yet.',
   'universities.noMatch': 'No universities match your search.',
+  'universities.retry': 'Try again',
   'universities.back': 'All universities',
   'universities.missing': 'This university isn’t listed.',
   'universities.error': 'Something went wrong. Please try again.',

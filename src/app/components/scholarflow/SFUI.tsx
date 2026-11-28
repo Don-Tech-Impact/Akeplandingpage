@@ -103,9 +103,9 @@ export function Eyebrow({ children }: { children: ReactNode }) {
   );
 }
 
-export function SectionHeading({ children }: { children: ReactNode }) {
+export function SectionHeading({ children, as: Tag = 'h2' }: { children: ReactNode; as?: 'h1' | 'h2' }) {
   return (
-    <h2
+    <Tag
       style={{
         color: NAVY,
         fontFamily: FONT_HEAD,
@@ -116,7 +116,7 @@ export function SectionHeading({ children }: { children: ReactNode }) {
       }}
     >
       {children}
-    </h2>
+    </Tag>
   );
 }
 
@@ -131,7 +131,7 @@ export function PrimaryCTA({
   href?: string;
   large?: boolean;
 }) {
-  const cls = `inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-all hover:opacity-95 ${
+  const cls = `sf-btn inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-all hover:opacity-95 ${
     large ? 'px-8 py-4 text-base' : 'px-6 py-3 text-sm'
   }`;
   const style = {
@@ -168,7 +168,7 @@ export function OutlineCTA({
   light?: boolean;
 }) {
   const cls =
-    'inline-flex items-center justify-center gap-2 rounded-lg font-semibold px-6 py-3 text-sm border-2 transition-all hover:bg-black/5';
+    'sf-btn inline-flex items-center justify-center gap-2 rounded-lg font-semibold px-6 py-3 text-sm border-2 transition-all hover:bg-black/5';
   const style = {
     borderColor: light ? 'rgba(255,255,255,0.5)' : NAVY,
     color: light ? '#FFFFFF' : NAVY,
