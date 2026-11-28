@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Search } from 'lucide-react';
 import { INK, MUTED, PURPLE, BORDER, PURPLE_SOFT, SectionEyebrow } from './AkepUI';
+import { NAVY } from '../scholarflow/theme';
 import { useI18n } from '../../../i18n/I18nProvider';
 
 interface Integration {
@@ -51,14 +52,14 @@ export function AkepIntegrations() {
   );
 
   return (
-    <section id="integrations" className="py-24 px-6" style={{ background: '#F8F7FB' }}>
+    <section id="integrations" className="py-24 px-6" style={{ background: '#F7F9FC' }}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10 max-w-2xl mx-auto">
           <SectionEyebrow>{t('integration.eyebrow')}</SectionEyebrow>
-          <h2 className="mt-4" style={{ color: INK, letterSpacing: '-0.01em' }}>
+          <h2 className="mt-4 sf-section-title" style={{ color: NAVY }}>
             {t('integration.heading')}
           </h2>
-          <p className="mt-4" style={{ color: MUTED }}>
+          <p className="mt-4 sf-lead" style={{ color: MUTED }}>
             {t('integration.body')}
           </p>
         </div>
@@ -103,11 +104,11 @@ export function AkepIntegrations() {
           {visible.map((i) => (
             <div
               key={i.name}
-              className="rounded-xl p-4 flex items-center gap-3 transition-all hover:-translate-y-0.5 hover:shadow-sm"
+              className="sf-card rounded-xl p-4 flex items-center gap-3"
               style={{ background: 'white', border: `1px solid ${BORDER}` }}
             >
               <div
-                className="w-9 h-9 rounded-lg flex items-center justify-center text-sm"
+                className="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-semibold"
                 style={{ background: PURPLE_SOFT, color: PURPLE }}
               >
                 {i.initials}

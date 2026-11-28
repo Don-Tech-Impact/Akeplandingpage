@@ -1,5 +1,6 @@
 import { Check, FileText, Sparkles, Users, BarChart3 } from 'lucide-react';
 import { INK, MUTED, PURPLE, BORDER, PURPLE_SOFT, SectionEyebrow } from './AkepUI';
+import { NAVY } from '../scholarflow/theme';
 import { useI18n } from '../../../i18n/I18nProvider';
 
 interface Spot {
@@ -86,7 +87,7 @@ function MockSubmission() {
           <div
             key={r.name}
             className="flex items-center justify-between text-sm rounded-lg px-3 py-2"
-            style={{ background: '#F8F7FB' }}
+            style={{ background: '#F7F9FC' }}
           >
             <span style={{ color: INK }}>{names[i]}</span>
             <span
@@ -165,7 +166,7 @@ function MockSupervisor() {
           >
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm"
-              style={{ background: `linear-gradient(135deg, ${PURPLE}, #A78BFA)` }}
+              style={{ background: `linear-gradient(135deg, ${PURPLE}, #4C84C4)` }}
             >
               {r.name.split(' ').slice(-1)[0][0]}
             </div>
@@ -206,7 +207,7 @@ function MockReporting() {
           <div
             key={k.l}
             className="rounded-lg p-3"
-            style={{ background: '#F8F7FB' }}
+            style={{ background: '#F7F9FC' }}
           >
             <div className="text-lg" style={{ color: INK }}>
               {language === 'fr' ? new Intl.NumberFormat('fr-FR').format(Number(k.v.replaceAll(',', ''))) : k.v}
@@ -224,7 +225,7 @@ function MockReporting() {
             className="flex-1 rounded-t-sm"
             style={{
               height: `${b}%`,
-              background: `linear-gradient(180deg, #A78BFA 0%, ${PURPLE} 100%)`,
+              background: `linear-gradient(180deg, #4C84C4 0%, ${PURPLE} 100%)`,
             }}
           />
         ))}
@@ -253,13 +254,13 @@ export function AkepSpotlight() {
     return { ...spot, eyebrow, title, body, bullets: translations[index].bullets.split('|') };
   });
   return (
-    <section className="py-24 px-6" style={{ background: '#F8F7FB' }}>
+    <section className="py-24 px-6" style={{ background: '#F7F9FC' }}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16 max-w-2xl mx-auto">
           <SectionEyebrow>{t('spot.eyebrow')}</SectionEyebrow>
-          <h2 className="mt-4" style={{ color: INK, letterSpacing: '-0.01em' }}>
+          <h1 className="mt-4 sf-page-title" style={{ color: NAVY }}>
             {t('spot.heading')}
-          </h2>
+          </h1>
         </div>
 
         <div className="space-y-20">
@@ -272,10 +273,10 @@ export function AkepSpotlight() {
               >
                 <div className={flip ? 'lg:order-2' : ''}>
                   <SectionEyebrow>{s.eyebrow}</SectionEyebrow>
-                  <h3 className="mt-4" style={{ color: INK, letterSpacing: '-0.01em' }}>
+                  <h2 className="mt-3 sf-feature-title" style={{ color: NAVY }}>
                     {s.title}
-                  </h3>
-                  <p className="mt-3" style={{ color: MUTED }}>
+                  </h2>
+                  <p className="mt-3 sf-lead" style={{ color: MUTED }}>
                     {s.body}
                   </p>
                   <ul className="mt-6 space-y-2">
@@ -297,7 +298,7 @@ export function AkepSpotlight() {
                     style={{
                       background: 'white',
                       border: `1px solid ${BORDER}`,
-                      boxShadow: '0 20px 50px -25px rgba(11,4,32,0.25)',
+                      boxShadow: '0 30px 60px -30px rgba(15,34,54,0.35)',
                     }}
                   >
                     <Mock kind={s.mock} />

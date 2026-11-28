@@ -56,12 +56,12 @@ function ThumbnailMockUI() {
         {/* Mock dissertation rows */}
         <div
           className="rounded-xl border overflow-hidden"
-          style={{ borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(20,16,43,0.7)' }}
+          style={{ borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(24,53,83,0.7)' }}
         >
           {[
             { name: 'Amara Diallo', topic: 'Machine Learning in Healthcare', status: 'AI Approved', color: '#22C55E' },
             { name: 'Kwame Asante', topic: 'Distributed Systems Security', status: 'HOD Review', color: '#F59E0B' },
-            { name: 'Fatima Al-Rashid', topic: 'NLP for African Languages', status: 'Supervisor Matched', color: '#6B21F5' },
+            { name: 'Fatima Al-Rashid', topic: 'NLP for African Languages', status: 'Supervisor Matched', color: '#E8892B' },
           ].map((row, i) => (
             <div
               key={i}
@@ -176,11 +176,11 @@ export function DemoVideoSection({
         <div className="max-w-5xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <span className="inline-flex items-center text-xs uppercase tracking-widest font-semibold" style={{ color: PURPLE }}>{t('video.eyebrow')}</span>
-            <h2 className="mt-4" style={{ color: INK, letterSpacing: '-0.01em' }}>
+            <span className="inline-flex items-center text-xs uppercase font-bold" style={{ color: '#B45309', letterSpacing: '0.14em' }}>{t('video.eyebrow')}</span>
+            <h2 className="mt-4 sf-section-title" style={{ color: PURPLE }}>
               {t('video.heading')}
             </h2>
-            <p className="mt-4 max-w-xl mx-auto" style={{ color: MUTED }}>
+            <p className="mt-4 max-w-xl mx-auto sf-lead" style={{ color: MUTED }}>
               {t('video.body')}
             </p>
           </div>
@@ -192,8 +192,8 @@ export function DemoVideoSection({
             className="relative w-full overflow-hidden rounded-2xl cursor-pointer group text-left"
             style={{
               aspectRatio: '16 / 9',
-              background: 'linear-gradient(135deg, #0B0420 0%, #16122B 50%, #0B0420 100%)',
-              boxShadow: '0 30px 80px -20px rgba(107,33,245,0.35)',
+              background: 'linear-gradient(135deg, #0F2236 0%, #183553 50%, #0F2236 100%)',
+              boxShadow: '0 30px 80px -24px rgba(15,34,54,0.45)',
               border: `1px solid ${PURPLE_BORDER}`,
             }}
             onClick={() => setLightboxOpen(true)}
@@ -203,7 +203,7 @@ export function DemoVideoSection({
             <div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full pointer-events-none"
               style={{
-                background: 'radial-gradient(circle, rgba(107,33,245,0.30) 0%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(76,132,196,0.30) 0%, transparent 70%)',
                 filter: 'blur(40px)',
               }}
             />
@@ -214,8 +214,8 @@ export function DemoVideoSection({
             {/* Dark overlay that lightens on hover */}
             <motion.div
               className="absolute inset-0"
-              style={{ background: 'rgba(11,4,32,0.45)' }}
-              variants={{ hover: { background: 'rgba(11,4,32,0.25)' } }}
+              style={{ background: 'rgba(15,34,54,0.28)' }}
+              variants={{ hover: { background: 'rgba(15,34,54,0.12)' } }}
               transition={{ duration: 0.2 }}
             />
 

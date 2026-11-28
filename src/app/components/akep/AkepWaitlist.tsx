@@ -13,30 +13,30 @@ export function AkepWaitlist() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(107, 33, 245, 0.4) 0%, rgba(11, 4, 32, 0) 60%)',
+            'radial-gradient(ellipse at center, rgba(76,132,196,0.4) 0%, rgba(15,34,54,0) 60%)',
         }}
       />
       <div
         className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full"
         style={{
           background:
-            'radial-gradient(circle, rgba(167, 139, 250, 0.25) 0%, rgba(11, 4, 32, 0) 70%)',
+            'radial-gradient(circle, rgba(76,132,196,0.22) 0%, rgba(15,34,54,0) 70%)',
           filter: 'blur(40px)',
         }}
       />
       <div className="relative max-w-3xl mx-auto text-center">
-        <h2 className="text-white" style={{ letterSpacing: '-0.01em' }}>
+        <h2 className="text-white sf-section-title">
           {t('waitlist.title')}
         </h2>
-        <p className="mt-4 text-white/70">
+        <p className="mt-4 text-white/75 sf-lead">
           {t('waitlist.body')}
         </p>
         <div className="mt-8">
           <button
             type="button"
             onClick={openPilot}
-            className="px-5 py-3 rounded-lg inline-flex items-center justify-center gap-2 hover:opacity-90 transition"
-            style={{ background: 'white', color: DARK }}
+            className="sf-btn px-6 py-3 rounded-lg inline-flex items-center justify-center gap-2 font-semibold hover:opacity-95"
+            style={{ background: '#E8892B', color: 'white', boxShadow: '0 8px 22px rgba(232,137,43,0.3)' }}
           >
             {t('waitlist.submit')} <ArrowRight size={16} />
           </button>

@@ -36,44 +36,44 @@ export function AkepHowItWorks() {
     <section
       id="how"
       className="relative py-24 px-6 overflow-hidden"
-      style={{ background: '#0B0420' }}
+      style={{ background: '#0F2236' }}
     >
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse at top, rgba(107,33,245,0.25) 0%, rgba(11,4,32,0) 60%)',
+            'radial-gradient(ellipse at top, rgba(76,132,196,0.25) 0%, rgba(15,34,54,0) 60%)',
         }}
       />
       <div className="relative max-w-6xl mx-auto">
         <div className="text-center mb-16 max-w-2xl mx-auto">
-          <SectionEyebrow>{t('howPage.eyebrow')}</SectionEyebrow>
-          <h2 className="mt-4 text-white" style={{ letterSpacing: '-0.01em' }}>
+          <SectionEyebrow dark>{t('howPage.eyebrow')}</SectionEyebrow>
+          <h1 className="mt-4 text-white sf-page-title">
             {t('howPage.heading')}
-          </h2>
+          </h1>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {localizedSteps.map((s) => (
             <div
               key={s.n}
-              className="rounded-2xl p-6 transition-all hover:-translate-y-0.5"
+              className="sf-card-dark rounded-2xl p-6"
               style={{
-                background: '#16122B',
+                background: '#183553',
                 border: '1px solid rgba(255,255,255,0.06)',
                 boxShadow: '0 20px 50px -25px rgba(0,0,0,0.5)',
               }}
             >
               <div
-                className="w-10 h-10 rounded-lg flex items-center justify-center text-sm"
+                className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold"
                 style={{
-                  background: 'rgba(107,33,245,0.18)',
-                  color: '#A78BFA',
-                  border: '1px solid rgba(167,139,250,0.25)',
+                  background: 'rgba(76,132,196,0.18)',
+                  color: '#F4B26A',
+                  border: '1px solid rgba(244,178,106,0.25)',
                 }}
               >
                 {s.n}
               </div>
-              <h3 className="mt-5 text-white">{s.title}</h3>
+              <h2 className="mt-5 text-white sf-card-title">{s.title}</h2>
               <p
                 className="mt-2 text-sm leading-relaxed"
                 style={{ color: 'rgba(255,255,255,0.65)' }}

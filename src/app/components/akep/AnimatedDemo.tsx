@@ -57,7 +57,7 @@ export function AnimatedDemo({ activeIndex, onSelect }: AnimatedDemoProps) {
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse at top right, rgba(107, 33, 245, 0.25) 0%, rgba(13, 11, 31, 1) 70%)',
+            'radial-gradient(ellipse at top right, rgba(76,132,196,0.25) 0%, rgba(15,34,54,1) 70%)',
         }}
       />
       <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
@@ -102,7 +102,7 @@ export function AnimatedDemo({ activeIndex, onSelect }: AnimatedDemoProps) {
               className="h-full rounded-full"
               style={{
                 width: `${progress * 100}%`,
-                background: 'linear-gradient(90deg, #6B21F5, #A78BFA)',
+                background: 'linear-gradient(90deg, #E8892B, #F4B26A)',
                 transition: 'width 80ms linear',
               }}
             />
@@ -125,7 +125,7 @@ function Card({ children, delay = 0 }: { children: React.ReactNode; delay?: numb
       className="rounded-xl border p-4"
       style={{
         borderColor: 'rgba(255,255,255,0.08)',
-        background: 'rgba(20,16,43,0.7)',
+        background: 'rgba(24,53,83,0.7)',
       }}
     >
       {children}
@@ -145,7 +145,7 @@ function SceneOnboarding() {
   return (
     <div className="w-full max-w-2xl">
       <div className="flex items-center gap-2 text-white/80 mb-4">
-        <Building2 size={16} style={{ color: '#A78BFA' }} />
+        <Building2 size={16} style={{ color: '#F4B26A' }} />
         <span className="text-sm">{t('video.setup')}</span>
       </div>
       <div className="space-y-3">
@@ -157,8 +157,8 @@ function SceneOnboarding() {
             transition={{ delay: 0.3 + i * 0.5, duration: 0.4 }}
             className="flex items-center gap-3 rounded-lg border px-4 py-3"
             style={{
-              borderColor: 'rgba(107, 33, 245, 0.25)',
-              background: 'rgba(107, 33, 245, 0.08)',
+              borderColor: 'rgba(76,132,196,0.25)',
+              background: 'rgba(76,132,196,0.08)',
             }}
           >
             <motion.div
@@ -166,7 +166,7 @@ function SceneOnboarding() {
               animate={{ scale: 1 }}
               transition={{ delay: 0.4 + i * 0.5, type: 'spring' }}
               className="w-7 h-7 rounded-full flex items-center justify-center"
-              style={{ background: 'rgba(107, 33, 245, 0.3)' }}
+              style={{ background: 'rgba(76,132,196,0.3)' }}
             >
               <s.icon size={14} style={{ color: '#E9D5FF' }} />
             </motion.div>
@@ -190,7 +190,7 @@ function SceneDuplicate() {
   return (
     <div className="w-full max-w-2xl">
       <div className="flex items-center gap-2 text-white/80 mb-4">
-        <Sparkles size={16} style={{ color: '#A78BFA' }} />
+        <Sparkles size={16} style={{ color: '#F4B26A' }} />
         <span className="text-sm">{t('video.comparing')}</span>
       </div>
       <Card>
@@ -204,7 +204,7 @@ function SceneDuplicate() {
             animate={{ width: '92%' }}
             transition={{ duration: 2.4, delay: 0.2 }}
             className="h-full rounded-full"
-            style={{ background: 'linear-gradient(90deg, #6B21F5, #A78BFA)' }}
+            style={{ background: 'linear-gradient(90deg, #E8892B, #F4B26A)' }}
           />
         </div>
         <div className="mt-2 text-xs text-white/60">{t('video.compare')}</div>
@@ -249,7 +249,7 @@ function SceneSupervisor() {
   return (
     <div className="w-full max-w-2xl">
       <div className="flex items-center gap-2 text-white/80 mb-4">
-        <Users size={16} style={{ color: '#A78BFA' }} />
+        <Users size={16} style={{ color: '#F4B26A' }} />
         <span className="text-sm">{t('video.matches')}</span>
       </div>
       <div className="space-y-2">
@@ -261,15 +261,15 @@ function SceneSupervisor() {
             transition={{ delay: 0.2 + i * 0.35 }}
             className="flex items-center gap-3 rounded-lg border px-4 py-3"
             style={{
-              borderColor: i === 0 ? 'rgba(107, 33, 245, 0.5)' : 'rgba(255,255,255,0.08)',
+              borderColor: i === 0 ? 'rgba(76,132,196,0.5)' : 'rgba(255,255,255,0.08)',
               background:
-                i === 0 ? 'rgba(107, 33, 245, 0.12)' : 'rgba(20,16,43,0.6)',
+                i === 0 ? 'rgba(76,132,196,0.12)' : 'rgba(24,53,83,0.6)',
             }}
           >
             <div
               className="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm"
               style={{
-                background: 'linear-gradient(135deg, #6B21F5, #A78BFA)',
+                background: 'linear-gradient(135deg, #E8892B, #F4B26A)',
               }}
             >
               {m.name.split(' ').slice(-1)[0][0]}
@@ -281,7 +281,7 @@ function SceneSupervisor() {
               </div>
             </div>
             <div className="text-right">
-              <div className="text-sm" style={{ color: '#A78BFA' }}>
+              <div className="text-sm" style={{ color: '#F4B26A' }}>
                 {new Intl.NumberFormat(language === 'fr' ? 'fr-FR' : 'en', { style: 'percent' }).format(m.match / 100)}
               </div>
               <div className="text-white/40 text-xs">{t('video.match')}</div>
@@ -313,7 +313,7 @@ function SceneDashboard() {
   return (
     <div className="w-full max-w-2xl">
       <div className="flex items-center gap-2 text-white/80 mb-4">
-        <BarChart3 size={16} style={{ color: '#A78BFA' }} />
+        <BarChart3 size={16} style={{ color: '#F4B26A' }} />
         <span className="text-sm">{t('video.dean')}</span>
       </div>
       <div className="grid grid-cols-3 gap-3 mb-3">
@@ -326,7 +326,7 @@ function SceneDashboard() {
             className="rounded-lg border p-3"
             style={{
               borderColor: 'rgba(255,255,255,0.08)',
-              background: 'rgba(20,16,43,0.7)',
+              background: 'rgba(24,53,83,0.7)',
             }}
           >
             <div className="text-white text-xl">{language === 'fr' ? new Intl.NumberFormat('fr-FR').format(Number(k.value.replaceAll(',', ''))) : k.value}</div>
@@ -344,7 +344,7 @@ function SceneDashboard() {
               transition={{ delay: 0.8 + i * 0.08, duration: 0.5 }}
               className="flex-1 rounded-t-sm"
               style={{
-                background: 'linear-gradient(180deg, #A78BFA 0%, #6B21F5 100%)',
+                background: 'linear-gradient(180deg, #F4B26A 0%, #E8892B 100%)',
               }}
             />
           ))}

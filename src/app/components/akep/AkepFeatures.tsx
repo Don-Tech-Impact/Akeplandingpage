@@ -1,5 +1,6 @@
 import { Brain, ShieldCheck, Workflow, FileSearch, Users, LineChart } from 'lucide-react';
 import { INK, MUTED, PURPLE, BORDER, PURPLE_SOFT, SectionEyebrow } from './AkepUI';
+import { NAVY } from '../scholarflow/theme';
 import { useI18n } from '../../../i18n/I18nProvider';
 
 const features = [
@@ -50,10 +51,10 @@ export function AkepFeatures() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <SectionEyebrow>{t('featurePage.eyebrow')}</SectionEyebrow>
-          <h2 className="mt-4" style={{ color: INK, letterSpacing: '-0.01em' }}>
+          <h2 className="mt-4 sf-section-title" style={{ color: NAVY }}>
             {t('featurePage.heading')}
           </h2>
-          <p className="mt-4 max-w-2xl mx-auto" style={{ color: MUTED }}>
+          <p className="mt-4 max-w-2xl mx-auto sf-lead" style={{ color: MUTED }}>
             {t('featurePage.body')}
           </p>
         </div>
@@ -62,7 +63,7 @@ export function AkepFeatures() {
           {localizedFeatures.map((f) => (
             <div
               key={f.title}
-              className="rounded-2xl p-6 transition-all hover:-translate-y-0.5 hover:shadow-md"
+              className="sf-card rounded-2xl p-6"
               style={{ border: `1px solid ${BORDER}`, background: 'white' }}
             >
               <div
@@ -71,7 +72,7 @@ export function AkepFeatures() {
               >
                 <f.icon size={20} style={{ color: PURPLE }} />
               </div>
-              <h3 className="mt-5" style={{ color: INK }}>
+              <h3 className="mt-5 sf-card-title" style={{ color: NAVY }}>
                 {f.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed" style={{ color: MUTED }}>

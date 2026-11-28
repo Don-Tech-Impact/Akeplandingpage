@@ -1,33 +1,32 @@
 import { ReactNode } from 'react';
 
-export const PURPLE = '#6B21F5';
-export const PURPLE_LIGHT = '#A78BFA';
-export const PURPLE_SOFT = '#F3EFFF';
-export const BG = '#0D0B1F';
-export const BG_ALT = '#14102B';
-export const INK = '#0B0B14';
-export const MUTED = '#5B5B6B';
-export const BORDER = '#E6E4EF';
+// Legacy token names kept for compatibility; values now follow the ScholarFlow brand.
+export const PURPLE = '#1A3C5E';
+export const PURPLE_LIGHT = '#F4B26A';
+export const PURPLE_SOFT = '#EEF4FB';
+export const BG = '#0F2236';
+export const BG_ALT = '#163150';
+export const INK = '#111827';
+export const MUTED = '#4B5563';
+export const BORDER = '#E3EAF2';
 export const SURFACE = '#FFFFFF';
-export const SURFACE_ALT = '#F8F7FB';
-export const DARK = '#0B0420';
+export const SURFACE_ALT = '#F7F9FC';
+export const DARK = '#0F2236';
+export const ACCENT = '#E8892B';
+export const ACCENT_TEXT = '#B45309';
 
 // ─── Dark-section surface & overlay tokens ───────────────────────────────────
-export const SURFACE_DARK = '#16122B';
-export const PURPLE_DIM = 'rgba(107,33,245,0.12)';
-export const PURPLE_BORDER = 'rgba(107,33,245,0.25)';
+export const SURFACE_DARK = '#183553';
+export const PURPLE_DIM = 'rgba(232,137,43,0.12)';
+export const PURPLE_BORDER = 'rgba(232,137,43,0.28)';
 export const TEXT_MUTED = 'rgba(255,255,255,0.55)';
 export const TEXT_DIM = 'rgba(255,255,255,0.35)';
 
-export function SectionEyebrow({ children }: { children: ReactNode }) {
+export function SectionEyebrow({ children, dark = false }: { children: ReactNode; dark?: boolean }) {
   return (
     <span
-      className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs tracking-wide uppercase"
-      style={{
-        backgroundColor: PURPLE_SOFT,
-        color: PURPLE,
-        border: `1px solid ${BORDER}`,
-      }}
+      className="inline-block text-xs font-bold uppercase"
+      style={{ color: dark ? PURPLE_LIGHT : ACCENT_TEXT, letterSpacing: '0.14em' }}
     >
       {children}
     </span>
@@ -41,7 +40,7 @@ export function SectionBadge({ children }: { children: ReactNode }) {
       style={{
         borderColor: PURPLE_BORDER,
         backgroundColor: PURPLE_DIM,
-        color: '#C4B5FD',
+        color: PURPLE_LIGHT,
       }}
     >
       {children}
@@ -64,11 +63,11 @@ export function PrimaryButton({
     <button
       type={type}
       onClick={onClick}
-      className={`px-5 py-3 rounded-lg transition-all hover:opacity-95 hover:-translate-y-0.5 ${className}`}
+      className={`sf-btn inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg font-semibold hover:opacity-95 ${className}`}
       style={{
-        background: PURPLE,
+        background: ACCENT,
         color: 'white',
-        boxShadow: '0 6px 16px rgba(107, 33, 245, 0.25)',
+        boxShadow: '0 8px 22px rgba(232,137,43,0.3)',
       }}
     >
       {children}
@@ -88,10 +87,10 @@ export function GhostButton({
   return (
     <button
       onClick={onClick}
-      className={`px-5 py-3 rounded-lg border transition-colors hover:bg-[#F3EFFF] ${className}`}
+      className={`sf-btn inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg border-2 font-semibold hover:bg-[#EEF4FB] ${className}`}
       style={{
-        borderColor: BORDER,
-        color: INK,
+        borderColor: PURPLE,
+        color: PURPLE,
         background: 'white',
       }}
     >

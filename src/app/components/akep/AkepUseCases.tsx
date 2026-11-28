@@ -1,5 +1,6 @@
 import { GraduationCap, Building2, BookOpen, Microscope, ArrowUpRight } from 'lucide-react';
 import { INK, MUTED, PURPLE, BORDER, PURPLE_SOFT, SectionEyebrow } from './AkepUI';
+import { NAVY } from '../scholarflow/theme';
 import { useI18n } from '../../../i18n/I18nProvider';
 
 const cases = [
@@ -38,15 +39,15 @@ export function AkepUseCases() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <SectionEyebrow>{t('cases.eyebrow')}</SectionEyebrow>
-          <h2 className="mt-4" style={{ color: INK, letterSpacing: '-0.01em' }}>
+          <h1 className="mt-4 sf-page-title" style={{ color: NAVY }}>
             {t('cases.heading')}
-          </h2>
+          </h1>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {localizedCases.map((c) => (
             <div
               key={c.title}
-              className="rounded-2xl p-8 transition-all hover:shadow-md group"
+              className="sf-card rounded-2xl p-8 group"
               style={{ border: `1px solid ${BORDER}`, background: 'white' }}
             >
               <div className="flex items-start justify-between">
@@ -59,12 +60,12 @@ export function AkepUseCases() {
                 <ArrowUpRight
                   size={18}
                   className="opacity-0 group-hover:opacity-100 transition-opacity"
-                  style={{ color: PURPLE }}
+                  style={{ color: '#E8892B' }}
                 />
               </div>
-              <h3 className="mt-5" style={{ color: INK }}>
+              <h2 className="mt-5 sf-card-title" style={{ color: NAVY }}>
                 {c.title}
-              </h3>
+              </h2>
               <p className="mt-2 text-sm leading-relaxed" style={{ color: MUTED }}>
                 {c.desc}
               </p>

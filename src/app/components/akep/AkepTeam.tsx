@@ -53,9 +53,9 @@ function TeamCard({ member }: { member: Member }) {
   const { t } = useI18n();
   return (
     <div
-      className="rounded-2xl p-5 sm:p-6 lg:p-7 text-center flex flex-col items-center"
+      className="sf-card-dark rounded-2xl p-5 sm:p-6 lg:p-7 text-center flex flex-col items-center"
       style={{
-        background: '#16122B',
+        background: '#183553',
         border: '1px solid rgba(255,255,255,0.06)',
         boxShadow: '0 20px 50px -25px rgba(0,0,0,0.5)',
       }}
@@ -65,12 +65,12 @@ function TeamCard({ member }: { member: Member }) {
         className="rounded-full p-[3px] w-22 h-22 sm:w-24 sm:h-24 lg:w-28 lg:h-28 shrink-0"
         style={{
           background:
-            'linear-gradient(135deg, #6B21F5 0%, #C084FC 50%, #A78BFA 100%)',
+            'linear-gradient(135deg, #E8892B 0%, #F7C98F 50%, #F4B26A 100%)',
         }}
       >
         <div
           className="w-full h-full rounded-full overflow-hidden"
-          style={{ background: '#0D0B1F' }}
+          style={{ background: '#122C46' }}
         >
           <ImageWithFallback
             src={member.photo}
@@ -80,10 +80,10 @@ function TeamCard({ member }: { member: Member }) {
         </div>
       </div>
 
-      <div className="mt-4 text-white font-medium text-base sm:text-lg leading-snug">
+      <h2 className="mt-4 text-white sf-card-title">
         {member.name}
-      </div>
-      <div className="mt-1 text-sm" style={{ color: '#A78BFA' }}>
+      </h2>
+      <div className="mt-1 text-sm" style={{ color: '#F4B26A' }}>
         {member.role}
       </div>
       <p
@@ -156,22 +156,22 @@ export function AkepTeam() {
     <section
       id="team"
       className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 overflow-hidden"
-      style={{ background: '#0B0420' }}
+      style={{ background: '#0F2236' }}
     >
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse at top, rgba(107,33,245,0.25) 0%, rgba(11,4,32,0) 60%)',
+            'radial-gradient(ellipse at top, rgba(76,132,196,0.25) 0%, rgba(15,34,54,0) 60%)',
         }}
       />
       <div className="relative max-w-6xl mx-auto">
         <div className="text-center mb-10 sm:mb-14 max-w-2xl mx-auto px-2">
-          <SectionEyebrow>{t('team.eyebrow')}</SectionEyebrow>
-          <h2 className="mt-4 text-white text-2xl sm:text-3xl lg:text-4xl" style={{ letterSpacing: '-0.01em' }}>
+          <SectionEyebrow dark>{t('team.eyebrow')}</SectionEyebrow>
+          <h1 className="mt-4 text-white sf-page-title">
             {t('team.heading')}
-          </h2>
-          <p className="mt-4 text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.65)' }}>
+          </h1>
+          <p className="mt-5 sf-lead" style={{ color: 'rgba(255,255,255,0.72)' }}>
             {t('team.body')}
           </p>
         </div>
