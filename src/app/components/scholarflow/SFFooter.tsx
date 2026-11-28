@@ -23,7 +23,7 @@ export function SFFooter() {
           <h3 className="mt-6 font-bold" style={{ fontSize: 22 }}>{t('footer.contact')}</h3>
           <a
             href={`mailto:${CONTACT_EMAIL}`}
-            className="mt-3 inline-flex items-center gap-2 text-lg font-semibold"
+            className="sf-focus mt-3 inline-flex items-center gap-2 py-1 text-lg font-semibold rounded"
             style={{ color: ORANGE }}
           >
             <Mail size={18} /> {CONTACT_EMAIL}
@@ -37,10 +37,10 @@ export function SFFooter() {
           <div className="text-xs font-bold uppercase mb-4" style={{ color: 'rgba(255,255,255,0.5)', letterSpacing: '0.12em' }}>
             {t('footer.links')}
           </div>
-          <ul className="space-y-2.5">
+          <ul className="space-y-1">
             {quickLinks.map((l) => (
               <li key={l.label}>
-                <a href={l.href} className="text-sm transition-colors hover:opacity-100" style={{ color: 'rgba(255,255,255,0.75)' }}>
+                <a href={l.href} className="sf-tap sf-focus rounded text-sm text-white/75 transition-colors hover:text-white">
                   {l.label}
                 </a>
               </li>
